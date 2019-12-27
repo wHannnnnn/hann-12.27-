@@ -1,0 +1,176 @@
+@import "variable.scss";
+.details_top {
+    padding-bottom: set(100px);
+    .top {
+        background: #fff;
+        padding: set(20px);
+        margin-bottom: set(20px);
+        img {
+            width: 100%
+        }
+    }
+    .leftIcon {
+        z-index: 999;
+        position: fixed;
+        top:set(20px);
+        font-size: set(40px)
+    }
+    .van-tabs__wrap {
+        display: flex;
+        justify-content: center;
+        background: #fff;
+    }
+    .van-tabs__content {
+        .van-popup--bottom.van-popup--round {
+            border-radius: set(20px) set(20px) 0 0;
+            font-size: set(28px);
+            .van-sku-header{
+                margin-left: set(32px);
+                .van-sku-header__img-wrap {
+                    width: set(200px);
+                    height: set(200px);
+                    border-radius: set(8px);
+                    margin: set(24px) 0
+                }
+                .van-sku-header-item {
+                    font-size: set(24px);
+                    margin-top: set(10px);
+                    line-height: set(32px)
+                }
+                .van-sku-header__goods-info {
+                    min-height: set(200px);
+                    padding: set(24px) set(72px) set(24px) set(16px);
+                    .price {                
+                        font-size: set(40px);
+                        color: #e7352c
+                    }
+                }
+            }
+            .van-sku-body {
+                min-height: set(88px);
+                max-height: set(940px) !important;
+                .van-sku-group-container {
+                    margin-left: set(32px);
+                    padding: set(24px) 0 set(4px);
+                    .van-sku-row {
+                        margin: 0 set(6px) set(24px) 0;
+                        .van-sku-row__title {
+                            padding-bottom: set(24px);
+                            .van-sku-row__item {
+                                min-width: set(80px);
+                                margin: 0 set(24px) set(24px) 0;
+                                font-size: set(26px);
+                                line-height: set(32px);
+                                border-radius: set(8px)
+                            }
+                        }
+                    }
+                }
+                .van-sku-stepper-stock {
+                    margin-left: set(32px);
+                    padding: set(24px) 0;
+                    .van-sku-stepper-container {
+                        min-height: set(60px);
+                        margin-left: set(40px);
+                        .van-sku__stepper-title {
+                            line-height: set(60px)
+                        }
+                        .van-sku__stepper {
+                            padding-left: set(8px);
+                            .van-stepper__minus {
+                                border-radius: set(8px) 0 0 set(8px);
+                            }
+                            .van-stepper__minus, .van-stepper__plus {
+                                width: set(56px);
+                                height: set(56px);
+                                padding: set(8px)
+                            }
+                            .van-stepper__input {
+                                width: set(140px);
+                                height: set(60px);
+                                padding: set(20px) set(30px);
+                                margin-bottom: 0;
+                                border-radius: set(6px)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .shopPrice {
+        padding-bottom: set(20px);
+        .newPrice {
+            color: #e7352c;
+            font-size: set(40px)
+        }
+        .oldPrice {
+            font-size: set(24px);
+            text-decoration: line-through
+        }
+    }
+    .shopTitle {
+        font-size: set(34px);
+        font-weight: 600;
+        padding-bottom: set(10px)
+    }
+    // 优惠券
+    .details_con {
+        padding: set(20px);
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: set(20px);
+        .left {
+            width: set(100px);
+            font-size: set(26px);
+            font-weight: 600
+        }
+        .center {
+            flex: 1;
+            .discounts_list {
+                .center_title {
+                    color: #e7352c;
+                    margin-right: set(20px)
+                }
+            }
+        }
+    }
+    // 详情
+    .detail_content {
+        width: 100%;
+        img {
+            width: 100%
+        }
+    }
+    // 骨架屏配置
+    .shopske {
+        .van-skeleton__row {
+            background-color: #f5f5f5;
+        }
+        .van-skeleton__row:nth-child(1) {
+            height: set(500px)
+        }
+        .van-skeleton__row:nth-child(2) {
+            width: 30%;
+            background: #e7352c40;
+            height: set(60px)
+        }
+        .van-skeleton__row:nth-child(3) {
+            width: 80%;
+            height: set(40px);
+            margin-bottom: set(60px)
+        }
+        .van-skeleton__row:nth-child(4) {
+            width: 80%;
+            height: set(40px)
+        }
+        .van-skeleton__row:nth-child(5) {
+            width: 60%;
+            height: set(40px)
+        }
+        .van-skeleton__row:nth-child(6) {
+            width: 40%;
+            height: set(40px)
+        }
+    }
+}

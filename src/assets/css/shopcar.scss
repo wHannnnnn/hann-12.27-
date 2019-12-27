@@ -1,0 +1,70 @@
+@import "variable.scss";
+.shopCar{
+    .shopCart{
+        position: fixed;
+        bottom: set(100px);
+        width: 100%;
+        height: 50px;
+        z-index: 1;
+        display: flex;
+        .left{
+            width: 70%;
+            height: set(100px);
+            background: #fff;
+        }
+        .right{
+            width: 30%;
+            height: set(100px);
+            line-height: set(100px);
+            text-align: center;
+            background: #FF5403;
+            color: #fff;
+        }
+        .price{
+            display: flex;
+            line-height: set(100px);
+        }
+    }
+    .carList {
+        margin-top: set(120px);
+        .mui-checkbox input[type=checkbox]{
+            position: static;
+            width: set(50px);
+            height: set(50px);
+        }
+        .mui-checkbox input[type='checkbox']:before {
+            font-size: set(42px)
+        }
+        .mui-input-row {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: set(6px);
+            padding: set(20px);
+            margin: set(20px);
+            .mui-numbox {
+                margin: 0;
+                width: set(240px);
+                height: set(60px);
+                color: #333;
+                padding: 0 set(80px) 0 set(80px);
+                border-radius: set(6px)
+            }
+            .carList_con {
+                display: flex;
+                img {
+                    width: set(200px);
+                    height: set(200px);
+                }
+                .mui-media-body{
+                    flex: 1
+                }
+            }
+        }
+    }
+    .money{
+      color: #FF5403;
+      display: inline-block;
+      margin-top: set(20px);
+    }
+}

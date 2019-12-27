@@ -1,0 +1,26 @@
+@import "variable.scss";
+@import "base.scss";
+html{
+    width: 100%;
+    font-size:16px;
+}   
+body{
+    font-family: PingFangSC-Light,helvetica,'Heiti SC';
+}
+#app {
+    // font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size:set(24px);
+    width: 100%;
+    height: 100%;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}   
+@import "home.scss";
+@import "navIndex.scss";
+@import "shopcar.scss";
+@import "details.scss";
+@import "mine.scss";
+@import "login.scss";
+@import "address.scss";
+@import "editAddress.scss";
