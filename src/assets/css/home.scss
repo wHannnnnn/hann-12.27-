@@ -31,22 +31,24 @@
 .margin-bottom {
     margin-bottom: set(20px)
 }
-.app_top {
-    width: 100%;
+.van-list__error-text, .van-list__finished-text, .van-list__loading, .van-pull-refresh__head {
+    line-height: set(100px);
+    font-size: set(28px)
+}
+.van-pull-refresh__head {
+    top: set(-100px)
+}
+.van-tabbar {
     height: set(100px);
-    position: fixed;
-    right: 0;
-    left: 0;
-    top: 0;
-    z-index: 9;
-    .mint-button--default {
-        background-color: #e7352c;
-        color: #fff
+    .van-tabbar-item__icon {
+        margin-bottom: set(10px);
+        font-size: set(36px);
     }
-    .mint-header {
-        background-color: #e7352c;
-        height: set(100px);
+    .van-tabbar-item__text {
+        font-size: set(24px);
     }
+}
+.app_top {
     .search {
         position: fixed;
         width: 100%;
@@ -66,18 +68,9 @@
             height: set(80px);
             padding: 0 set(10px);
         }
-        .mint-button{
-            width: 50px;
-            height: 100%;
-            border-radius: 0;
-            label {
-                font-size: set(16px)
-            }
-        }
     }
-    .mint-searchbar {
-        background-color: transparent;
-        padding: 0;
+    .van-nav-bar .van-nav-bar__right{
+        z-index: 999
     }
 }
 .mint-loadmore {
@@ -92,14 +85,21 @@
 }
 .app_banner {
     // margin-top: set(100px);
-    height: set(400px);
     img {
         width: 100%;
         height: 100%
     }
 }
 .app_nav {
-    height: set(200px)
+    margin-bottom: set(20px);
+    background: #fff;
+    .value {
+        height: set(60px);
+        line-height: set(60px)
+    }
+    .van-grid-item__content {
+        padding: 0 set(16px)
+    }
 }
 
 .app_bottom {
@@ -318,9 +318,11 @@
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     font-size: set(28px);
+                    height: set(40px)
                 }
                 .newPro_price {
                     text-align: center;
+                    height: set(40px);
                     .oldPrice{
                         font-size: set(18px);
                         text-decoration: line-through
@@ -358,7 +360,7 @@
        padding: set(10px) set(0px) set(20px) set(20px);
        box-sizing: border-box;
        .shop_lr {
-           width: set(325px);
+           width: set(332px);
            margin-right: set(20px);
            .shop_list {
                background: #fff;

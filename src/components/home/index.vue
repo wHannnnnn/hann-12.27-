@@ -1,6 +1,13 @@
 <template>
   <div>
-    <topbar/>
+    <div class="app_top">
+      <van-nav-bar fixed>
+          <div class="search" slot="left">
+                  <div class="search_con">请输入内容</div>
+          </div>
+          <van-icon name="search" slot="right"/>
+      </van-nav-bar>
+    </div>
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
             <van-list
               v-model="loading"
@@ -28,7 +35,6 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
-import topbar from '@/components/layout/topbar.vue'
 import banner from '@/components/home/banner.vue'
 import navList from '@/components/home/nav.vue'
 import contop from '@/components/home/contop.vue'
@@ -36,7 +42,7 @@ import hotlist from '@/components/home/hotList.vue'
 export default {
   name: 'homeIndex',
   components: {
-    topbar,banner,navList,contop,hotlist
+    banner,navList,contop,hotlist
   },
   data() {
     return {

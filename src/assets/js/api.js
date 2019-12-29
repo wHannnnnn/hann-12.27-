@@ -22,7 +22,15 @@ const url = {
 	//获取用户详情
 	userDetail: 'user/detail',
 	// 获取地址列表
-	getAdress: 'user/shipping-address/list'
+	getAddress: 'user/shipping-address/list',
+	// 添加收货地址
+	addAddress: 'user/shipping-address/add',
+	// 获取地址详情
+	addressDetail: 'user/shipping-address/detail/v2',
+	// 删除地址
+	delAddress: 'user/shipping-address/delete',
+	// 修改地址
+	updateAddress: 'user/shipping-address/update'
 }
 
 export default url

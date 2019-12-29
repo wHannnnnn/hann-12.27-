@@ -1,5 +1,5 @@
 <template>
-<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+<!-- <div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 	<div class="mui-scroll">
         <ul class="navUl">
             <li>
@@ -28,7 +28,97 @@
             </li>
         </ul>
     </div>
-</div>
+</div> -->
+<van-swipe :loop='false' indicator-color="white">
+  <van-swipe-item>
+        <van-grid :border="false" :column-num="5">
+            <van-grid-item>
+                <van-image :src="img1" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img3" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img1" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img3" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img1" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+        </van-grid>
+  </van-swipe-item>
+  <van-swipe-item>
+        <van-grid :border="false" :column-num="5">
+            <van-grid-item>
+                <van-image :src="img1" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img3" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img1" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img3" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img1" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+            <van-grid-item>
+                <van-image :src="img2" />
+                <div class="value">文字</div>
+            </van-grid-item>
+        </van-grid>
+  </van-swipe-item>
+</van-swipe>
 </template>
 <script>
 export default {

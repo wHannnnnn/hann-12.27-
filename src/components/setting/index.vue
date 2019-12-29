@@ -1,7 +1,7 @@
 <template>
     <div class="setting">
         <van-nav-bar title="账户设置" fixed>
-            <van-icon name="arrow-left" slot="left" />
+            <van-icon name="arrow-left" slot="left" @click="goBack"/>
         </van-nav-bar>
         <div class="content">
             <van-cell-group>
@@ -43,8 +43,11 @@ export default {
         }
     },
     methods: {
+        goBack(){
+            this.$router.go(-1)
+        },
         login(){
-        this.$router.push({path: '/login'})
+            this.$router.push({path: '/login'})
         },
         goAddress(){
             this.loginUser? this.$router.push({path: '/address'}) :  this.$router.push({path: '/login'})

@@ -41,9 +41,25 @@ const methods = {
 	userDetail: (params) => {
 		return http.get(api.userDetail, params)
 	},
-	// 用户列表
-	getAdress: (params) => {
-		return http.get(api.getAdress, params)
+	// 用户地址列表
+	getAddress: (params) => {
+		return http.get(api.getAddress, params)
+	},
+	// 添加地址
+	addAddress: (params) => {
+		return http.post(api.addAddress, params)
+	},
+	//地址详情
+	addressDetail: (params) => {
+		return http.get(api.addressDetail, params)
+	},
+	// 删除地址
+	delAddress: (params) => {
+		return http.post(api.delAddress, params)
+	},
+	// 修改地址
+	updateAddress: (params) => {
+		return http.post(api.updateAddress, params)
 	},
 }
 export default methods

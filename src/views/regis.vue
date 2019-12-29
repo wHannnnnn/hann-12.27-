@@ -88,11 +88,7 @@ export default {
             var params = {
                 mobile: this.phone,
             }
-            this.$http.getSms(params).then((res)=>{
-                if(res.data.code !== 0){
-                    this.$notify({ type: 'danger', message: res.data.msg });
-                }
-            })
+            this.$http.getSms(params).then((res)=>{})
         },
         // 用户注册
         userRegis(){
@@ -102,12 +98,8 @@ export default {
                 pwd: this.phone + ''
             }
             this.$http.userRegister(params).then((res)=>{
-                if(res.data.code == 0){
-                    this.$notify({ type: 'success', message: '注册成功' });
-                    this.$router.go(-1)
-                } else {
-                     this.$notify({ type: 'danger', message: res.data.msg });
-                }
+                this.$notify({ type: 'success', message: '注册成功' });
+                this.$router.go(-1)
             }) 
         },
         // 倒计时结束
