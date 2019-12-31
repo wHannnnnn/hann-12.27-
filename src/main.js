@@ -8,10 +8,8 @@ import 'babel-polyfill'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)
-
-import Mint from 'mint-ui';
-import 'mint-ui/lib/style.css'
-Vue.use(Mint);
+import { Lazyload } from 'vant';
+Vue.use(Lazyload);
 // mui
 import './lib/mui/css/mui.css'
 import mui from './lib/mui/js/mui.js'

@@ -22,7 +22,30 @@ const methods = {
 	getReputation: (params) => {
 		return http.post(api.getReputation, params)
 	},
-
+	// 加入购物车
+	addCart: (params) => {
+		return http.post(api.addCart, params)
+	},
+	// 读取购物车数据
+	getCartInfo: (params) => {
+		return http.get(api.getCartInfo, params)
+	},
+	// 修改购物车购买数量
+	cartNumber: (params) => {
+		return http.post(api.cartNumber, params)
+	},
+	// 删除购物车一条数据
+	removeCart: (params) => {
+		return http.post(api.removeCart, params)
+	},
+	// 清空购物车
+	emptyCart: (params) => {
+		return http.post(api.emptyCart, params)
+	},
+	// 下单
+	creatOrder: (params) => {
+		return http.post(api.creatOrder, params)
+	},
 
 	// 登录模块
 	// 获取验证码
@@ -61,5 +84,10 @@ const methods = {
 	updateAddress: (params) => {
 		return http.post(api.updateAddress, params)
 	},
+	// 默认地址
+	defaultAddress: (params) => {
+		return http.get(api.defaultAddress, params)
+	},
+
 }
 export default methods

@@ -11,6 +11,7 @@ const setting = resolve => require(['@/components/setting/index'], resolve)
 const detailsIndex = resolve => require(['@/components/details/index'], resolve)
 const address = resolve => require(['@/components/address/index'], resolve)
 const editAddress = resolve => require(['@/components/editAddress/index'], resolve)
+const placeOrder = resolve => require(['@/components/placeOrder/index'], resolve)
 Vue.use(Router);
 
 export default new Router({
@@ -76,6 +77,11 @@ export default new Router({
       path: "/editAddress",
       name: "修改地址",
       component: editAddress,
+    },
+    {
+      path: "/placeOrder",
+      name: "填写订单",
+      component: placeOrder,
     },
   ],
   scrollBehavior(to, from, savedPosition) {

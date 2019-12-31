@@ -37,7 +37,6 @@ export default {
     },
     methods: {
         goBack(){
-            console.log(this.$refs.address.setAddressDetail('name'))
             this.$router.go(-1)
         },
         onSave(val) {
@@ -53,19 +52,21 @@ export default {
             if(this.$route.query.id) {  
                 // 修改
                 this.$http.updateAddress(Object.assign(params,{id: this.$route.query.id})).then((res)=>{
-                    console.log(res)
-                    if(res.data.code == 0) {
-                        this.$notify({ type: 'success', message: '修改成功' });
+                    if(res.data.code == 0){
+                        this.$notify({ type: 'success', message: '添加成功' });
                         this.$router.go(-1)
+                    } else {
+                         this.$notify({ type: 'danger', message: res.data.msg });
                     }
                 })
             } else {
                 // 添加
                 this.$http.addAddress(params).then((res)=>{
-                    console.log(res)
-                    if(res.data.code == 0) {
+                    if(res.data.code == 0){
                         this.$notify({ type: 'success', message: '添加成功' });
                         this.$router.go(-1)
+                    } else {
+                         this.$notify({ type: 'danger', message: res.data.msg });
                     }
                 })
             }
@@ -75,9 +76,11 @@ export default {
                 message: '是否删除改地址'
             }).then(() => {
                 this.$http.delAddress({id: this.$route.query.id}).then((res)=>{
-                    if(res.data.code == 0) {
+                    if(res.data.code == 0){
                         this.$notify({ type: 'success', message: '删除成功' });
                         this.$router.go(-1)
+                    } else {
+                        this.$notify({ type: 'danger', message: res.data.msg });
                     }
                 })
             }).catch(() => {

@@ -50,8 +50,12 @@ export default {
         },
         getAddress(){
             this.$http.getAddress().then((res)=>{
-                console.log(res)
-                this.addressList = res.data.data
+                if(res.data.code == 0){
+                    this.addressList = res.data.data
+                } else {
+                    this.$notify({ type: 'danger', message: res.data.msg });
+                }
+                
             })
         },
         addAddress(){

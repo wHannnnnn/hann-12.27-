@@ -64,10 +64,14 @@ export default {
                 pwd: this.password
             }
             this.$http.login(params).then((res)=>{
-                this.$notify({ type: 'success', message: '登录成功' });
-                this.handleToken(res.data.data) //存储token
-                // 获取用户详情
-                this.getUserDetail(res.data.data.token) 
+                if(res.data.code == 0){
+                    this.$notify({ type: 'success', message: '登录成功' });
+                    this.handleToken(res.data.data) //存储token
+                    // 获取用户详情
+                    this.getUserDetail(res.data.data.token) 
+                } else {
+                    this.$notify({ type: 'danger', message: res.data.msg });
+                }
             })
         },
         getUserDetail(token){

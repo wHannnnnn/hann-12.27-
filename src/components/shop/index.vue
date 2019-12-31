@@ -6,49 +6,20 @@
       </header>
 
       <div class="carList">
-        <div class="mui-input-row mui-checkbox mui-bar-nav">
+        <div class="mui-input-row mui-checkbox mui-bar-nav" v-for="(item,index) in shopList">
           <input name="checkbox" value="Item 1" type="checkbox">
           <router-link class="carList_con" to="">
-            <img v-lazy="hot3">
+            <img v-lazy="item.pic">
             <div class="mui-media-body">
-              <span class="mui-ellipsis-2 name">youcci悠瓷创意鼓型陶瓷杯带盖带勺牛奶杯咖啡杯家用马克杯子水杯子</span>
-              <p class="mui-ellipsis">商品简介</p>
-              <span class="money">￥9.9</span>
+              <span class="mui-ellipsis-2 name">{{item.name}}</span>
+              <span class="mui-ellipsis" v-for="skuItem in item.sku" :key="skuItem.optionId">
+                {{skuItem.optionName}}:{{skuItem.optionValueName}},
+              </span>
+              <br>
+              <span class="money">￥{{item.price.toFixed(2)}}</span>
               <div class="mui-numbox" data-numbox-min="1" >
                   <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-                  <input id="test" class="mui-input-numbox" type="number" value="1">
-                  <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
-              </div>
-            </div>
-          </router-link>
-        </div>
-        <div class="mui-input-row mui-checkbox mui-bar-nav">
-          <input name="checkbox" value="Item 1" type="checkbox">
-          <router-link class="carList_con" to="">
-            <img v-lazy="hot3">
-            <div class="mui-media-body">
-              <span class="mui-ellipsis-2 name">youcci悠瓷创意鼓型陶瓷杯带盖带勺牛奶杯咖啡杯家用马克杯子水杯子</span>
-              <p class="mui-ellipsis">商品简介</p>
-              <span class="money">￥9.9</span>
-              <div class="mui-numbox" data-numbox-min="1" >
-                  <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-                  <input id="test" class="mui-input-numbox" type="number" value="1">
-                  <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
-              </div>
-            </div>
-          </router-link>
-        </div>
-                <div class="mui-input-row mui-checkbox mui-bar-nav">
-          <input name="checkbox" value="Item 1" type="checkbox">
-          <router-link class="carList_con" to="">
-            <img v-lazy="hot3">
-            <div class="mui-media-body">
-              <span class="mui-ellipsis-2 name">youcci悠瓷创意鼓型陶瓷杯带盖带勺牛奶杯咖啡杯家用马克杯子水杯子</span>
-              <p class="mui-ellipsis">商品简介</p>
-              <span class="money">￥9.9</span>
-              <div class="mui-numbox" data-numbox-min="1" >
-                  <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-                  <input id="test" class="mui-input-numbox" type="number" value="1">
+                  <input id="test" class="mui-input-numbox" type="number" :value="item.number">
                   <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
               </div>
             </div>
@@ -79,10 +50,23 @@ export default {
             hot1: require('../../assets/images/hot1.png'),
             hot2: require('../../assets/images/hot2.png'),
             hot3: require('../../assets/images/hot3.png'),
+            shopList: []
+      }
+    },
+    methods: {
+      getCartInfo(){
+            this.$http.getCartInfo().then((res)=>{
+              if(res.data.code == 0) {
+                this.shopList = res.data.data.items
+              }
+            })
       }
     },
     components: {
         contop
+    },
+    created() {
+      this.getCartInfo()
     },
 }
 </script>

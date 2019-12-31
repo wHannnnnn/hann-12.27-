@@ -106,10 +106,8 @@ export default {
             }).catch(() => {
               // on cancel
             });
-          } else if(res.data.code == 0){
-            resolve(res)
           } else {
-              Notify({ type: 'danger', message: res.data.msg });
+            resolve(res)
           }
         })
       })
@@ -136,11 +134,15 @@ export default {
               }).catch(() => {
                 // on cancel
               });
-            } else if(res.data.code == 0){
-              resolve(res)
             } else {
-                Notify({ type: 'danger', message: res.data.msg });
+              resolve(res)
             }
+            
+            // if(res.data.code == 0){
+            //   resolve(res)
+            // } else {
+            //     Notify({ type: 'danger', message: res.data.msg });
+            // }
         })
       })
      }

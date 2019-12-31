@@ -98,8 +98,13 @@ export default {
                 pwd: this.phone + ''
             }
             this.$http.userRegister(params).then((res)=>{
-                this.$notify({ type: 'success', message: '注册成功' });
-                this.$router.go(-1)
+                if(res.data.code == 0){
+                    this.$notify({ type: 'success', message: '注册成功' });
+                    this.$router.go(-1)
+                } else {
+                    this.$notify({ type: 'danger', message: res.data.msg });
+                }
+                
             }) 
         },
         // 倒计时结束

@@ -10,7 +10,18 @@ const url = {
 	getlogistics: 'shop/goods/price/freight',
 	// 获取评论列表
 	getReputation: 'shop/goods/reputation',
-
+	// 加入购物车
+	addCart: 'shopping-cart/add',
+	// 读取购物车数据
+	getCartInfo: 'shopping-cart/info',
+	// 修改购物车购买数量
+	cartNumber: 'shopping-cart/modifyNumber',
+	// 删除购物车一条数据
+	removeCart: 'shopping-cart/remove',
+	// 清空购物车
+	emptyCartL: 'shopping-cart/empty',
+	// 创建订单
+	creatOrder: 'order/create',
 
 	// 登录模块
 	// 获取短信验证码
@@ -30,7 +41,10 @@ const url = {
 	// 删除地址
 	delAddress: 'user/shipping-address/delete',
 	// 修改地址
-	updateAddress: 'user/shipping-address/update'
+	updateAddress: 'user/shipping-address/update',
+	// 默认地址
+	defaultAddress: 'user/shipping-address/default/v2'
+
 }
 
 export default url

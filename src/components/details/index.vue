@@ -58,7 +58,7 @@
                     <!-- 商品规格 -->
                     <div class="details_con category bgc-radius-shadow" @click="categoriesClick">
                         <div class="left">已选</div>
-                        <div class="center"></div>
+                        <div class="center">{{propertyName}}</div>
                         <div class="right">
                             <van-icon name="ellipsis" />
                         </div>
@@ -76,7 +76,8 @@
                         reset-selected-sku-on-hide
                         disable-stepper-input
                         :close-on-click-overlay="closeOnClickOverlay"
-                        :custom-sku-validator="customSkuValidator"  
+                        :custom-sku-validator="customSkuValidator"
+                        @stepper-change="stepperChange"
                         @buy-clicked="onBuyClicked"
                         @add-cart="addcart"
                         @sku-selected="changeselect"
@@ -100,7 +101,7 @@
                     </div>
                     <!-- 底部提交 -->
                     <van-goods-action>
-                    <van-goods-action-icon icon="chat-o" text="客服" @click="myWx" />
+                    <van-goods-action-icon icon="chat-o" text="收藏" @click="collect" />
                     <van-goods-action-icon icon="cart-o" text="购物车" @click="goShopCar" info="12"/>
                     <van-goods-action-button type="warning" text="加入购物车" @click="addButton" />
                     <van-goods-action-button type="danger" text="立即购买" @click="buyButton" />
@@ -284,14 +285,13 @@ export default {
         // 选择
         changeselect(skuValue){
             if(skuValue.selectedSku.s1 !== '' && skuValue.selectedSku.s2 !== '') {
+                this.initialSku.s1 = skuValue.selectedSku.s1
+                this.initialSku.s2 = skuValue.selectedSku.s2
                 var str = ''
                 this.detailsList.properties.forEach(ele => {
-                    if(ele.k_s == 's1') {
-                        str += `${ele.id}:${skuValue.selectedSku.s1},`
-                    } else {
-                        str += `${ele.id}:${skuValue.selectedSku.s2},`
-                    }
+                    ele.k_s == 's1'? str += `${ele.id}:${skuValue.selectedSku.s1},` : str += `${ele.id}:${skuValue.selectedSku.s2},`
                 })
+                this.propertyChildIds = str
                 //获取价格库存接口
                 this.getPrice(str)
             } else {
@@ -306,7 +306,6 @@ export default {
                 propertyChildIds: str
             }
             this.$http.getPrice(params).then((res)=>{
-                console.log(res)
                 // 详情页显示规格名称
                 this.propertyName = res.data.data.propertyChildNames
                 this.headerPrice = res.data.data.price
@@ -320,14 +319,44 @@ export default {
                 })
             })
         },
-        // 购买
-        onBuyClicked(data) {
-            this.$toast('buy:' + JSON.stringify(data));
-            console.log(JSON.stringify(data))
-        },
         // 添加购物车
-        addcart(data) {
-            this.$toast('add cart:' + JSON.stringify(data));
+        addcart(skuValue) {
+            console.log(skuValue)
+            var sku = [] //规格数据
+            this.detailsList.properties.forEach(ele => {
+                const obj = {
+                    optionId: ele.id, 
+                    optionValueId: ele.k_s == 's1'? skuValue.selectedSkuComb.s1 : skuValue.selectedSkuComb.s2
+                }
+                sku.push(obj)
+            })
+            // this.$http.getCartInfo().then((res)=>{
+            //   if(res.data.code == 0) {
+            //     console.log(res.data.data.items)
+            //     res.data.data.items.find(ele => {
+            //         return ele.goodsId == skuValue.goodsId 
+            //     })
+            //   }
+            // })
+            var params = {
+                goodsId: skuValue.goodsId,
+                number: skuValue.selectedNum,
+                sku: JSON.stringify(sku)
+            }
+            this.$http.addCart(params).then((res)=>{
+                if(res.data.code == 0){
+                    this.showBase = false
+                    this.$toast.success('添加成功，在购物城等亲~')
+                }
+            })
+        },
+        // 获取购物车数据
+        getCartInfo(){
+            this.$http.getCartInfo().then((res)=>{
+              if(res.data.code == 0) {
+                console.log(res.data.data.items)
+              }
+            })
         },
         // 获取两条评论
         getReputation(data){
@@ -340,12 +369,35 @@ export default {
                 console.log(res)
             })
         },
-        myWx(){},
+        // 收藏
+        collect(){
+
+        },
+        //加入购物车
         goShopCar(){
             this.$router.push({path: 'shopIndex'})
         },
-        addButton(){},
-        buyButton(){},
+        // 底部加入购物车按钮
+        addButton(){
+            this.categoriesClick()
+        },
+        // 规格数字发生变化
+        stepperChange(val){
+            this.initialSku.selectedNum = val
+        },
+        // 购买
+        onBuyClicked(data) {
+            const setData = {
+                propertyChildIds: this.propertyChildIds, //分类id
+                propertyName: this.propertyName, //分类名称
+                price: this.headerPrice, //价格
+            }
+            this.$router.push({path: '/placeOrder',query: {orderData: JSON.stringify([Object.assign(data,setData)])}})
+        },
+        // 底部购买
+        buyButton(){
+            this.categoriesClick()
+        },
     },
     created() {
         this.getDetails()

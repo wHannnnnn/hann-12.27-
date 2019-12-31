@@ -15,7 +15,11 @@ body{
     color: #333;
     margin: 0;
     padding: 0;
-}   
+}
+.van-toast {
+    width: 100%;
+    padding: set(10px)
+}
 @import "home.scss";
 @import "navIndex.scss";
 @import "shopcar.scss";
@@ -24,3 +28,4 @@ body{
 @import "login.scss";
 @import "address.scss";
 @import "editAddress.scss";
+@import "placeOrder.scss";
