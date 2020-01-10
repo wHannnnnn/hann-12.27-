@@ -42,19 +42,36 @@
                     <div class="details_con discounts bgc-radius-shadow">
                         <div class="left">优惠</div>
                         <div class="center">
-                            <div class="discounts_list">
+                            <div class="discounts_list" v-for="item in discountsList" :key="item.id" @click="discountsShow = true">
                                 <span class="center_title">满减</span>
-                                <span class="center_con van-ellipsis">每满500元，可减50元</span>
-                            </div>
-                            <div class="discounts_list">
-                                <span class="center_title">满减</span>
-                                <span class="center_con van-ellipsis">每满500元，可减50元</span>
+                                <span class="center_con van-ellipsis">{{item.name}}</span>
                             </div>
                         </div>
                         <div class="right">
                             <van-icon name="ellipsis" />
                         </div>
                     </div>
+                    <!-- 领取优惠券 -->
+                    <van-popup
+                        v-model="discountsShow"
+                        closeable
+                        position="bottom"
+                    >
+                        <div class="discounts_title">可领取的优惠券</div>
+                        <div class="discounts_con" v-for="(item,index) in discountsList" :key="item.id">
+                            <div class="discounts_con_left">
+                                <div class="left_top"><span>￥</span>{{item.moneyMax}}</div>
+                                <div class="left_bottom">满{{item.moneyHreshold}}可用</div>
+                            </div>
+                            <div class="discounts_con_right">
+                                <div class="right_top">{{item.name}}</div>
+                                <div class="right_bottom">
+                                    <div class="left">{{item.dateAdd}}-{{item.dateEnd}}</div>
+                                    <div class="right"><van-button type="default" @click="getDiscount(item.id,index)">点击获取</van-button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </van-popup>
                     <!-- 商品规格 -->
                     <div class="details_con category bgc-radius-shadow" @click="categoriesClick">
                         <div class="left">已选</div>
@@ -130,6 +147,7 @@ export default {
         return {
             active: 0,
             detailsList: [],
+            discountsList: [],
             loading: true,
             // 详情页显示规格名称
             propertyName: '',
@@ -211,6 +229,7 @@ export default {
                 },
             },
             showBase: false,
+            discountsShow: false,
             closeOnClickOverlay: true,
             initialSku: {
                 s1: null,
@@ -236,6 +255,7 @@ export default {
                     this.detailsList = res.data.data //详情
                     this.getlogistics(this.detailsList)
                     this.getReputation(this.detailsList)
+                    this.getDiscountsList()
                 }
             })
         },
@@ -249,6 +269,17 @@ export default {
                 // 包邮
                 this.isLogistics = true
             }
+        },
+        //获取优惠券列表
+        getDiscountsList(){
+            this.$http.discountsList().then((res)=>{
+                this.discountsList = res.data.data
+            })
+        },
+        getDiscount(id,index){
+            this.$http.discountsFetch({id: id}).then((res)=>{
+                res.data.code == 0?this.$toast('领取成功'):this.$toast(res.data.msg)
+            })  
         },
         // 点击商品规格按钮
         categoriesClick(){
@@ -392,7 +423,8 @@ export default {
                 propertyName: this.propertyName, //分类名称
                 price: this.headerPrice, //价格
             }
-            this.$router.push({path: '/placeOrder',query: {orderData: JSON.stringify([Object.assign(data,setData)])}})
+            localStorage.setItem('orderData',JSON.stringify([Object.assign(data,setData)]))
+            this.$router.push({path: '/placeOrder'})
         },
         // 底部购买
         buyButton(){

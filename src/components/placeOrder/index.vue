@@ -6,7 +6,7 @@
         <van-skeleton title :row="3" :loading="loading">
             <div class="content">
                 <!-- 地址 -->
-                <div class="address">
+                <div class="address" v-if="defaultAddress.address">
                     <van-cell>
                         <template slot="title">
                             <div class="addressList" @click="goAddress">
@@ -14,6 +14,7 @@
                                     <van-row>
                                         <van-col span="6" class="userName van-ellipsis">{{defaultAddress.linkMan}}</van-col>
                                         <van-col span="6" offset="2" class="phone">{{defaultAddress.mobile}}</van-col>
+                                        <van-col span="6"><van-tag type="danger" v-if="defaultAddress.isDefault">默认</van-tag></van-col>
                                     </van-row>
                                 </div>
                                 <div class="bottom">
@@ -106,7 +107,7 @@ export default {
     computed: {
         disabled(){
             return Object.keys(this.defaultAddress).length == 0 ? true:false
-        }
+        },
     },
     methods: {
         goBack(){
@@ -117,9 +118,15 @@ export default {
         },
         // 默认地址
         getDefaultAddress(){
-            this.$http.defaultAddress().then((res)=>{
-                this.defaultAddress = res.data.data.info
-            })
+            if(localStorage.getItem('addressId')) {
+                this.$http.addressDetail({id: localStorage.getItem('addressId')}).then((res)=>{
+                    this.defaultAddress = res.data.data.info
+                })
+            } else {
+                this.$http.defaultAddress().then((res)=>{
+                    this.defaultAddress = res.data.data.info
+                })
+            }
         },
         //商品详情
         getDetail(data){
@@ -176,17 +183,6 @@ export default {
                 payOnDelivery: 0,
                 code: 111
             }
-            // goodsJsonStr:[{"goodsId":136199,"number":1,"propertyChildIds":"12860:49837,13099:49841,","logisticsType":0}]
-            // token:
-            // peisongType:kd
-            // provinceId:undefined
-            // cityId:undefined
-            // districtId:undefined
-            // address:undefined
-            // code:undefined
-            // linkMan:undefined
-            // mobile:undefined
-            // calculate:false
             this.pushData['goodsJsonStr'] = JSON.stringify(this.goodsData)
             Object.assign(this.pushData,this.defaultAddress,ortherData)
             // 下单接口
@@ -197,15 +193,30 @@ export default {
         }
     },
     created() {
-        // this.infoData = this.$route.query.orderData
-        this.infoData = JSON.parse(this.$route.query.orderData)
-        this.infoData.forEach(ele => {
-            this.getDetail(ele)
-        })
+        this.$toast.loading({ forbidClick: true });
+        this.infoData = JSON.parse(localStorage.getItem('orderData'))
+        var counter = 0;
         this.getDefaultAddress() //获取默认地址还是重新选择
+        this.infoData.forEach((ele,i) => {
+            this.getDetail(ele)
+              setTimeout(() => {
+                counter++;
+                if(counter === this.infoData.length){
+                    this.loading = false
+                    this.$toast.clear()
+                }
+            }, i * 1000) 
+        })
     },
     mounted() {
-        this.loading = false
     },
+    beforeRouteLeave(to, from, next) {
+        if(to.path == '/address') {
+            next();
+        } else {
+            localStorage.removeItem('orderData')
+            next();
+        }
+    }
 }
 </script>

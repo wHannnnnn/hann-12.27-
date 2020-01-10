@@ -40,11 +40,7 @@
           <span class="top_right">查看全部订单<van-icon name="arrow" /></span>
         </div>
         <van-grid :column-num="5">
-          <van-grid-item icon="credit-pay" text="待付款" info="9"/>
-          <van-grid-item icon="send-gift-o" text="待收货" info="2"/>
-          <van-grid-item icon="comment-o" text="待评价" info="99+"/>
-          <van-grid-item icon="cash-on-deliver" text="退换/售后" />
-          <van-grid-item icon="label-o" text="我的订单" />
+          <van-grid-item v-for="item in orderList" @click="goOrderList(item.status)" :icon="item.icon" :text="item.title" :key="item.id" info="9"/>
         </van-grid>
       </div>
   </div>
@@ -54,7 +50,34 @@ import {mapState, mapMutations} from 'vuex'
 export default {
   data() {
     return {
-        hot1: require('../../assets/images/hot1.png'), 
+        hot1: require('../../assets/images/hot1.png'),
+        orderList: [
+          {
+            status: '0',
+            title: '待付款',
+            icon: 'credit-pay'
+          },
+          {
+            status: '1',
+            title: '待发货',
+            icon: 'logistics'
+          },
+          {
+            status: '2',
+            title: '待收货',
+            icon: 'send-gift-o'
+          },
+          {
+            status: '3',
+            title: '待评价',
+            icon: 'comment-o'
+          },
+          {
+            status: '4',
+            title: '全部订单',
+            icon: 'label-o'
+          },
+        ]
     }
   },
   computed: {
@@ -69,6 +92,9 @@ export default {
     },
     goSet(){
       this.$router.push({path: '/setting'})
+    },
+    goOrderList(status){
+      this.$router.push({path: '/orderList',query:{status:status}})
     }
   },
   mounted() {

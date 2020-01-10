@@ -2,6 +2,7 @@
 @import "base.scss";
 html{
     width: 100%;
+    height: 100%;
     font-size:16px;
 }   
 body{
@@ -20,6 +21,9 @@ body{
     width: 100%;
     padding: set(10px)
 }
+.van-tag {
+    font-size: set(24px)
+}
 @import "home.scss";
 @import "navIndex.scss";
 @import "shopcar.scss";
@@ -29,3 +33,5 @@ body{
 @import "address.scss";
 @import "editAddress.scss";
 @import "placeOrder.scss";
+@import "myOrder.scss";
+@import "orderDetail.scss";

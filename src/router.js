@@ -12,6 +12,9 @@ const detailsIndex = resolve => require(['@/components/details/index'], resolve)
 const address = resolve => require(['@/components/address/index'], resolve)
 const editAddress = resolve => require(['@/components/editAddress/index'], resolve)
 const placeOrder = resolve => require(['@/components/placeOrder/index'], resolve)
+const orderList = resolve => require(['@/components/orderList/index'], resolve)
+const orderDetails = resolve => require(['@/components/orderDetails/index'], resolve)
+
 Vue.use(Router);
 
 export default new Router({
@@ -21,31 +24,32 @@ export default new Router({
       name: "index",
       component: index,
       redirect:'homeIndex',
+      meta: { keepAlive: true },
       children:[
-            {
-              path: "homeIndex",
-              name: "首页",
-              component: homeIndex,
-               meta: { keepAlive: true },
-            },
-            {
-              path: "navIndex",
-              name: "分类",
-              component: navIndex,
-              meta: { keepAlive: true },
-            },
-            {
-              path: "shopIndex",
-              name: "购物车",
-              component: shopIndex,
-              meta: { keepAlive: true }
-            }, 
-            {
-              path: "mineIndex",
-              name: "个人",
-              component: mineIndex,
-              // meta: { keepAlive: true }
-            }, 
+        {
+          path: "homeIndex",
+          name: "首页",
+          component: homeIndex,
+          meta: { keepAlive: true },
+        },
+        {
+          path: "navIndex",
+          name: "分类",
+          component: navIndex,
+          meta: { keepAlive: true },
+        },
+        {
+          path: "shopIndex",
+          name: "购物车",
+          component: shopIndex,
+          meta: { keepAlive: true }
+        }, 
+        {
+          path: "mineIndex",
+          name: "个人",
+          component: mineIndex,
+          meta: { keepAlive: true }
+        }, 
       ]
     },
     {      
@@ -82,6 +86,16 @@ export default new Router({
       path: "/placeOrder",
       name: "填写订单",
       component: placeOrder,
+    },
+    {
+      path: "/orderList",
+      name: "我的订单",
+      component: orderList,
+    },
+    {
+      path: "/orderDetails",
+      name: "订单详情",
+      component: orderDetails,
     },
   ],
   scrollBehavior(to, from, savedPosition) {

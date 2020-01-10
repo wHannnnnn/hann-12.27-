@@ -3,7 +3,7 @@
     <div class="app_top">
       <van-nav-bar fixed>
           <div class="search" slot="left">
-                  <div class="search_con">请输入内容</div>
+              <div class="search_con">请输入内容</div>
           </div>
           <van-icon name="search" slot="right"/>
       </van-nav-bar>
@@ -98,6 +98,7 @@ export default {
   created() {
   },
   mounted() {
+      console.log('asd')
       this.mui(".mui-scroll-wrapper").scroll({
           deceleration: 0.0005,
           indicators: false,

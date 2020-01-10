@@ -22,6 +22,14 @@ const url = {
 	emptyCartL: 'shopping-cart/empty',
 	// 创建订单
 	creatOrder: 'order/create',
+	// 订单列表
+	orderList: 'order/list',
+	// 订单详情
+	orderDetail: 'order/detail',
+	// 可领取的优惠券列表
+	discountsList: 'discounts/coupons',
+	// 领取优惠券
+	discountsFetch: 'discounts/fetch',
 
 	// 登录模块
 	// 获取短信验证码

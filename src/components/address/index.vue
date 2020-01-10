@@ -7,7 +7,7 @@
             <van-cell>
                 <template slot="title">
                     <div class="addressList" v-for="item in addressList" :key="item.id">
-                        <div class="top">
+                        <div class="top" @click='editAddress(item)'>
                             <van-row>
                                 <van-col span="6" class="userName van-ellipsis">{{item.linkMan}}</van-col>
                                 <van-col span="6" offset="2" class="phone">{{item.mobile}}</van-col>
@@ -16,7 +16,7 @@
                         </div>
                         <div class="bottom">
                             <van-row>
-                                <van-col span="21" class="van-multi-ellipsis--l2 addressDetail">{{item.provinceStr + item.cityStr + item.areaStr}} {{item.address}}</van-col>
+                                <van-col span="21" class="van-multi-ellipsis--l2 addressDetail" @click='editAddress(item)'>{{item.provinceStr + item.cityStr + item.areaStr}} {{item.address}}</van-col>
                                 <router-link :to="{path:'/editAddress',query:{id:item.id}}">
                                     <van-col offset="1" span="2" class="edit"><van-icon name="edit" /></van-col>
                                 </router-link>
@@ -35,7 +35,7 @@
 export default {
     data() {
         return {
-            addressList: []
+            addressList: [],
         }
     },
     methods: {
@@ -58,12 +58,28 @@ export default {
                 
             })
         },
+        editAddress(item){
+            if(localStorage.getItem('fromOrder')) {
+                localStorage.setItem('addressId',item.id)
+                this.$router.go(-1)
+            } else {
+                this.$router.push({path:'/editAddress',query:{id:item.id}})
+            }
+        },
         addAddress(){
             this.$router.push({path: '/editAddress'})
         }
     },
     created(){
         this.getAddress()
+    },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            //从订单也进入
+            if(from.path == '/placeOrder') {
+                localStorage.setItem('fromOrder',true)
+            }
+        });
     }
 }
 </script>

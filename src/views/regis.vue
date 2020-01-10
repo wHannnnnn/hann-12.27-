@@ -12,6 +12,13 @@
                         error-message=""
                     />
                     <van-field
+                        v-if="step == 1"
+                        type="password"
+                        v-model="password"
+                        placeholder="请输入密码"
+                        error-message=""
+                    />
+                    <van-field
                         v-if="step == 2"
                         v-model="sms"
                         center
@@ -41,6 +48,7 @@ export default {
     data() {
         return {
             phone: null,
+            password: null,
             step: 1,
             sms: null,
             time: null,
@@ -49,7 +57,7 @@ export default {
     },
     computed: {
         disabled(){
-            if(this.phone!==null &&　this.phone.length > 0){
+            if(this.phone!==null &&　this.phone.length > 0 && this.password!==null &&　this.password.length > 0){
                 return false
             } else {
                 return true
@@ -95,7 +103,7 @@ export default {
             var params = {
                 code: this.sms,
                 mobile: this.phone,
-                pwd: this.phone + ''
+                pwd: this.password
             }
             this.$http.userRegister(params).then((res)=>{
                 if(res.data.code == 0){

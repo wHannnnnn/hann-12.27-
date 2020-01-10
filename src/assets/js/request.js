@@ -46,7 +46,22 @@ const methods = {
 	creatOrder: (params) => {
 		return http.post(api.creatOrder, params)
 	},
-
+	// 获取订单列表
+	orderList: (params) => {
+		return http.post(api.orderList, params)
+	},
+	// 订单详情
+	orderDetail: (params) => {
+		return http.get(api.orderDetail, params)
+	},
+	// 可领取的优惠券列表
+	discountsList: (params) => {
+		return http.get(api.discountsList, params)
+	},
+	// 领取优惠券
+	discountsFetch: (params) => {
+		return http.post(api.discountsFetch, params)
+	},
 	// 登录模块
 	// 获取验证码
 	getSms: (params) => {
