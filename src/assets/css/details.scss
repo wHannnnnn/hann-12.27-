@@ -1,6 +1,9 @@
 @import "variable.scss";
 .details_top {
     padding-bottom: set(100px);
+    .van-sticky--fixed {
+        top: 0
+    }
     .top {
         background: #fff;
         padding: set(20px);
@@ -139,6 +142,9 @@
     .discounts_title {
         margin: set(20px) 0
     }
+    .allDiscounts {
+        bottom: set(100px)
+    }
     .discounts_con{
         display: flex;
         margin-bottom: set(20px);
@@ -186,11 +192,67 @@
             }
         }
     }
+    .van-cell__value {
+        color: #e7352c
+    }
     // 详情
+    .van-divider {
+        margin: 0;
+        padding: set(20px) 0;
+        line-height: set(48px);
+        font-size: set(30px);
+        background: #fff
+    }
     .detail_content {
         width: 100%;
+        background: #fff;
+        padding: 0 set(20px);
         img {
             width: 100%
+        }
+    }
+    // 评价
+    .reputation_con{
+        margin-bottom: set(10px);
+        padding: set(20px);
+        .reputation {
+            display: flex;
+            .header_avatar {
+                width: set(100px);
+                height: set(100px);
+                border-radius: 50%;
+                overflow: hidden;
+                margin-right: set(10px);
+                img {
+                    width: 100%;
+                    height: 100%
+                }
+            }
+        }
+        .repu_value {
+            line-height: set(40px);
+            margin: set(20px)
+        }
+        .picsList {
+            display: flex;
+            overflow-x: auto;
+            .pics {
+                width: set(200px);
+                height: set(200px);
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+                overflow: hidden;
+                margin-right: set(10px);
+                border-radius: set(10px);
+                display: inline-block;
+                img {
+                    width: 100%;
+                }
+            }
+        }
+        .repu_property {
+            padding: set(20px);
         }
     }
     // 骨架屏配置
@@ -224,4 +286,58 @@
             height: set(40px)
         }
     }
+}
+.allReputation {
+    .van-pull-refresh {
+        padding: 0
+    }
+    .content{
+        margin-top: set(100px)
+    }
+    .reputation_con{
+        margin-bottom: set(10px);
+        padding: set(20px);
+        .reputation {
+            display: flex;
+            .header_avatar {
+                width: set(100px);
+                height: set(100px);
+                border-radius: 50%;
+                overflow: hidden;
+                margin-right: set(10px);
+                img {
+                    width: 100%;
+                    height: 100%
+                }
+            }
+        }
+        .repu_value {
+            line-height: set(40px);
+            margin: set(20px)
+        }
+        .picsList {
+            display: flex;
+            overflow-x: auto;
+            .pics {
+                width: set(200px);
+                height: set(200px);
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+                overflow: hidden;
+                margin-right: set(10px);
+                border-radius: set(10px);
+                display: inline-block;
+                img {
+                    width: 100%;
+                }
+            }
+        }
+        .repu_property {
+            padding: set(20px);
+        }
+    }
+}
+.van-goods-action {
+    z-index: 1;
 }

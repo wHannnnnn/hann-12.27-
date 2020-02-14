@@ -1,18 +1,18 @@
 <template>
     <div class="details_top">
         <div class="leftIcon">
-            <van-icon name="arrow-left"  @click.native="goBack"/>
+            <van-icon name="arrow-left"  @click="goBack"/>
         </div>
         <van-tabs v-model="active" scrollspy sticky>
 
+        <van-skeleton
+            class="shopske"
+            :row="6"
+            row-width = []
+            :loading="loading"
+            >
             <van-tab title="商品">
                 <!-- 骨架 -->
-                <van-skeleton
-                class="shopske"
-                :row="6"
-                row-width = []
-                :loading="loading"
-                >
                     <!-- 顶部轮播 价格 标题 -->
                     <div class="bgc-radius-shadow top">
                         <!-- 顶部轮播 -->
@@ -53,6 +53,7 @@
                     </div>
                     <!-- 领取优惠券 -->
                     <van-popup
+                        class="allDiscounts"
                         v-model="discountsShow"
                         closeable
                         position="bottom"
@@ -123,31 +124,50 @@
                     <van-goods-action-button type="warning" text="加入购物车" @click="addButton" />
                     <van-goods-action-button type="danger" text="立即购买" @click="buyButton" />
                     </van-goods-action>
-                </van-skeleton>
-
             </van-tab>
 
             <van-tab title="评价">
+                <van-cell title="商品评价" @click="goReputation" is-link value="查看全部" />
+                <van-panel v-for="(item,index) in reputation" :key="index" class="reputation_con">
+                    <div slot="header" class="reputation">
+                        <div class="header_avatar"><img :src="item.user.avatarUrl?item.user.avatarUrl:avatar" alt=""></div>
+                        <div class="header_goods">
+                            <div class="header_mobile">{{item.user.nick?item.user.nick:phoneReplace(item.user.mobile)}}</div>
+                            <van-rate v-model="item.goods.goodReputation" readonly :count="3"/>
+                        </div>
+                    </div>
+                    <div class="repu_value van-multi-ellipsis--l2">{{item.goods.goodReputationRemark}}</div>
+                    <div class="picsList">
+                        <div class="pics" v-for="img in item.reputationPics" :key="img.id">
+                            <img v-lazy="img.pic" alt="">
+                        </div>
+                    </div>
+                    <div class="repu_property">{{item.goods.property}}</div>
+                </van-panel>
             </van-tab>
 
             <van-tab title="详情">
+                <van-divider>商品详情</van-divider>
                 <div class="detail_content" v-html="detailsList.content"></div>
             </van-tab>
 
             <van-tab title="推荐">
-                123
             </van-tab>
+        </van-skeleton>
         </van-tabs>
     </div>
 </template>
 <script>
 import Vue from 'vue'
 export default {
+    name: 'detailsIndex',
     data() {
         return {
+            avatar: require('../../assets/images/avatar.png'),
             active: 0,
             detailsList: [],
             discountsList: [],
+            reputation: [], //评论数据
             loading: true,
             // 详情页显示规格名称
             propertyName: '',
@@ -240,14 +260,22 @@ export default {
             customSkuValidator: () => '请选择商品规格!',
             headerPrice: null,
             isLogistics: null,
-            logisticsTitle: null
+            logisticsTitle: null,
+            isRouterAlive: false
         }
     },
     watch: {
     },
     methods: {
+        reload () {
+            this.isRouterAlive = false
+            this.$nextTick(() => (this.isRouterAlive = true))
+        },
         goBack(){
             this.$router.go(-1)
+        },
+        phoneReplace(tel){
+            return this.$tools.phoneReplace(tel)
         },
         getDetails(){
             this.$http.shopDetail({id: this.$route.query.id}).then((res)=>{
@@ -256,6 +284,8 @@ export default {
                     this.getlogistics(this.detailsList)
                     this.getReputation(this.detailsList)
                     this.getDiscountsList()
+                    this.loading = false;
+                    this.$toast.clear()
                 }
             })
         },
@@ -350,9 +380,8 @@ export default {
                 })
             })
         },
-        // 添加购物车
+        // 添加购物车  加标识判断是否添加了商品 购物车是否刷新
         addcart(skuValue) {
-            console.log(skuValue)
             var sku = [] //规格数据
             this.detailsList.properties.forEach(ele => {
                 const obj = {
@@ -378,6 +407,7 @@ export default {
                 if(res.data.code == 0){
                     this.showBase = false
                     this.$toast.success('添加成功，在购物城等亲~')
+                    sessionStorage.setItem('cartRefresh',true)
                 }
             })
         },
@@ -397,8 +427,17 @@ export default {
                 pageSize: 2
             }
             this.$http.getReputation(params).then((res)=>{
-                console.log(res)
+                if(res.data.code == 0) {
+                    res.data.data.forEach(element => {
+                        element.goods.goodReputation += 1
+                    })
+                    this.reputation = res.data.data
+                }
             })
+        },
+        // 去评论页面
+        goReputation(){
+            this.$router.push({path: 'reputation',query:{id: this.$route.query.id}})
         },
         // 收藏
         collect(){
@@ -423,19 +462,30 @@ export default {
                 propertyName: this.propertyName, //分类名称
                 price: this.headerPrice, //价格
             }
-            localStorage.setItem('orderData',JSON.stringify([Object.assign(data,setData)]))
+            sessionStorage.setItem('orderData',JSON.stringify([Object.assign(data,setData)]))
             this.$router.push({path: '/placeOrder'})
         },
         // 底部购买
         buyButton(){
             this.categoriesClick()
         },
+
     },
+    beforeCreate() {
+    }, 
     created() {
-        this.getDetails()
+        this.loading = true
+        this.$toast.loading({ duration: 0,forbidClick: true });
+        this.getDetails()  
     },
     mounted() {
-        this.loading = false;
+    },
+    beforeRouteLeave(to, from, next) {
+        const status = to.path == '/reputation';
+        this.$store.commit('updateAliveList', { name: 'detailsIndex', status: status });
+        setTimeout(() => {
+            next();
+        }, 0)
     },
 }
 </script>

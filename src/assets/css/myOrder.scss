@@ -1,5 +1,11 @@
 @import "variable.scss";
 .orderList {
+    .content {
+        margin-top: set(100px);
+        .van-sticky--fixed {
+            top: set(98px)
+        }
+    }
     .orderData {
         padding: set(20px);
         background: #fff;
@@ -51,6 +57,7 @@
         .data_bottom {
             display: flex;
             justify-content: flex-end;
+            padding-top: set(20px);
             .van-button {
                 border-radius: set(20px);
                 height: set(48px);
@@ -63,6 +70,36 @@
             .buyagain {
                 color: #e7352c;
                 border: set(1px) solid #e7352c
+            }
+        }
+    }
+}
+.reputation {
+    .content {
+        margin-top: set(100px);
+        .shopList {
+            background: #fff;
+            padding: set(20px);
+            margin-bottom: set(20px);
+            .repu_top {
+                display: flex;
+                .shop_pic {
+                    width: set(100px);
+                    height: set(140px);
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    margin-right: set(20px);
+                    img{
+                        width: 100%
+                    }
+                }
+                .right_star {
+                    flex: 1
+                }
+            }
+            .repu_upload {
+                text-align: center
             }
         }
     }

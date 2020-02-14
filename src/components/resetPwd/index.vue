@@ -1,27 +1,18 @@
 <template>
-    <div class="regis">
-        <van-nav-bar title="手机快速注册" fixed>
+    <div class="resetPwd">
+        <van-nav-bar title="修改密码" fixed>
             <van-icon name="arrow-left" slot="left" @click="goBack"/>
         </van-nav-bar>
         <div class="content">
             <van-cell-group>
-                    <van-field
+                <van-field
+                    v-if="step == 2"
+                    v-model="password"
+                    placeholder="请输入新密码"
+                    error-message=""
+                />
+                <van-field
                         v-if="step == 1"
-                        v-model="phone"
-                        type="tel"
-                        placeholder="请输入手机号"
-                        :error='error'
-                        error-message=""
-                    />
-                    <van-field
-                        v-if="step == 1"
-                        type="password"
-                        v-model="password"
-                        placeholder="请输入密码"
-                        error-message=""
-                    />
-                    <van-field
-                        v-if="step == 2"
                         v-model="sms"
                         center
                         clearable
@@ -36,31 +27,31 @@
                                 </template>
                             </van-count-down>
                         </van-button>
-                    </van-field>
+                </van-field>
             </van-cell-group>
             <div class="next login_all_button">
-                <van-button type="primary" :disabled='disabled' size="normal" @click='next'>下一步</van-button>
+                <van-button type="primary" :disabled='disabled' size="normal" @click="next">下一步</van-button>
             </div>
-            <div class="bottom">遇到困难？您可以联系客服</div>
         </div>
     </div>
 </template>
 <script>
+import {mapState, mapMutations} from 'vuex'
 export default {
     data() {
         return {
+            step: 1,
             phone: null,
             password: null,
-            step: 1,
             sms: null,
             time: null,
-            smsDisabled: true,
-            error: false
+            smsDisabled: false
         }
     },
     computed: {
+        ...mapState(['loginUser']),
         disabled(){
-            if(this.phone!==null &&　this.phone.length > 0 && this.password!==null &&　this.password.length > 0){
+            if(this.sms!==null &&　this.sms.length > 0){
                 return false
             } else {
                 return true
@@ -68,12 +59,13 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['loginOut']),
         goBack(){
             if(this.step == 1) {
                this.$router.go(-1) 
             } else {
                 this.$dialog.confirm({
-                    message: '点击"返回"将中断注册，确定返回？'
+                    message: '点击"返回"将取消修改，确定返回？'
                 }).then(() => {
                     this.$router.go(-1)
                 }).catch(() => {
@@ -81,52 +73,55 @@ export default {
                 });
             }
         },
-        // 下一步
-        next(){
-            if(this.step == 1){
-                var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
-                if (!reg.test(this.phone)) {
-                    this.$toast("手机号格式不正确");
-                } else {
-                    this.step = 2
-                    // 获取验证码
-                    this.sendSms()
-                }
-            } else {
-                // 注册接口
-                this.userRegis()
-            }
-        },
-        // 获取验证码
         sendSms(){
             this.time = 60 * 1000
             this.smsDisabled = true
             var params = {
-                mobile: this.phone,
+                mobile: JSON.parse(this.loginUser).mobile,
             }
-            this.$http.getSms(params).then((res)=>{})
-        },
-        // 用户注册
-        userRegis(){
-            var params = {
-                code: this.sms,
-                mobile: this.phone,
-                pwd: this.password
-            }
-            this.$http.userRegister(params).then((res)=>{
+            this.$http.getSms(params).then((res)=>{
                 if(res.data.code == 0){
-                    this.$notify({ type: 'success', message: '注册成功' });
-                    this.$router.go(-1)
+                    this.$notify({ type: 'success', message: '验证码已发送' });
                 } else {
                     this.$notify({ type: 'danger', message: res.data.msg });
                 }
-                if(res.data.code == 10000){
-                    this.step = 1
+            })
+        },
+        // 校验验证码
+        chengSms(){
+            var params = {
+                code: this.sms,
+                mobile: JSON.parse(this.loginUser).mobile,
+            }
+            this.$http.checkSms(params).then((res)=>{
+                if(res.data.code == 0){
+                    this.step = 2
+                } else {
+                    this.$notify({ type: 'danger', message: res.data.msg });
                 }
-                
             }) 
         },
-        // 倒计时结束
+        next(){
+            if(this.step == 1){
+                this.chengSms()
+            } else {
+                var params = {
+                    code: this.sms,
+                    mobile: this.phone,
+                    pwd: this.password
+                }
+                this.$http.resetPwd(params).then((res)=>{
+                    if(res.data.code == 0){
+                        this.$notify({ type: 'success', message: '修改成功' });
+                        this.$router.push({path: '/login'}) // todo login页面清除token
+                        this.loginOut()
+                    } else {
+                        this.$notify({ type: 'danger', message: res.data.msg });
+                    }
+                }) 
+            }
+        },
+       // 倒计时结束
         finish(){
             this.smsDisabled = false
         }

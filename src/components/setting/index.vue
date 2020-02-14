@@ -10,12 +10,12 @@
                     <template slot="title">
                         <div class="user">
                             <div class="avatar">
-                                <img :src="hot1" alt="">
+                                <img :src="userDetail.avatarUrl" alt="">
                             </div>
                             <div class="right">
                                 <div class="login" @click='login' v-if="!userDetail">登录/注册></div>
                                 <div class="userDetail" v-else>
-                                <div class="userName">{{userDetail.mobile}}</div>
+                                <div class="userName">{{userDetail.nick?userDetail.nick:phoneReplace(userDetail.mobile)}}</div>
                                 <div class="level">普通用户</div>
                                 </div>
                             </div>
@@ -23,7 +23,8 @@
                     </template>
                 </van-cell>
                 <van-cell title="地址管理" is-link @click="goAddress" />
-                <van-cell title="账户与安全" is-link value="密码/信息管理" />
+                <van-cell title="用户信息" is-link @click="goModify" value="信息修改" />
+                <van-cell title="修改登录密码" is-link @click="resetPass" />
             </van-cell-group>
         </div>
     </div>
@@ -46,19 +47,20 @@ export default {
         goBack(){
             this.$router.go(-1)
         },
+        phoneReplace(tel){
+            return this.$tools.phoneReplace(tel)
+        },
         login(){
             this.$router.push({path: '/login'})
         },
         goAddress(){
             this.loginUser? this.$router.push({path: '/address'}) :  this.$router.push({path: '/login'})
-            // if(this.loginUser) {
-            //     this.$router.push({path: '/address'})
-            // } else {
-
-            // }
-            //  this.$http.getAdress().then((res)=>{
-            //      console.log(res)
-            //  })
+        },
+        goModify(){
+            this.loginUser? this.$router.push({path: '/userModify'}) :  this.$router.push({path: '/login'})
+        },
+        resetPass(){
+           this.$router.push({path: '/resetPwd'}) 
         }
     },
 }

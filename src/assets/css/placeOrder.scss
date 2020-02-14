@@ -2,6 +2,7 @@
 .placeOrder {
     .content {
         margin-top: set(100px);
+        padding-bottom: set(100px);
         .address {
             margin-bottom: set(20px);
             margin-bottom: set(20px);
@@ -12,6 +13,9 @@
         .details {
             .van-cell {
                 margin-bottom: set(20px)
+            }
+            .details_con {
+                padding-bottom: set(10px)
             }
             .addressList {
                 .con_top {
@@ -69,6 +73,35 @@
                         color: #e7352c;
                     }
                 }
+            }
+        }
+    }
+    .van-submit-bar__bar {
+        height: set(100px);
+        padding: 0 set(32px);
+        font-size: set(28px);
+        .van-checkbox__label {
+            margin-left: set(16px);
+            line-height: set(40px);
+        }
+        .van-submit-bar__button {
+            width: set(220px);
+            height: set(72px);
+            line-height: set(72px);
+            font-size: set(24px)
+        }
+    }
+    .van-action-sheet__content {
+        p {
+            padding: set(20px);
+        }
+    }
+    .van-submit-bar__text {
+        padding-right: set(24px);
+        .van-submit-bar__price {
+            font-size: set(24px);
+            .van-submit-bar__price--integer {
+                font-size: set(40px)
             }
         }
     }

@@ -11,7 +11,7 @@
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
             <van-list
               v-model="loading"
-              :finished="this.$store.state.finished"
+              :finished="finished"
               finished-text="没有更多了"
               :error.sync="error"
               error-text="请求失败，点击重新加载"
@@ -21,20 +21,19 @@
                 <banner/>
               </div>
               <div class="app_nav">
-                <navList/>
+                <navList :navList='navList' />
               </div>
               <div class="app_con">
-                  <contop/>
+                  <contop :newShopList="newShopList" />
               </div>
               <div class="app_shopList">
-                  <hotlist/>
+                  <hotlist :shopList='shopList'/>
               </div>
             </van-list>
         </van-pull-refresh>
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
 import banner from '@/components/home/banner.vue'
 import navList from '@/components/home/nav.vue'
 import contop from '@/components/home/contop.vue'
@@ -49,25 +48,31 @@ export default {
       isLoading: false,
       loading: false,
       error: false,
-      pageSize: 5,
-      dataList: []
+      pageSize: 2,
+      dataList: [],
+      navList: [], //导航
+      newShopList: [], //新品
+      finished: false,
+      homePageNum: 1,
+      shopList: [],
+      first: true
     }
   },
   computed: {
-      ...mapState(['homePageNum']) 
   },
   methods: {
     // 获取mutations中的方法操作数据
-    ...mapMutations(['getShopList','removeShopList']),
     // 下拉刷新
     onRefresh(){
       this.loadfirst()
     },
     loadfirst(){
-      // this.$store.state.homePageNum = 1
-      this.$store.state.finished = false;
+      this.finished = false;
       this.isLoading = false;
-      this.removeShopList()
+      this.categoryList()
+      this.newShop()
+      this.shopList = []
+      this.homePageNum = 1
       this.loadmore()
     },
     // 上啦加载
@@ -77,36 +82,52 @@ export default {
     async loadmore(){
         var params = {
           page: this.homePageNum,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          recommendStatus: 1
         }
         this.$http.shopList(params).then((res)=>{
             if(res.data.code == 0){
-              // this.$store.state.homePageNum ++
-              this.getShopList(res.data.data)
+              this.shopList = this.shopList.concat(res.data.data)
+              this.homePageNum ++
               this.loading = false
               if(res.data.data.length < this.pageSize){
-                this.$store.state.finished = true
+                this.finished = true
               }
           }else{
-            this.$store.state.finished = true
+            this.finished = true
           }
         }).catch(() => {
           this.error = true;
       })
     },
+    // 获取分类
+    categoryList(){
+      this.$http.category().then((res)=>{
+        this.navList = res.data.data
+      })
+    },
+    // 新品首发
+    newShop(){
+        var params = {
+          page: 1,
+          pageSize: 6,
+          orderBy: 'addedDown',
+        }
+        this.$http.shopList(params).then((res)=>{
+          this.newShopList = res.data.data
+        })
+    }
   },
   created() {
   },
   mounted() {
-      console.log('asd')
-      this.mui(".mui-scroll-wrapper").scroll({
-          deceleration: 0.0005,
-          indicators: false,
-      })
   },
-	activated(){
+  activated() {
+    if (this.first == true) {
+      this.categoryList()
+      this.newShop()
+      this.first = false
+    }
   },
-  deactivated(){
-	},
 };
 </script>

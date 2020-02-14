@@ -1,5 +1,7 @@
 // 接口
 const url = {
+	// 分类列表
+	category: 'shop/goods/category/all',
 	// 商品列表
 	shopList: 'shop/goods/list',
 	// 商品详情
@@ -20,22 +22,42 @@ const url = {
 	removeCart: 'shopping-cart/remove',
 	// 清空购物车
 	emptyCartL: 'shopping-cart/empty',
+	// 可领取的优惠券列表
+	discountsList: 'discounts/coupons',
+	// 领取优惠券
+	discountsFetch: 'discounts/fetch',
 	// 创建订单
 	creatOrder: 'order/create',
 	// 订单列表
 	orderList: 'order/list',
 	// 订单详情
 	orderDetail: 'order/detail',
-	// 可领取的优惠券列表
-	discountsList: 'discounts/coupons',
-	// 领取优惠券
-	discountsFetch: 'discounts/fetch',
-
+	// 取消订单
+	closeOrder: 'order/close',
+	// 删除订单
+	deleteOrder: 'order/delete',
+	// 申请售后
+	refundApply: 'order/refundApply/apply',
+	// 订单统计
+	orderStatistics: 'order/statistics',
+	// 确认收货
+	orderDelivery: 'order/delivery',
+	// 上传图片至服务器
+	uploadFile: 'dfs/upload/file',
+	// 发布评价
+	orderReputation: 'order/reputation',
 	// 登录模块
 	// 获取短信验证码
 	getSms: 'verification/sms/get',
+	// 校验验证码
+	checkSms: 'verification/sms/check',
 	// 用户注册（手机号）
 	userRegister: 'user/m/register',
+	// 修改用户信息
+	userModify: 'user/modify',
+	
+	// 修改密码
+	resetPwd: 'user/m/reset-pwd',
 	// 用户登录token
 	login: 'user/m/login',
 	//获取用户详情

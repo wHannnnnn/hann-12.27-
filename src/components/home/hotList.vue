@@ -52,29 +52,22 @@ import {mapState} from 'vuex';
 export default {
     data() {
         return {
-            hot1: require('../../assets/images/hot1.png'),
-            hot2: require('../../assets/images/hot2.png'),
-            hot3: require('../../assets/images/hot3.png'),
-            hot4: require('../../assets/images/hot4.png'),
-            hot5: require('../../assets/images/hot5.png'),
-            img1: require('../../assets/images/banner1.webp'),
         }
     },
+    props:['shopList'],
     computed: {
         leftShopList(){
-             return this.shopList.filter((ele,index) =>{
-                return index%2 !== 0
-            })
-        },
-        rightShopList(){
              return this.shopList.filter((ele,index) =>{
                 return index%2 == 0
             })
         },
-        ...mapState(['shopList'])  
+        rightShopList(){
+             return this.shopList.filter((ele,index) =>{
+                return index%2 !== 0
+            })
+        },
     },
     mounted() {
-        console.log(this.shopList)
     },
 }
 </script>

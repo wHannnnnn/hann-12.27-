@@ -101,41 +101,41 @@
           </div>
         </div>
       </van-pull-refresh>
+      <!-- 结算栏 -->
+      <van-submit-bar v-if="statusTip === '管理'"
+        class="submit-bar"
+        :price="totalPrice | formatPoint"
+        :button-text="submitBarText"
+        :disabled="!checkedGoods.length"
+        @submit="onSubmit">
+        <van-checkbox v-model="checkedAll">全选</van-checkbox>
+      </van-submit-bar>
+      <!-- 删除栏 -->
+      <van-submit-bar v-else
+        class="delete-bar"
+        button-text="删除"
+        :disabled="!checkedGoods.length"
+        @submit="onDeleteClicked">
+        <van-checkbox v-model="checkedAll">全选</van-checkbox>
+      </van-submit-bar>
+      <div class="no-data"
+        v-if="!goods.length">
+        <!-- <img src="../../assets/no-cart.png"
+          alt=""> -->
+        <div class="no-data-title">购物车空荡荡</div>
+        <div class="no-data-txt">快给我挑点宝贝</div>
+        <van-button class="no-data-btn"
+          plain
+          type="danger"
+          @click="handleHomePage">去逛逛</van-button>
+      </div>
     </van-skeleton>
-
-    <!-- 结算栏 -->
-    <van-submit-bar v-if="statusTip === '管理'"
-      class="submit-bar"
-      :price="totalPrice | formatPoint"
-      :button-text="submitBarText"
-      :disabled="!checkedGoods.length"
-      @submit="onSubmit">
-      <van-checkbox v-model="checkedAll">全选</van-checkbox>
-    </van-submit-bar>
-    <!-- 删除栏 -->
-    <van-submit-bar v-else
-      class="delete-bar"
-      button-text="删除"
-      :disabled="!checkedGoods.length"
-      @submit="onDeleteClicked">
-      <van-checkbox v-model="checkedAll">全选</van-checkbox>
-    </van-submit-bar>
-    <div class="no-data"
-      v-if="!goods.length">
-      <!-- <img src="../../assets/no-cart.png"
-        alt=""> -->
-      <div class="no-data-title">购物车空荡荡</div>
-      <div class="no-data-txt">快给我挑点宝贝</div>
-      <van-button class="no-data-btn"
-        plain
-        type="danger"
-        @click="handleHomePage">去逛逛</van-button>
-    </div>
   </div>
 </template>
 <script>
 import Vue from 'vue'
 export default {
+  name: 'shopIndex',
   data() {
     return {
       loading: true,
@@ -145,7 +145,8 @@ export default {
       statusTip: '管理', // 管理,完成
       checkedAll: false,
       checkedGoods: [],
-      goods: []
+      goods: [],
+      first: true
     }
   },
   computed: {
@@ -186,15 +187,29 @@ export default {
       this.checkedGoods.length > 0 && this.checkedGoods.length === this.buyGoods.length?this.checkedAll = true:this.checkedAll = false
     }
   },
-  created() {
-    this.getCartInfo()
+  activated() {
+    if (this.first == true) {
+      console.log(1)
+      this.getCartInfo()
+      sessionStorage.removeItem('cartRefresh')
+      this.first = false
+    } else {
+      if(sessionStorage.getItem('cartRefresh')) {
+          console.log(2)
+
+          this.getCartInfo()
+          sessionStorage.removeItem('cartRefresh')
+      }
+    }
   },
   methods: {
     onRefresh(){
       this.getCartInfo()
     },
     getCartInfo(){
+      this.$toast.loading({ duration: 0,forbidClick: true });
       this.$http.getCartInfo().then((res)=>{
+        console.log(res)
         if(res.data.code == 0) {
           this.goods = []
           this.checkedGoods = []
@@ -205,7 +220,9 @@ export default {
                 Vue.set(this.goods[i],'stores',res.data.data.stores)
               })
           });
-          this.isLoading = false;
+          this.isLoading = false
+          this.loading = false
+          this.$toast.clear()
           return 
         }
       })
@@ -332,12 +349,13 @@ export default {
         });
         ele.selectedNum = ele.number
       })
-      localStorage.setItem('orderData',JSON.stringify(buyArr))
+      sessionStorage.setItem('orderData',JSON.stringify(buyArr))
       this.$router.push({path: '/placeOrder'})
      }
   },
+  created() {
+  },
   mounted() {
-    this.loading = false;
   },
 }
 </script>

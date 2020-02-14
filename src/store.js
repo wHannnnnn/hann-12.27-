@@ -8,11 +8,18 @@ export default new Vuex.Store({
     token: localStorage.getItem('token'),
     uid: localStorage.getItem('uid'),
     loginUser: localStorage.getItem('loginUser'),
-    finished: false, //首页上拉加载控制
-    homePageNum: 1, //首页商品页码
-    shopList: [], //商品列表
+    keepAliveList: ['index']
   },
   mutations: {
+    updateAliveList(state, { name, status }) {
+      const index = state.keepAliveList.indexOf(name);
+      if (status) {
+        index >= 0 && state.keepAliveList.splice(index, 1);
+        state.keepAliveList.push(name);
+      } else {
+        index >= 0 && state.keepAliveList.splice(index, 1);
+      }
+    },
     //token uid存储
     handleToken: (state, data) => {
       state.token = data.token
@@ -31,14 +38,6 @@ export default new Vuex.Store({
       state.token = null;
       state.uid = null;
       state.loginUser = null;
-    },
-    getShopList: (state,data)=>{
-      state.shopList = state.shopList.concat(data)
-      state.homePageNum ++
-    },
-    removeShopList:(state) => {
-      state.shopList = []
-      state.homePageNum = 1
     },
   },
   actions: {}

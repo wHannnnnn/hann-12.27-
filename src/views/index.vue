@@ -12,6 +12,7 @@
 <script>
 import bottom from '@/components/layout/bottom.vue'
 export default {
+    name: 'index',
     components: {
         bottom
     },

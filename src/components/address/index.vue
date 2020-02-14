@@ -10,7 +10,7 @@
                         <div class="top" @click='editAddress(item)'>
                             <van-row>
                                 <van-col span="6" class="userName van-ellipsis">{{item.linkMan}}</van-col>
-                                <van-col span="6" offset="2" class="phone">{{item.mobile}}</van-col>
+                                <van-col span="6" offset="2" class="phone">{{phoneReplace(item.mobile)}}</van-col>
                                 <van-tag type="danger" v-if="item.isDefault">默认</van-tag>
                             </van-row>
                         </div>
@@ -42,6 +42,9 @@ export default {
         goBack(){
             this.$router.go(-1)
         },
+        phoneReplace(tel){
+            return this.$tools.phoneReplace(tel)
+        },
         onAdd() {
             console.log('新增地址');
         },
@@ -59,7 +62,7 @@ export default {
             })
         },
         editAddress(item){
-            if(localStorage.getItem('fromOrder')) {
+            if(sessionStorage.getItem('fromOrder')) {
                 localStorage.setItem('addressId',item.id)
                 this.$router.go(-1)
             } else {
@@ -77,7 +80,7 @@ export default {
         next(vm => {
             //从订单也进入
             if(from.path == '/placeOrder') {
-                localStorage.setItem('fromOrder',true)
+                sessionStorage.setItem('fromOrder',true)
             }
         });
     }

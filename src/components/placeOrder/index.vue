@@ -6,14 +6,23 @@
         <van-skeleton title :row="3" :loading="loading">
             <div class="content">
                 <!-- 地址 -->
-                <div class="address" v-if="defaultAddress.address">
+                <div class="address" v-if="addAddressShow">
+                    <van-cell>
+                        <template slot="title">
+                            <div class="addressList" @click="goAddress">
+                                选择收货地址
+                            </div>
+                        </template>
+                    </van-cell>
+                </div>
+                <div class="address" v-if="!addAddressShow">
                     <van-cell>
                         <template slot="title">
                             <div class="addressList" @click="goAddress">
                                 <div class="top">
                                     <van-row>
                                         <van-col span="6" class="userName van-ellipsis">{{defaultAddress.linkMan}}</van-col>
-                                        <van-col span="6" offset="2" class="phone">{{defaultAddress.mobile}}</van-col>
+                                        <van-col span="6" offset="2" class="phone">{{phoneReplace(defaultAddress.mobile)}}</van-col>
                                         <van-col span="6"><van-tag type="danger" v-if="defaultAddress.isDefault">默认</van-tag></van-col>
                                     </van-row>
                                 </div>
@@ -29,72 +38,85 @@
                 </div>
                 <!-- 详情 -->
                 <div class="details">
-                    <van-cell v-for="(item,index) in allOrderData" :key="index">
+                    <van-cell v-for="(items,indexs) in allData" :key="items.id">
                         <template slot="title">
-                            <div class="addressList">
-                                <div class="con_top">
-                                    <div class="left">
-                                        <img v-lazy="item.pic" alt="">
-                                    </div>
-                                    <div class="center">
-                                        <div class="title van-multi-ellipsis--l2">
-                                            {{item.name}}
+                            <div class="details_con" v-for="(item,index) in items.origin" :key="index">                              
+                                <div class="addressList">
+                                    <div class="con_top">
+                                        <div class="left">
+                                            <img v-lazy="item.pic" alt="">
                                         </div>
-                                        <div class="property">
-                                            <span>{{item.propertyName}}</span>
+                                        <div class="center">
+                                            <div class="title van-multi-ellipsis--l2">
+                                                {{item.name}}
+                                            </div>
+                                            <div class="property">
+                                                <span>{{item.propertyName}}</span>
+                                            </div>
+                                            <div class="time">
+                                                发货时间:{{item.time}}
+                                            </div>
                                         </div>
-                                        <div class="time">
-                                            发货时间:{{item.time}}
+                                        <div class="right">
+                                            <div class="top">￥{{item.price.toFixed(2)}}</div>
+                                            <div class="bottom">x{{item.number}}</div>
                                         </div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="top">￥{{item.price.toFixed(2)}}</div>
-                                        <div class="bottom">x{{item.number}}</div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="addressList">
                                 <div class="con_center">
                                     <div class="logistics">
-                                         <span>配送方式</span>
-                                         <span v-if="item.logistics.isFree">快递 免邮</span>
-                                         <span v-else @click="changeLogistics(item.logistics.details,index)">
-                                            <span>{{findName(item.logistics.details,item.logisticsType)}}</span>
-                                         </span>
+                                        <span>配送方式</span>
+                                        <span v-if="items.logistics.isFree">快递 免邮</span>
+                                        <span v-else @click="changeLogistics(items.logistics.details,indexs)">
+                                            <span>{{findPrice(items.logistics.details,items.logisticsType,true)}}</span>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="con_bottom">
-                                    <span class="allNumber">共{{item.number}}件</span>
-                                    小计:<span class="allPrice">￥{{(item.number*item.price).toFixed(2)}}</span>
+                                    <span class="allNumber">共{{items.number}}件</span>
+                                    小计:<span class="allPrice">￥{{(priceCal(items.origin) + findPrice(items.logistics.details,items.logisticsType,false)).toFixed(2)}}</span>
                                 </div>
                             </div>
+                            <van-action-sheet v-model="logisticsShow" title="配送方式">
+                                <van-radio-group v-model="items.logisticsType">
+                                    <van-cell-group>
+                                        <van-cell v-for="logItem in logisticsData" :key="logItem.type" :title="logItem.firstAmount.toFixed(2)" clickable @click="changRadio(indexs,logItem.type)">
+                                            <van-radio slot="right-icon" :name="logItem.type" />
+                                        </van-cell>
+                                    </van-cell-group>
+                                </van-radio-group>
+                                <!-- <p v-for="logItem in logisticsData" :key="logItem.type" @click="changeLogisticsOne(logItem)">
+                                    <span v-if="logItem.type==0">快递 ￥{{logItem.firstAmount.toFixed(2)}}</span>
+                                    <span v-if="logItem.type==1">EMS ￥{{logItem.firstAmount.toFixed(2)}}</span>
+                                </p> -->
+                            </van-action-sheet>
                         </template>
                     </van-cell>
                 </div>
             </div>
+            <van-submit-bar
+                :disabled='disabled'
+                :price="allPrice"
+                button-text="提交订单"
+                tip-icon="info-o"
+                @submit="onSubmit"
+            />
         </van-skeleton>
-        <van-submit-bar
-            :disabled='disabled'
-            :price="3050"
-            button-text="提交订单"
-            tip-icon="info-o"
-            @submit="onSubmit"
-        />
-        <van-action-sheet v-model="logisticsShow" title="配送方式">
-            <p v-for="logItem in logisticsData" :key="logItem.type" @click="changeLogisticsOne(logItem)">
-                <span v-if="logItem.type==0">快递 ￥{{logItem.firstAmount.toFixed(2)}}</span>
-                <span v-if="logItem.type==1">EMS ￥{{logItem.firstAmount.toFixed(2)}}</span>
-            </p>
-        </van-action-sheet>
     </div>
 </template>
 <script>
 import Vue from 'vue'
 import { stringify } from 'querystring'
 export default {
+    name: 'placeOrder',
     data() {
         return {
             loading: true,
             logisticsShow: false,
             defaultAddress: {},
+            addAddressShow: false,
             infoData: [], //发送过来的数据
             allOrderData: [], //全部数据
             goodsData: [], //提交的商品信息数组
@@ -102,16 +124,70 @@ export default {
             payData: [], //订单数据
             logisticsData: [], //地址列表
             logisticsIndex: null, //选中的索引
+            counter: 0,
+            newData: []
         }
     },
     computed: {
         disabled(){
             return Object.keys(this.defaultAddress).length == 0 ? true:false
         },
+        allPrice:{
+            get: function (params) {                
+                var price = 0
+                this.newData.forEach((item) => {
+                    const arr = item.origin.map(v => {
+                        return v.price * v.number
+                    })
+                    const obj = item.logistics.details.find(v=> {
+                        return v.type == item.logisticsType
+                    })
+                    price +=  (eval(arr.join("+")) + obj.firstAmount)
+                })
+                return price * 100
+            }
+        },
+        allData: {
+            get: function () {                
+                let tempArr = [];
+                let afterData = [];
+                let num = 0
+                for (let i = 0; i < this.allOrderData.length; i++) {
+                    if (tempArr.indexOf(this.allOrderData[i].shopId) === -1) {
+                        afterData.push({
+                            shopId: this.allOrderData[i].shopId,
+                            logisticsType: this.allOrderData[i].logisticsType,
+                            origin: [this.allOrderData[i]]
+                        });
+                        tempArr.push(this.allOrderData[i].shopId);
+                    } else {
+                        for (let j = 0; j < afterData.length; j++) {
+                            if (afterData[j].shopId == this.allOrderData[i].shopId) {
+                                afterData[j].origin.push(this.allOrderData[i]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                afterData.forEach(ele => {
+                    ele.origin.forEach((v,i) => {
+                        if(v.logistics.isFree == false) {
+                            num = i
+                        }
+                    })
+                    ele.logistics = ele.origin[num].logistics
+                });
+                this.newData = afterData
+                return afterData
+            },
+        }
     },
     methods: {
         goBack(){
             this.$router.go(-1)
+        },
+        phoneReplace(tel){
+            return this.$tools.phoneReplace(tel)
         },
         goAddress(){
             this.$router.push({path: '/address'})
@@ -124,7 +200,12 @@ export default {
                 })
             } else {
                 this.$http.defaultAddress().then((res)=>{
-                    this.defaultAddress = res.data.data.info
+                    if(res.data.code == 700){
+                        this.addAddressShow = true
+                    } else {
+                        this.addAddressShow = false
+                        this.defaultAddress = res.data.data.info
+                    }
                 })
             }
         },
@@ -137,6 +218,7 @@ export default {
             this.$http.shopDetail(params).then((res)=>{
                 // 显示的数据
                 const setData = {
+                    shopId: res.data.data.basicInfo.shopId,
                     number: data.selectedNum,
                     propertyChildIds: data.propertyChildIds,
                     propertyName: data.propertyName,
@@ -146,6 +228,7 @@ export default {
                     logisticsType: 0
                 }
                 this.allOrderData.push(Object.assign(res.data.data.basicInfo,setData))
+                this.counter += 1 
             })
         },
         //选择快递
@@ -154,28 +237,41 @@ export default {
             this.logisticsData = data
             this.logisticsIndex = index
         },
+        // 价格计算
+        priceCal(item){
+            const arr = item.map((v)=>{
+                return v.price*v.number
+            })
+            return eval(arr.join("+"))
+        },
         // 查找显示快递名称
-        findName(item,type){
+        findPrice(item,type,priceOrName){
             const obj = item.find(ele => {
                 return ele.type == type
             })
-            return obj.type == 0? `快递:￥${obj.firstAmount.toFixed(2)}` : `EMS:￥${obj.firstAmount.toFixed(2)}`
+            if(priceOrName == true) {
+                return obj.type == 0? `快递:￥${obj.firstAmount.toFixed(2)}` : `EMS:￥${obj.firstAmount.toFixed(2)}`
+            } else {
+                return obj.firstAmount
+            }
         },
         //选中快递
-        changeLogisticsOne(item){
-            Vue.set(this.allOrderData[this.logisticsIndex],'logisticsType',item.type)
+        changRadio(index,type){
+            Vue.set(this.allData[index],'logisticsType',type)
             this.logisticsShow = false
         },
         // 提交订单
         onSubmit(){
-            this.allOrderData.forEach(ele => {
-                const obj = {
-                    goodsId: ele.id,
-                    number: ele.number,
-                    propertyChildIds: ele.propertyChildIds,
-                    logisticsType: ele.logisticsType
-                }
-                this.goodsData.push(obj)
+            this.allData.forEach(ele => {
+                ele.origin.forEach(v => {
+                    const obj = {
+                        goodsId: v.id,
+                        number: v.number,
+                        propertyChildIds: v.propertyChildIds,
+                        logisticsType: ele.logisticsType
+                    }
+                    this.goodsData.push(obj)
+                })
             });
             const ortherData = {
                 peisongType: 'kd',
@@ -187,36 +283,51 @@ export default {
             Object.assign(this.pushData,this.defaultAddress,ortherData)
             // 下单接口
             this.$http.creatOrder(this.pushData).then((res)=>{
-                console.log(res)
+                this.pushData['goodsJsonStr'] = []
+                this.$toast.success('添加成功，暂不支持支付，请联系管理员')
+                this.$router.push({ path: '/orderList' })
                 // 支付接口再说
             })
-        }
+        },
+        reload () {
+            this.isRouterAlive = false
+            this.$nextTick(() => (this.isRouterAlive = true))
+        },
+    },
+    beforeCreate() {
+    },
+    watch: {
+        counter(val,oldval){
+            var number = 0
+            this.infoData.forEach((e,i) => {
+                number += 1
+            })
+            if(val == number) {
+                this.loading = false
+                this.$toast.clear()
+            }
+        },
     },
     created() {
-        this.$toast.loading({ forbidClick: true });
-        this.infoData = JSON.parse(localStorage.getItem('orderData'))
-        var counter = 0;
+        this.$toast.loading({ duration: 0,forbidClick: true });
+        this.counter = 0
+        this.infoData = JSON.parse(sessionStorage.getItem('orderData'))
         this.getDefaultAddress() //获取默认地址还是重新选择
         this.infoData.forEach((ele,i) => {
             this.getDetail(ele)
-              setTimeout(() => {
-                counter++;
-                if(counter === this.infoData.length){
-                    this.loading = false
-                    this.$toast.clear()
-                }
-            }, i * 1000) 
         })
     },
     mounted() {
     },
+    activated() {
+        this.getDefaultAddress() //获取默认地址还是重新选择
+    },
     beforeRouteLeave(to, from, next) {
-        if(to.path == '/address') {
+        const status = to.path == '/address';
+        this.$store.commit('updateAliveList', { name: 'placeOrder', status: status });
+        setTimeout(() => {
             next();
-        } else {
-            localStorage.removeItem('orderData')
-            next();
-        }
+        }, 0)
     }
 }
 </script>

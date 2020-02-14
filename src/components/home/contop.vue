@@ -112,77 +112,19 @@
                 <span class="more">更多></span> 
             </div>
             <div class="newPro_con">
-                <div class="newPro_list">
-                    <div class="newPro_img">
-                        <img v-lazy="hot3" alt="">
-                    </div>
-                    <div class="newPro_title">
-                        <span class="title_val">sssssssssss</span>
-                    </div>
-                    <div class="newPro_price">
-                        <span class="newPrice">￥66</span>
-                        <span class="priceTitle">特价</span>
-                    </div>
-                </div>
-                <div class="newPro_list">
-                    <div class="newPro_img">
-                        <img v-lazy="hot3" alt="">
-                    </div>
-                    <div class="newPro_title">
-                        <span class="title_val">sssssssssss</span>
-                    </div>
-                    <div class="newPro_price">
-                        <span class="newPrice">￥66</span>
-                        <span class="priceTitle">特价</span>
-                    </div>
-                </div>
-                <div class="newPro_list">
-                    <div class="newPro_img">
-                        <img v-lazy="hot3" alt="">
-                    </div>
-                    <div class="newPro_title">
-                        <span class="title_val">sssssssssss</span>
-                    </div>
-                    <div class="newPro_price">
-                        <span class="newPrice">￥66</span>
-                        <span class="priceTitle">特价</span>
-                    </div>
-                </div>
-                <div class="newPro_list">
-                    <div class="newPro_img">
-                        <img v-lazy="hot3" alt="">
-                    </div>
-                    <div class="newPro_title">
-                        <span class="title_val">sssssssssss</span>
-                    </div>
-                    <div class="newPro_price">
-                        <span class="newPrice">￥66</span>
-                        <span class="priceTitle">特价</span>
-                    </div>
-                </div>
-                <div class="newPro_list">
-                    <div class="newPro_img">
-                        <img v-lazy="hot3" alt="">
-                    </div>
-                    <div class="newPro_title">
-                        <span class="title_val">sssssssssss</span>
-                    </div>
-                    <div class="newPro_price">
-                        <span class="newPrice">￥66</span>
-                        <span class="priceTitle">特价</span>
-                    </div>
-                </div>
-                <div class="newPro_list">
-                    <div class="newPro_img">
-                        <img v-lazy="hot3" alt="">
-                    </div>
-                    <div class="newPro_title">
-                        <span class="title_val">sssssssssss</span>
-                    </div>
-                    <div class="newPro_price">
-                        <span class="newPrice">￥66</span>
-                        <span class="priceTitle">特价</span>
-                    </div>
+                <div class="newPro_list" v-for="item in newShopList" :key="item.id">
+                     <router-link :to="{path:'/detailsIndex',query:{id:item.id}}">
+                        <div class="newPro_img">
+                            <img v-lazy="item.pic" alt="">
+                        </div>
+                        <div class="newPro_title">
+                            <span class="title_val">{{item.name}}</span>
+                        </div>
+                        <div class="newPro_price">
+                            <span class="newPrice">￥{{item.minPrice}}</span>
+                            <span class="priceTitle">特价</span>
+                        </div>
+                     </router-link>
                 </div>
             </div>
         </div>
@@ -205,6 +147,15 @@ export default {
             groupImg1: require('../../assets/images/group1.png'),
             groupImg2: require('../../assets/images/group2.png'),
         }
+    },
+    props:['newShopList'],
+    computed: {
+        newList(){
+            return this.newShopList
+        }
+    },
+    created() {
+        console.log(this.newShopList)
     },
 }
 </script>

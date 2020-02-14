@@ -69,6 +69,7 @@ axios.interceptors.response.use(response => {
     }
     // message.err(err.message)
       console.log(err.message)
+      Notify({ type: 'danger', message: err.message });
       return Promise.resolve(err.response)
 })
 
@@ -145,5 +146,38 @@ export default {
             // }
         })
       })
-     }
+    },
+    file(url, data) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url,
+          data: data,
+          header: {
+            "content-type": 'multipart/form-data'
+          },
+          cancelToken: new CancelToken(c => {
+            cancel = c
+          })
+        }).then(res => {
+          if (res.data.code == 2000) {
+            Dialog.confirm({
+              message: '请先进行登录'
+            }).then(() => {
+              router.push({ path: '/login' })
+            }).catch(() => {
+              // on cancel
+            });
+          } else {
+            resolve(res)
+          }
+
+          // if(res.data.code == 0){
+          //   resolve(res)
+          // } else {
+          //     Notify({ type: 'danger', message: res.data.msg });
+          // }
+        })
+      })
+    },
   }

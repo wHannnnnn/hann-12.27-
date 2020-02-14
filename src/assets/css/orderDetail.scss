@@ -2,6 +2,15 @@
 .orderDetail {
     .content {
         margin-top: set(100px);
+        padding-bottom: set(100px);
+        .detail_type {
+            padding: set(40px);
+            background: #fff;
+            margin-bottom: set(20px);
+            .van-count-down {
+                color: #e7352c
+            }
+        }
         .detail_address {
             margin-bottom: set(20px)
         }
@@ -74,6 +83,66 @@
                 }
             }
         }
-
+        .order_info{
+            padding: set(20px);
+            background: #fff;
+            .order_info_con {
+                height: set(40px);
+                line-height: set(40px);
+                margin-bottom: set(10px);
+                .order_info_title {
+                    color: #828282;
+                    margin-right: set(40px)
+                }
+            }
+        }
+        .order_price {
+            padding: set(20px);
+            background: #fff;
+            .order_info_con {
+                height: set(40px);
+                line-height: set(40px);
+                margin-bottom: set(10px);
+                display: flex;
+                justify-content: space-between;
+                .order_info_title {
+                    color: #828282;
+                }
+            }
+            .real {
+                display: flex;
+                justify-content: flex-end;
+                .realName {
+                    margin-right: set(10px)
+                }
+                .realPrice {
+                    color: #e7352c;
+                    font-size: set(36px);
+                    span {
+                        font-size: set(24px)
+                    }
+                }
+            }
+        }
+    }
+    .order_bottom {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: set(100px);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .van-button {
+            height: set(54px);
+            line-height: set(42px);
+            border-radius: set(30px);
+            color: #646566;
+            padding: 0 set(30px);
+            font-size: set(24px);
+            margin-right: set(20px)
+        }
     }
 }

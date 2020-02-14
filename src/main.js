@@ -18,7 +18,8 @@ Vue.prototype.mui = mui
 import '@/assets/css/index.css'
 import url from '@/assets/js/request'
 Vue.prototype.$http = url
-
+import tools from '@/assets/js/tools'
+Vue.prototype.$tools = tools
 // Vue.directive('focus', {
 //   inserted: function(el) {
 //     el.focus()

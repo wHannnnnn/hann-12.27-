@@ -91,11 +91,15 @@
         line-height: set(28px);
         border-radius: set(32px)
     }
+    .logOut {
+        .van-button {
+            width: 100%
+        }
+    }
 }
 .setting {
     .content {
         margin-top: set(100px);
-
         .user {
             display: flex;
             .avatar {
@@ -115,6 +119,45 @@
                 }
                 .level {
                     font-size: set(24px)
+                }
+            }
+        }
+    }
+}
+.resetPwd {
+    margin-top: set(100px)
+}
+.user_modify {
+    .content{
+        margin-top: set(100px);
+        .avatar {
+            text-align: center;
+            background: #fff;
+            img {
+                border-radius: 50%;
+                width: set(200px);
+                height: set(200px)
+            }
+            .uploadAva {
+                font-size: set(28px);
+                padding: set(20px)
+            }
+        }
+        .name {
+            .van-cell {
+                padding: set(10px) set(30px)
+            }
+            .van-field__label {
+                display: flex;
+                align-items: center;
+                width: set(120px);
+            }
+            .van-field__body {                
+                input {
+                    border: none;
+                    margin-bottom: 0;
+                    color: #7f7f7f;
+                    font-size: set(28px)
                 }
             }
         }

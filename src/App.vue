@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-        <keep-alive>
-            <router-view v-if="$route.meta.keepAlive"></router-view>
+        <keep-alive :include="keepAliveList">
+            <router-view></router-view>
         </keep-alive>
-        <router-view v-if="!$route.meta.keepAlive"></router-view>
+        <!-- <router-view v-if="!$route.meta.keepAlive"></router-view> -->
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
+    computed: {
+      ...mapState(['keepAliveList'])
+    },
     methods: {
 
     }, 
