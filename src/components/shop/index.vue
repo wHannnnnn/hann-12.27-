@@ -189,14 +189,11 @@ export default {
   },
   activated() {
     if (this.first == true) {
-      console.log(1)
       this.getCartInfo()
       sessionStorage.removeItem('cartRefresh')
       this.first = false
     } else {
       if(sessionStorage.getItem('cartRefresh')) {
-          console.log(2)
-
           this.getCartInfo()
           sessionStorage.removeItem('cartRefresh')
       }
@@ -209,7 +206,6 @@ export default {
     getCartInfo(){
       this.$toast.loading({ duration: 0,forbidClick: true });
       this.$http.getCartInfo().then((res)=>{
-        console.log(res)
         if(res.data.code == 0) {
           this.goods = []
           this.checkedGoods = []
@@ -223,7 +219,10 @@ export default {
           this.isLoading = false
           this.loading = false
           this.$toast.clear()
-          return 
+        } else if(res.data.code == 700) {
+          this.isLoading = false
+          this.loading = false
+          this.$toast.clear()
         }
       })
     },

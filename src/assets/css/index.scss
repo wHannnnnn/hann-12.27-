@@ -2,7 +2,7 @@
 @import "base.scss";
 html{
     width: 100%;
-    height: 100%;
+    height: 100%;   
     font-size:16px;
 }   
 body{
@@ -19,10 +19,24 @@ body{
 }
 .van-toast {
     width: 100%;
-    padding: set(10px)
+    padding: set(10px);
+    font-size: set(28px);
+    line-height: set(40px);
+    border-radius: set(4px);
 }
 .van-tag {
     font-size: set(24px)
+}
+.van-tabs--line .van-tabs__wrap {
+    height: set(88px)
+}
+.van-tabs__nav--line {
+    padding-bottom: set(15px)
+}
+.van-tab {
+    line-height: set(88px);
+    font-size: set(28px);
+    padding: 0 set(10px)
 }
 @import "home.scss";
 @import "navIndex.scss";
@@ -35,3 +49,5 @@ body{
 @import "placeOrder.scss";
 @import "myOrder.scss";
 @import "orderDetail.scss";
+@import "discount.scss";
+@import "product.scss";

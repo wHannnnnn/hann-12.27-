@@ -58,6 +58,14 @@
                         padding-left: set(100px);
                         display: flex;
                         justify-content: space-between;
+                        .logisticsTitle {
+                            display: flex;
+                            align-items: center
+                        }
+                        .van-icon {
+                            margin-left: set(4px);
+                            margin-top: set(-2px)
+                        }
                     }
                 }
                 .con_bottom {
@@ -73,6 +81,18 @@
                         color: #e7352c;
                     }
                 }
+            }
+        }
+    }
+    .discounts {
+        font-size: set(24px);
+        .dis_right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            .van-icon {
+                margin-left: set(4px);
+                margin-top: set(-2px)
             }
         }
     }

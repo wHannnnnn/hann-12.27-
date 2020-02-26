@@ -21,6 +21,16 @@
                         error-message=""
                     />
                     <van-field
+                        v-if="step == 1"
+                        v-model="yzm"
+                        center
+                        clearable
+                        placeholder="请输入验证码"
+                        error-message=""
+                    >   
+                        <img :src="pic" slot="button" alt="" @click="changeYzm">
+                    </van-field>
+                    <van-field
                         v-if="step == 2"
                         v-model="sms"
                         center
@@ -51,6 +61,9 @@ export default {
         return {
             phone: null,
             password: null,
+            pic: null,
+            key: '',
+            yzm: '',
             step: 1,
             sms: null,
             time: null,
@@ -87,10 +100,10 @@ export default {
                 var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
                 if (!reg.test(this.phone)) {
                     this.$toast("手机号格式不正确");
+                } else if(this.key == ''){
+                    this.$toast("请输入验证码");
                 } else {
-                    this.step = 2
-                    // 获取验证码
-                    this.sendSms()
+                    this.chenckYzm()
                 }
             } else {
                 // 注册接口
@@ -105,6 +118,34 @@ export default {
                 mobile: this.phone,
             }
             this.$http.getSms(params).then((res)=>{})
+        },
+        // 获取图形验证码
+        sendYzm(){
+            this.key = ('000000000' + Math.floor(Math.random() * 999999999)).slice(-9)
+            this.$http.getPic({key: this.key}).then((res)=>{
+                this.pic = window.URL.createObjectURL(res.data)
+            })
+        },
+        // 切换验证码
+        changeYzm(){
+            this.sendYzm()
+        },
+        // 校验验证码
+        chenckYzm(){
+            var params = {
+                key: this.key,
+                code: this.yzm
+            }
+            this.$http.checkPic(params).then((res)=>{
+                if(res.data.code == 0) {
+                    this.step = 2
+                    // 获取验证码
+                    this.sendSms()
+                } else {
+                    this.$toast(res.data.msg)
+                    this.changeYzm()
+                }
+            })
         },
         // 用户注册
         userRegis(){
@@ -130,6 +171,9 @@ export default {
         finish(){
             this.smsDisabled = false
         }
+    },
+    created() {
+        this.sendYzm()
     },
 }
 </script>

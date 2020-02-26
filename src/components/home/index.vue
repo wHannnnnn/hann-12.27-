@@ -73,7 +73,6 @@ export default {
       this.newShop()
       this.shopList = []
       this.homePageNum = 1
-      this.loadmore()
     },
     // 上啦加载
     onLoad(){

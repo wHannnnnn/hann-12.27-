@@ -93,7 +93,10 @@
     }
     .logOut {
         .van-button {
-            width: 100%
+            width: 100%;
+            font-size: set(28px);
+            height: set(88px);
+            line-height: set(84px)
         }
     }
 }

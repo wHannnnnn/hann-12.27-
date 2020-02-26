@@ -1,6 +1,7 @@
 @import "variable.scss";
 .van-pull-refresh {
-    padding: set(100px) 0
+    padding-top: set(100px);
+    margin-bottom: set(100px)
 }
 .van-tabbar-item--active {
     color: #e7352c
@@ -320,11 +321,14 @@
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     font-size: set(28px);
-                    height: set(40px)
+                    height: set(46px);
+                    line-height: set(46px);
+                    margin-top: set(10px)
                 }
                 .newPro_price {
                     text-align: center;
-                    height: set(40px);
+                    height: set(46px);
+                    line-height: set(46px);
                     .oldPrice{
                         font-size: set(18px);
                         text-decoration: line-through

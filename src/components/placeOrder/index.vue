@@ -69,8 +69,9 @@
                                     <div class="logistics">
                                         <span>配送方式</span>
                                         <span v-if="items.logistics.isFree">快递 免邮</span>
-                                        <span v-else @click="changeLogistics(items.logistics.details,indexs)">
+                                        <span class="logisticsTitle" v-else @click="changeLogistics(items.logistics.details,indexs)">
                                             <span>{{findPrice(items.logistics.details,items.logisticsType,true)}}</span>
+                                            <van-icon name="arrow" />
                                         </span>
                                     </div>
                                 </div>
@@ -87,15 +88,36 @@
                                         </van-cell>
                                     </van-cell-group>
                                 </van-radio-group>
-                                <!-- <p v-for="logItem in logisticsData" :key="logItem.type" @click="changeLogisticsOne(logItem)">
-                                    <span v-if="logItem.type==0">快递 ￥{{logItem.firstAmount.toFixed(2)}}</span>
-                                    <span v-if="logItem.type==1">EMS ￥{{logItem.firstAmount.toFixed(2)}}</span>
-                                </p> -->
                             </van-action-sheet>
                         </template>
                     </van-cell>
                 </div>
+                <van-cell v-if="discountData&&discountData.length>0">
+                    <template slot="title">
+                        <div class="discounts">
+                            <div class="top">
+                                <van-row>
+                                    <van-col span="6" offset="4" class="userName van-ellipsis">商品优惠</van-col>
+                                    <van-col span="9" class="phone">{{discountName}}</van-col>
+                                    <van-col span="4" offset="1" class="dis_right" @click='discountClick'>
+                                        <span>￥{{discountPrice}}</span>
+                                        <van-icon name="arrow" />
+                                    </van-col>
+                                </van-row>
+                            </div>
+                        </div>
+                    </template>
+                </van-cell>
             </div>
+            <van-action-sheet v-model="discountsShow" title="选择优惠">
+                <van-radio-group v-model="discountId">
+                    <van-cell-group>
+                        <van-cell v-for="item in discountData" :key="item.id" :title="item.name" clickable @click="changLog(item)">
+                            <van-radio slot="right-icon" :name="item.id" />
+                        </van-cell>
+                    </van-cell-group>
+                </van-radio-group>
+            </van-action-sheet>
             <van-submit-bar
                 :disabled='disabled'
                 :price="allPrice"
@@ -115,6 +137,10 @@ export default {
         return {
             loading: true,
             logisticsShow: false,
+            discountsShow:false,
+            discountId: null,
+            discountName: null,
+            discountPrice: null,
             defaultAddress: {},
             addAddressShow: false,
             infoData: [], //发送过来的数据
@@ -124,8 +150,9 @@ export default {
             payData: [], //订单数据
             logisticsData: [], //地址列表
             logisticsIndex: null, //选中的索引
+            discountData: [],
             counter: 0,
-            newData: []
+            newData: [],
         }
     },
     computed: {
@@ -144,6 +171,7 @@ export default {
                     })
                     price +=  (eval(arr.join("+")) + obj.firstAmount)
                 })
+                price -= this.discountPrice
                 return price * 100
             }
         },
@@ -209,6 +237,27 @@ export default {
                 })
             }
         },
+        // 优惠券
+        myDiscounts(){
+            var price = 0
+            const arr = this.allOrderData.map(v => {
+                return v.price * v.number
+            })
+            price +=  eval(arr.join("+"))
+            var params = {
+                consumAmount: price,
+                status: 0
+            }
+            this.$http.myDiscounts(params).then((res)=>{
+                if(res.data.code == 0) {
+                    this.discountData = res.data.data
+                    let data = res.data.data.reduce((p,v) => p.money < v.money ? v : p)
+                    this.discountId = data.id
+                    this.discountName = data.name
+                    this.discountPrice = data.money
+                }
+            })
+        },
         //商品详情
         getDetail(data){
             var params = {
@@ -260,6 +309,15 @@ export default {
             Vue.set(this.allData[index],'logisticsType',type)
             this.logisticsShow = false
         },
+        discountClick(){
+            this.discountsShow = true
+        },
+        changLog(item){
+            this.discountId = item.id
+            this.discountName = item.name
+            this.discountPrice = item.money
+            this.discountsShow = false
+        },
         // 提交订单
         onSubmit(){
             this.allData.forEach(ele => {
@@ -274,6 +332,7 @@ export default {
                 })
             });
             const ortherData = {
+                couponId: this.discountId,
                 peisongType: 'kd',
                 expireMinutes: '30',
                 payOnDelivery: 0,
@@ -283,9 +342,12 @@ export default {
             Object.assign(this.pushData,this.defaultAddress,ortherData)
             // 下单接口
             this.$http.creatOrder(this.pushData).then((res)=>{
-                this.pushData['goodsJsonStr'] = []
-                this.$toast.success('添加成功，暂不支持支付，请联系管理员')
-                this.$router.push({ path: '/orderList' })
+                if(res.data.code == 0) {
+                    this.pushData['goodsJsonStr'] = []
+                    this.$toast.success('添加成功，暂不支持支付，请联系管理员')
+                } else {
+                    this.$toast(res.data.msg)
+                }
                 // 支付接口再说
             })
         },
@@ -303,6 +365,7 @@ export default {
                 number += 1
             })
             if(val == number) {
+                this.myDiscounts()
                 this.loading = false
                 this.$toast.clear()
             }
@@ -324,6 +387,9 @@ export default {
     },
     beforeRouteLeave(to, from, next) {
         const status = to.path == '/address';
+        if(to.path !== '/address') {
+            sessionStorage.removeItem('orderData')
+        }
         this.$store.commit('updateAliveList', { name: 'placeOrder', status: status });
         setTimeout(() => {
             next();

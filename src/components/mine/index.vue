@@ -20,16 +20,16 @@
           <span class="top_left">我的资产</span>
         </div>
         <van-grid :column-num="3">
-          <van-grid-item  info="9">
-            <div class="number">6</div>
+          <van-grid-item>
+            <div class="number">0</div>
             <div class="name">红包</div>
           </van-grid-item>
-          <van-grid-item  info="2">
-            <div class="number">6</div>
+          <van-grid-item @click="goDiscountDetails">
+            <div class="number">{{discountsLength}}</div>
             <div class="name">优惠券</div>
           </van-grid-item>
-          <van-grid-item  info="99+">
-            <div class="number">6</div>
+          <van-grid-item>
+            <div class="number">0</div>
             <div class="name">积分</div>
           </van-grid-item>
         </van-grid>
@@ -85,6 +85,7 @@ export default {
           },
         ],
         statistics: {},
+        discountsLength: 0
     }
   },
   computed: {
@@ -132,10 +133,21 @@ export default {
         this.orderList[2].info = res.data.data.count_id_no_confirm
         this.orderList[3].info = res.data.data.count_id_no_reputation
       })
+    },
+    // 我的优惠券
+    myDiscounts(){
+      this.$http.myDiscounts().then((res)=>{
+        this.discountsLength = res.data.data.length
+        this.discountsList = res.data.data
+      })
+    },
+    goDiscountDetails(){
+      this.$router.push({name: '优惠券',params:{data: this.discountsList}})
     }
   },
   created() {
     this.orderStatistics()
+    this.myDiscounts()
   },
   mounted() {
   },

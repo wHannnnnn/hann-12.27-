@@ -26,6 +26,8 @@ const url = {
 	discountsList: 'discounts/coupons',
 	// 领取优惠券
 	discountsFetch: 'discounts/fetch',
+	// 我的优惠券
+	myDiscounts: '/discounts/my',
 	// 创建订单
 	creatOrder: 'order/create',
 	// 订单列表
@@ -49,8 +51,12 @@ const url = {
 	// 登录模块
 	// 获取短信验证码
 	getSms: 'verification/sms/get',
+	// 获取图形验证码
+	getPic: 'verification/pic/get',
 	// 校验验证码
 	checkSms: 'verification/sms/check',
+	// 校验图形验证码
+	checkPic: 'verification/pic/check',
 	// 用户注册（手机号）
 	userRegister: 'user/m/register',
 	// 修改用户信息
@@ -73,7 +79,7 @@ const url = {
 	// 修改地址
 	updateAddress: 'user/shipping-address/update',
 	// 默认地址
-	defaultAddress: 'user/shipping-address/default/v2'
+	defaultAddress: 'user/shipping-address/default/v2',
 
 }
 

@@ -19,13 +19,11 @@ export default {
     computed: {
         firstList(){
             return this.navList.filter((ele,index) =>{
-                return index < 10
+                return ele.level == 1
             })
         }
     },
     mounted() {
-        console.log(this.navList);
-        
     },
 }
 </script>

@@ -19,6 +19,8 @@ const reputation = resolve => require(['@/components/reputation/index'], resolve
 const userModify = resolve => require(['@/components/userModify/index'], resolve)
 const resetPwd = resolve => require(['@/components/resetPwd/index'], resolve)
 const refundApply = resolve => require(['@/components/refundApply/index'], resolve)
+const discountDetails = resolve => require(['@/components/discountDetails/index'], resolve)
+const productList = resolve => require(['@/components/productList/index'], resolve)
 Vue.use(Router);
 
 export default new Router({
@@ -124,9 +126,19 @@ export default new Router({
       name: "修改密码",
       component: resetPwd,
     },
+    {
+      path: "/discountDetails",
+      name: "优惠券",
+      component: discountDetails,
+    },
+    {
+      path: "/productList",
+      name: "分类列表",
+      component: productList,
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
-    if (to.meta.keepAlive == true && to.meta.isBack == true){
+    if (to.meta.keepAlive == true){
       return { x: 0, y: to.meta.scrollTop ? to.meta.scrollTop : 0}
     } else {
       return { x: 0, y: 0 }

@@ -45,13 +45,20 @@
             padding: set(20px) set(32px);
             line-height: set(48px);
             font-size: set(28px);
+            .van-field__button {
+                width: 40%;
+                img {
+                    width: 100%
+                }
+            }
             input {
                 height: set(80px);
                 line-height: set(42px);
                 border: none;
                 border-bottom: 1px solid rgba(0, 0, 0, .2);
                 margin-bottom: 0;
-                padding: set(20px) set(30px)
+                padding: set(20px) set(30px);
+                font-size: set(28px)
             }
         }
     }

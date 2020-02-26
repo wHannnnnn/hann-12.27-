@@ -163,6 +163,7 @@ export default {
     name: 'detailsIndex',
     data() {
         return {
+            categoryFirst: true,
             avatar: require('../../assets/images/avatar.png'),
             active: 0,
             detailsList: [],
@@ -313,38 +314,50 @@ export default {
         },
         // 点击商品规格按钮
         categoriesClick(){
-            this.skuData.goods_id = this.detailsList.basicInfo.id //商品id
-            // 总库存 全部价格
-            this.skuData.sku.stock_num = this.detailsList.basicInfo.stores
-            this.headerPrice = `${this.detailsList.basicInfo.minPrice}~${this.detailsList.basicInfo.originalPrice}`
-            // 标题图片
-            this.skuData.goods_info.title = this.detailsList.basicInfo.name
-            this.skuData.goods_info.picture = this.detailsList.basicInfo.pic
-            // 规格列表
-            this.detailsList.properties.forEach((ele,i) => {
-                ele.v = ele.childsCurGoods
-                ele.k = ele.name
-                ele.k_s = "s" + (i+1)
-            });
-            // 规格组合
-            let arr = []
-            let [firstObj,secondObj] = this.detailsList.properties
-            firstObj.childsCurGoods.forEach(firstele => {
-                secondObj.childsCurGoods.forEach(secondele => {
-                    let obj = {}
-                    obj.s1 = firstele.id
-                    obj.s2 = secondele.id
-                    obj.stock_num =  this.skuData.sku.stock_num
-                    // obj.price =  this.detailsList.basicInfo.originalPrice * 100
-                    arr.push(obj)
+            // 判断首次点击
+            if(this.categoryFirst){
+                this.skuData.goods_id = this.detailsList.basicInfo.id //商品id
+                // 总库存 全部价格
+                this.skuData.sku.stock_num = this.detailsList.basicInfo.stores
+                this.headerPrice = `${this.detailsList.basicInfo.minPrice}~${this.detailsList.basicInfo.originalPrice}`
+                // 标题图片
+                this.skuData.goods_info.title = this.detailsList.basicInfo.name
+                this.skuData.goods_info.picture = this.detailsList.basicInfo.pic
+                // 规格列表
+                this.detailsList.properties.forEach((ele,i) => {
+                    ele.v = ele.childsCurGoods
+                    ele.k = ele.name
+                    ele.k_s = "s" + (i+1)
+                });
+                // 规格组合
+                let arr = []
+                let [firstObj,secondObj] = this.detailsList.properties
+                firstObj.childsCurGoods.forEach(firstele => {
+                    secondObj.childsCurGoods.forEach(secondele => {
+                        let obj = {}
+                        obj.s1 = firstele.id
+                        obj.s2 = secondele.id
+                        obj.stock_num =  this.skuData.sku.stock_num
+                        // obj.price =  this.detailsList.basicInfo.originalPrice * 100
+                        arr.push(obj)
+                    })
                 })
-            })
-            this.skuData.sku.list = arr
-            this.skuData.sku.tree = this.detailsList.properties //规格
+                this.skuData.sku.list = arr
+                this.skuData.sku.tree = this.detailsList.properties //规格
+                this.categoryFirst = false
+            }
             this.showBase = true
         },
         // 选择
         changeselect(skuValue){
+            for(let key in skuValue.selectedSku) {
+                let obj = this.detailsList.subPics.find((item)=>{
+                    return item.optionValueId == skuValue.selectedSku[key]
+                })
+                if(obj) {
+                    this.skuData.goods_info.picture = obj.pic
+                }
+            }
             if(skuValue.selectedSku.s1 !== '' && skuValue.selectedSku.s2 !== '') {
                 this.initialSku.s1 = skuValue.selectedSku.s1
                 this.initialSku.s2 = skuValue.selectedSku.s2
@@ -481,7 +494,7 @@ export default {
     mounted() {
     },
     beforeRouteLeave(to, from, next) {
-        const status = to.path == '/reputation';
+        const status = to.path == '/reputation' || to.path == '/placeOrder';
         this.$store.commit('updateAliveList', { name: 'detailsIndex', status: status });
         setTimeout(() => {
             next();

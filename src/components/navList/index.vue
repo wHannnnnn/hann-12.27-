@@ -3,33 +3,26 @@
         <div class="nav_search">
             <navTop/>
         </div>
-        <div class="nav_left mui-scroll-wrapper">
-            <div class="mui-scroll">
-                <ul class="mui-table-view">
-                    <li class="mui-table-view-cell" v-for="(item,index) in navList" :key="index" @click="navClick(item,index)">
-                        <router-link tag="div" :to="'navIndex?id=' + item.id"><div :class="isActive == index?'active' : ''">{{item.value}}</div></router-link>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="nav_right mui-scroll-wrapper">
-            <div class="mui-scroll">
-                <div class="right_top">
-                    <img v-lazy="rightList.listImg" alt="">
+        <van-tabs v-model="activeName">
+            <van-tab v-for="(item,index) in allData" :name="item.id+''" :title="item.name" :key="item.id">
+                <div class="nav_right">
+                    <div class="mui-scroll" v-if="item.children.length>0">
+                        <div class="right_con" v-for="items in item.children" :key="items.id">
+                            <div class="right_top_title">{{items.name}}</div>
+                            <ul>
+                                <li v-for="item1 in items.children" @click="goProduct(item1)">
+                                    <div class="rightImg">
+                                        <img v-lazy="item1.icon" alt="">
+                                    </div>
+                                    <div class="rightTitle">{{item1.name}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="right_con" v-else>暂无数据</div>
                 </div>
-                <div class="right_con" v-for="item in rightList.listCon">
-                    <div class="right_top_title">{{item.value}}</div>
-                    <ul>
-                        <li v-for="item1 in item.children">
-                            <div class="rightImg">
-                                <img v-lazy="item1.imgsrc" alt="">
-                            </div>
-                            <div class="rightTitle">{{item1.value}}</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            </van-tab>
+        </van-tabs>
     </div>
 </template>
 <script>
@@ -41,134 +34,51 @@ export default {
     },
     data() {
         return {
-            navList:[
-                {
-                    id:0,
-                    value: '全球特色',
-                    active: true
-                },
-                {
-                    id:1,
-                    value: '推荐专区',
-                    active: false
-                },
-                {
-                    id:2,
-                    value: '爆品专区'
-                },
-                {
-                    id:3,
-                    value: '美食酒水'
-                },
-                {
-                    id:4,
-                    value: '个护清洁'
-                },
-                {
-                    id:5,
-                    value: '母婴亲子'
-                },
-
-                {
-                    id:8,
-                    value: '美食酒水'
-                },
-                {
-                    id:9,
-                    value: '推荐专区'
-                },
-                {
-                    id:10,
-                    value: '全球特色'
-                },
-                {
-                    id:11,
-                    value: '运动旅行'
-                },
-                {
-                    id:12,
-                    value: '全球特色'
-                },
-                {
-                    id:13,
-                    value: '数码家电'
-                },
-            ],
-            rightList:
-            {
-                listCon:[
-                    {
-                        id: 0,
-                        value: '精选美食',
-                        children: [
-                            {
-                                value: '新春好礼',
-                                imgsrc: require('../../assets/images/right1.jpg'),
-                            },
-                            {
-                                value: '新品首发',
-                                imgsrc: require('../../assets/images/right2.jpg'),
-                            },
-        
-                        ]
-                    },
-                    {
-                        id: 0,
-                        value: '休闲零食',
-                        children: [
-                            {
-                                value: '饼干糕点',
-                                imgsrc: require('../../assets/images/right3.png'),
-                            },
-                            {
-                                value: '小食糖巧',
-                                imgsrc: require('../../assets/images/right4.png'),
-                            },
-                            {
-                                value: '肉类零食',
-                                imgsrc: require('../../assets/images/right5.png'),
-                            }
-                        ]
-                    },
-                    {
-                        id: 0,
-                        value: '冲饮茗茶',
-                        children: [
-                            {
-                                value: '冲调饮品',
-                                imgsrc: require('../../assets/images/right6.png'),
-                            },
-                            {
-                                value: '传统茗茶',
-                                imgsrc: require('../../assets/images/right7.jpg'),
-                            },
-                            {
-                                value: '茗茶礼盒',
-                                imgsrc: require('../../assets/images/right8.png'),
-                            },
-                            {
-                                value: '茶包花茶',
-                                imgsrc: require('../../assets/images/right9.jpg'),
-                            }
-                        ]
-                    },
-                ],
-                listImg: require('../../assets/images/rightTop1.jpg'),
-            },
-            isActive: 0
+            allList: [],
+            childrenList: [],
+            isActive: 0,
+            activeName: null
         }
+    },
+    computed: {
+        allData(){
+            var newArr = []
+            this.allList.forEach(ele => {
+                if(ele.level == 1) {
+                    let level2Arr = this.allList.filter(v => {
+                        return ele.id == v.pid
+                    })
+                    if(level2Arr.length > 0) {
+                        level2Arr.forEach(e => {
+                            let level3Arr = this.allList.filter(v => {
+                                return e.id == v.pid
+                            })
+                            e.children = level3Arr
+                        })
+                    }
+                    ele.children = level2Arr
+                    newArr.push(ele)
+                }
+            });
+            return newArr
+        },
+        
     },
     methods: {
-        navClick(item,index){
-            this.isActive = index
+        categoryList(){
+            this.$http.category().then((res)=>{
+                this.allList = res.data.data
+            })
+        },
+        goProduct(items){
+            sessionStorage.setItem('productName',items.name)
+            this.$router.push({path: '/productList'})
         }
     },
+    created() {
+        this.categoryList()
+    },
     mounted() {
-        this.$route.query.id ? this.isActive = this.$route.query.id : 0
-        this.mui(".mui-scroll-wrapper").scroll({
-            deceleration: 0.0005,
-            indicators: false,
-        })
     },
 }
 </script>

@@ -58,6 +58,10 @@ const methods = {
 	discountsFetch: (params) => {
 		return http.post(api.discountsFetch, params)
 	},
+	// 我的优惠券
+	myDiscounts: (params) => {
+		return http.get(api.myDiscounts, params)
+	},
 	// 下单
 	creatOrder: (params) => {
 		return http.post(api.creatOrder, params)
@@ -146,6 +150,12 @@ const methods = {
 	defaultAddress: (params) => {
 		return http.get(api.defaultAddress, params)
 	},
-
+	// 验证码
+	getPic: (params) => {
+		return http.pic(api.getPic, params)
+	},
+	checkPic: (params) => {
+		return http.post(api.checkPic, params)
+	},
 }
 export default methods

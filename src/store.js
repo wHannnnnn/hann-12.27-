@@ -14,8 +14,7 @@ export default new Vuex.Store({
     updateAliveList(state, { name, status }) {
       const index = state.keepAliveList.indexOf(name);
       if (status) {
-        index >= 0 && state.keepAliveList.splice(index, 1);
-        state.keepAliveList.push(name);
+        index < 0 && state.keepAliveList.push(name);
       } else {
         index >= 0 && state.keepAliveList.splice(index, 1);
       }

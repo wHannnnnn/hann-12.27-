@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import router from "@/router";
-import { Dialog, Notify} from 'vant'
+import { Dialog, Notify, Toast} from 'vant'
 axios.defaults.baseURL = 'https://api.it120.cc/wanghan/'
 let CancelToken = axios.CancelToken;
 let cancel;
@@ -100,6 +100,7 @@ export default {
           })
         }).then(res => {
           if(res.data.code == 2000){
+            Toast.clear()
             Dialog.confirm({
               message: '请先进行登录'
             }).then(() => {
@@ -128,6 +129,7 @@ export default {
           })
         }).then(res => {
             if(res.data.code == 2000){
+              Toast.clear()
               Dialog.confirm({
                 message: '请先进行登录'
               }).then(() => {
@@ -161,6 +163,7 @@ export default {
           })
         }).then(res => {
           if (res.data.code == 2000) {
+            Toast.clear()
             Dialog.confirm({
               message: '请先进行登录'
             }).then(() => {
@@ -171,12 +174,21 @@ export default {
           } else {
             resolve(res)
           }
-
-          // if(res.data.code == 0){
-          //   resolve(res)
-          // } else {
-          //     Notify({ type: 'danger', message: res.data.msg });
-          // }
+        })
+      })
+    },
+    pic(url, param) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url,
+          responseType: 'blob',
+          params: Object.assign({ token: getToken() }, param),
+          cancelToken: new CancelToken(c => {
+            cancel = c
+          })
+        }).then(res => {
+            resolve(res)
         })
       })
     },

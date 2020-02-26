@@ -8,6 +8,7 @@
                 v-model="loading"
                 :finished="finished"
                 finished-text="没有更多订单了"
+                :error.sync="error"
                 error-text="请求失败，点击重新加载"
                 @load="getOrderList(active)"
             >
@@ -42,7 +43,7 @@ export default {
         return {
             active: '4',
             page: 1,
-            pageSize: 5,
+            pageSize: 10,
             goodsMap:{},
             logisticsMap: {},
             allData: {
@@ -52,6 +53,7 @@ export default {
             },
             loading: false,
             finished: false,
+            error: false
         }
     },
     components:{
@@ -79,20 +81,19 @@ export default {
             this.$http.orderList(params).then((res)=>{
                 this.finished = false
                 if(res.data.code == 0) {
-                    console.log(res.data.data)
-                    // this.allData = res.data.data
-                    // console.log(res.data.data)
                     this.allData.orderList = this.allData.orderList.concat(res.data.data.orderList)
                     this.allData.goodsMap = Object.assign(this.allData.goodsMap,res.data.data.goodsMap)
                     this.allData.logisticsMap = Object.assign(this.allData.logisticsMap,res.data.data.logisticsMap)
                     this.page ++
                     this.loading = false
-                    // if(res.data.data.length < this.pageSize){
-                    //     this.finished = true
-                    // }
+                    if(res.data.data.length < this.pageSize){
+                        this.finished = true
+                    }
                 } else {
                     this.finished = true
                 }
+            }).catch(()=>{
+                this.error = true
             })
         },
         // 确认收货

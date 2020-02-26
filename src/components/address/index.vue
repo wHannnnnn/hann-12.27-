@@ -83,6 +83,10 @@ export default {
                 sessionStorage.setItem('fromOrder',true)
             }
         });
+    },
+    beforeRouteLeave (to, from, next) {
+        sessionStorage.removeItem('fromOrder')
+        next()
     }
 }
 </script>
