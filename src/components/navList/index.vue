@@ -71,8 +71,13 @@ export default {
             })
         },
         goProduct(items){
-            sessionStorage.setItem('productName',items.name)
-            this.$router.push({path: '/productList'})
+            if(items.key == '1') {
+                sessionStorage.setItem('productObj',JSON.stringify({id: items.id,name:items.name}))
+                this.$router.push({path: '/productList'})
+            } else {
+                sessionStorage.setItem('productName',items.name)
+                this.$router.push({path: '/productList'})
+            }
         }
     },
     created() {

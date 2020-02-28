@@ -21,6 +21,7 @@ const resetPwd = resolve => require(['@/components/resetPwd/index'], resolve)
 const refundApply = resolve => require(['@/components/refundApply/index'], resolve)
 const discountDetails = resolve => require(['@/components/discountDetails/index'], resolve)
 const productList = resolve => require(['@/components/productList/index'], resolve)
+const categoryList = resolve => require(['@/components/categoryList/index'], resolve)
 Vue.use(Router);
 
 export default new Router({
@@ -133,8 +134,13 @@ export default new Router({
     },
     {
       path: "/productList",
-      name: "分类列表",
+      name: "列表",
       component: productList,
+    },
+    {
+      path: "/categoryList",
+      name: "分类列表",
+      component: categoryList,
     },
   ],
   scrollBehavior(to, from, savedPosition) {

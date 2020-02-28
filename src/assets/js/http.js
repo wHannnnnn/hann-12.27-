@@ -111,6 +111,8 @@ export default {
           } else {
             resolve(res)
           }
+        }).catch((res)=>{
+          reject(res)
         })
       })
     },
@@ -140,12 +142,8 @@ export default {
             } else {
               resolve(res)
             }
-            
-            // if(res.data.code == 0){
-            //   resolve(res)
-            // } else {
-            //     Notify({ type: 'danger', message: res.data.msg });
-            // }
+        }).catch((res) => {
+          reject(res)
         })
       })
     },
@@ -189,6 +187,8 @@ export default {
           })
         }).then(res => {
             resolve(res)
+        }).catch((res) => {
+          reject(res)
         })
       })
     },

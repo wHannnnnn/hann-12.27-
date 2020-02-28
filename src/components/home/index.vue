@@ -3,11 +3,17 @@
     <div class="app_top">
       <van-nav-bar fixed>
           <div class="search" slot="left">
-              <div class="search_con">请输入内容</div>
+              <div class="search_con" @click="goProduct">请输入内容</div>
           </div>
           <van-icon name="search" slot="right"/>
       </van-nav-bar>
     </div>
+      <van-skeleton
+        class="shopske"
+        :row="6"
+        row-width = []
+        :loading="skeLoading"
+      >
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
             <van-list
               v-model="loading"
@@ -31,6 +37,7 @@
               </div>
             </van-list>
         </van-pull-refresh>
+      </van-skeleton>
   </div>
 </template>
 <script>
@@ -45,6 +52,7 @@ export default {
   },
   data() {
     return {
+      skeLoading: true,
       isLoading: false,
       loading: false,
       error: false,
@@ -103,28 +111,22 @@ export default {
     categoryList(){
       this.$http.category().then((res)=>{
         this.navList = res.data.data
+        this.skeLoading = false
+        this.$toast.clear()
       })
     },
-    // 新品首发
-    newShop(){
-        var params = {
-          page: 1,
-          pageSize: 6,
-          orderBy: 'addedDown',
-        }
-        this.$http.shopList(params).then((res)=>{
-          this.newShopList = res.data.data
-        })
+    goProduct(){
+        this.$router.push({path: '/productList'})
     }
   },
   created() {
-  },
+    },
   mounted() {
-  },
+    },
   activated() {
     if (this.first == true) {
+      this.$toast.loading({ duration: 0,forbidClick: true });
       this.categoryList()
-      this.newShop()
       this.first = false
     }
   },

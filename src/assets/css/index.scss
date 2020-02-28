@@ -38,6 +38,9 @@ body{
     font-size: set(28px);
     padding: 0 set(10px)
 }
+.van-nav-bar .van-icon {
+    color: #e7352c
+}
 @import "home.scss";
 @import "navIndex.scss";
 @import "shopcar.scss";

@@ -89,10 +89,14 @@ export default {
                     if(res.data.data.length < this.pageSize){
                         this.finished = true
                     }
+                    this.$toast.clear()
                 } else {
+                    this.$toast.clear()
                     this.finished = true
                 }
             }).catch(()=>{
+                this.$toast.clear()
+                this.finished = true
                 this.error = true
             })
         },

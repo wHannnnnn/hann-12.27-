@@ -1,5 +1,5 @@
 <template>
-   <van-swipe :autoplay="3000" indicator-color="white">
+   <van-swipe :autoplay="3000" indicator-color="white" :stop-propagation="false">
         <van-swipe-item><img v-lazy="img1" alt=""></van-swipe-item>
         <van-swipe-item><img v-lazy="img2" alt=""></van-swipe-item>
    </van-swipe>

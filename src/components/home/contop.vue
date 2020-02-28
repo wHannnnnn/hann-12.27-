@@ -5,13 +5,10 @@
         </div>
         <!-- 拼团砍价 -->
         <div class="group">
-            <div class="group_top">
-                拼团砍价专区
-            </div>
             <div class="group_con">
-                <div class="group_con_con">
+                <div class="group_con_con" @click="goCategory">
                    <div class="groupTitle">
-                       拼团
+                       新品首发
                        <span class="groupText">一元起包邮</span>
                     </div>
                    <div class="groupImg">
@@ -20,8 +17,8 @@
                 </div>
                 <div class="group_con_con">
                     <div class="groupTitle">
-                        砍价
-                         <span class="groupText">一元起包邮</span>
+                        排行榜
+                         <span class="groupText">跟榜购好物</span>
                     </div>
                     <div class="groupImg">
                        <img v-lazy="groupImg2" alt="">
@@ -31,82 +28,29 @@
         </div>
         <!-- 热销榜 -->
         <div class="hotNav">
-            <div class="hotTop">
-                <span>类目热销榜</span>
-            </div>
             <div class="hot_con">
                 <!-- 顶部 -->
                 <div class="hot_con_top">
                     <div class="hot_con_top_con">
                         <div class="hottext">
-                            热销榜
+                            每日秒杀
                         </div>
                         <div class="hotImg">
                             <img v-lazy="hot1" alt="">
                         </div>
                     </div>
                     <div class="hot_con_top_con">
-                        <div class="hottext">好评榜</div>
+                        <div class="hottext">每日特价</div>
                         <div class="hotImg">
                             <img v-lazy="hot2" alt="">
                         </div>
                     </div>
                 </div>
-                <!-- 底部 -->
-                <div class="hot_con_bottom">
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot3" alt="">
-                        </div>
-                    </div>
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot4" alt="">
-                        </div>
-                    </div>
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot5" alt="">
-                        </div>
-                    </div>
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot6" alt="">
-                        </div>
-                    </div>
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot7" alt="">
-                        </div>
-                    </div>
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot8" alt="">
-                        </div>
-                    </div>
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot9" alt="">
-                        </div>
-                    </div>
-                    <div class="bottom_list">
-                        <div class="bottom_title">服饰鞋包榜</div>
-                        <div class="bottom_img">
-                            <img v-lazy="hot10" alt="">
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
         <!-- 新品首发 -->
-        <div class="newProducts">
+        <!-- <div class="newProducts">
             <div class="newTop">
                 <span class="topTitle">新品首发</span>
                 <span class="more">更多></span> 
@@ -127,7 +71,7 @@
                      </router-link>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -154,8 +98,12 @@ export default {
             return this.newShopList
         }
     },
+    methods: {
+        goCategory(){
+            this.$router.push({path: '/categoryList'})
+        }
+    },
     created() {
-        console.log(this.newShopList)
     },
 }
 </script>

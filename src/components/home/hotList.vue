@@ -11,7 +11,7 @@
                         <div class="shop_img">
                             <img v-lazy="item.pic" alt="">
                         </div>
-                        <div class="shop_title">
+                        <div class="shop_title van-multi-ellipsis--l2">
                             {{item.name}}
                         </div>
                         <div class="pintuan" v-if="item.pintuan || item.kanjia">
@@ -20,6 +20,9 @@
                         </div>
                         <div class="price">
                             <span class="newprice">￥{{item.minPrice}}</span>
+                        </div>
+                        <div class="numberSells">
+                            <span>{{item.numberSells}}人付款</span>
                         </div>
                     </router-link>
                 </div>
@@ -31,7 +34,7 @@
                         <div class="shop_img">
                             <img v-lazy="item.pic" alt="">
                         </div>
-                        <div class="shop_title">
+                        <div class="shop_title van-multi-ellipsis--l2">
                             {{item.name}}
                         </div>
                         <div class="pintuan" v-if="item.pintuan || item.kanjia">
@@ -40,6 +43,9 @@
                         </div>
                         <div class="price">
                             <span class="newprice">￥{{item.minPrice}}</span>
+                        </div>
+                        <div class="numberSells">
+                            <span>{{item.numberSells}}人付款</span>
                         </div>
                     </router-link>
                 </div>
