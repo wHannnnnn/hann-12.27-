@@ -19,6 +19,9 @@ export default new Vuex.Store({
         index >= 0 && state.keepAliveList.splice(index, 1);
       }
     },
+    resetAlive(state){
+      state.keepAliveList = ['index']
+    },
     //token uid存储
     handleToken: (state, data) => {
       state.token = data.token

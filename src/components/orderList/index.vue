@@ -12,7 +12,7 @@
                 error-text="请求失败，点击重新加载"
                 @load="getOrderList(active)"
             >
-                <van-tabs v-model="active" @click="tabChange" sticky>
+                <van-tabs v-model="active" :animated='true' @click="tabChange" sticky>
                     <van-tab title="全部" name="4">
                         <alldata :alldata="allData"/>
                     </van-tab>
@@ -65,11 +65,14 @@ export default {
         },
         // tab切换
         tabChange(name){
-            console.log(111)
+            this.$router.replace({path: '/orderList',query:{status:name}})
             this.allData.orderList = []
             this.allData.goodsMap = {}
             this.allData.logisticsMap = {}
             this.page = 1
+            this.loading = true
+            this.finished = false
+            this.error = false
             this.getOrderList(name)
         },
         getOrderList(status){

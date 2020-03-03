@@ -78,7 +78,7 @@
                                         <span v-if="item.numberGoodReputation > 0">{{item.numberGoodReputation}}
                                             <span v-if="item.numberGoodReputation > 10">条评价 </span>
                                         </span>
-                                        <span v-if="item.numberGoodReputation > 0">{{zhuan(item.numberGoodReputation,item.numberOrders).toFixed(0)}}好评</span>
+                                        <span v-if="item.numberGoodReputation > 0">{{zhuan(item.numberGoodReputation,item.numberOrders).toFixed(0)}}%好评</span>
                                         <span v-if="item.numberGoodReputation == 0">暂无评价</span>
                                     </div>
                                 </router-link>
@@ -163,6 +163,7 @@ export default {
         },
         historyClick(value){
             this.productName = value
+            this.$router.replace({path: '/productList',query:{name: value}})
             this.searchCon = false
             this.reset()
             var arr = JSON.parse(localStorage.getItem('searchValue'))
@@ -241,21 +242,18 @@ export default {
     },
     created() {
         this.getHistory()
-        if(sessionStorage.getItem('productObj')) {
-            this.categoryId = JSON.parse(sessionStorage.getItem('productObj')).id
-            this.categoryName = JSON.parse(sessionStorage.getItem('productObj')).name
-            console.log(sessionStorage.getItem('productObj'))
-        } else if(sessionStorage.getItem('productName')){
+        if(this.$route.query.id && this.$route.query.name) {
+            this.categoryId = this.$route.query.id
+            this.categoryName = this.$route.query.name
+        } else if(!this.$route.query.id && this.$route.query.name){
             this.searchCon = false
-            this.productName = sessionStorage.getItem('productName')
+            this.productName = this.$route.query.name
         } else {
             this.searchCon = true
         }
     },
     beforeRouteLeave(to, from, next) {
         const status = to.path == '/detailsIndex'
-        status == false && sessionStorage.removeItem('productName')
-        status == false && sessionStorage.removeItem('productObj')
         this.$store.commit('updateAliveList', { name: 'productList', status: status });
         setTimeout(() => {
             next();

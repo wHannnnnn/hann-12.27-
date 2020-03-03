@@ -109,5 +109,14 @@ export default {
     },
     created() {
     },
+    beforeRouteLeave (to, from, next) {
+        const status = to.path == '/detailsIndex'
+        if(!status) {
+            this.$store.commit('resetAlive');
+        }
+        setTimeout(() => {
+            next();
+        }, 0)
+    }
 }
 </script>

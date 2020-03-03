@@ -85,8 +85,14 @@ export default {
         });
     },
     beforeRouteLeave (to, from, next) {
+        const status = to.path == '/placeOrder';
+        if(!status) {
+            this.$store.commit('resetAlive');
+        }
         sessionStorage.removeItem('fromOrder')
-        next()
+        setTimeout(() => {
+            next();
+        }, 0)
     }
 }
 </script>

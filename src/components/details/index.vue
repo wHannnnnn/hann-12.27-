@@ -495,6 +495,9 @@ export default {
     },
     beforeRouteLeave(to, from, next) {
         const status = to.path == '/reputation' || to.path == '/placeOrder';
+        if(!status && to.path !== '/productList'&& to.path !== '/categoryList') {
+            this.$store.commit('resetAlive');
+        }
         this.$store.commit('updateAliveList', { name: 'detailsIndex', status: status });
         setTimeout(() => {
             next();

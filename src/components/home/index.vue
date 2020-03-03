@@ -77,10 +77,11 @@ export default {
     loadfirst(){
       this.finished = false;
       this.isLoading = false;
+      this.$toast.loading({ duration: 0,forbidClick: true });
       this.categoryList()
-      this.newShop()
       this.shopList = []
       this.homePageNum = 1
+      this.loadmore()
     },
     // 上啦加载
     onLoad(){

@@ -6,7 +6,7 @@
         <van-tabs v-model="activeName">
             <van-tab v-for="(item,index) in allData" :name="item.id+''" :title="item.name" :key="item.id">
                 <div class="nav_right">
-                    <div class="mui-scroll" v-if="item.children.length>0">
+                    <div v-if="item.children.length>0">
                         <div class="right_con" v-for="items in item.children" :key="items.id">
                             <div class="right_top_title">{{items.name}}</div>
                             <ul>
@@ -72,11 +72,10 @@ export default {
         },
         goProduct(items){
             if(items.key == '1') {
-                sessionStorage.setItem('productObj',JSON.stringify({id: items.id,name:items.name}))
-                this.$router.push({path: '/productList'})
+                // sessionStorage.setItem('productObj',JSON.stringify({id: items.id,name:items.name}))
+                this.$router.push({path: '/productList',query: {id: items.id,name:items.name}})
             } else {
-                sessionStorage.setItem('productName',items.name)
-                this.$router.push({path: '/productList'})
+                this.$router.push({path: '/productList',query: {name: items.name}})
             }
         }
     },

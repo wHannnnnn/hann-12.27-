@@ -374,11 +374,16 @@ export default {
     created() {
         this.$toast.loading({ duration: 0,forbidClick: true });
         this.counter = 0
-        this.infoData = JSON.parse(sessionStorage.getItem('orderData'))
-        this.getDefaultAddress() //获取默认地址还是重新选择
-        this.infoData.forEach((ele,i) => {
-            this.getDetail(ele)
-        })
+        if(!JSON.parse(sessionStorage.getItem('orderData'))) {
+            this.$router.go(-1)
+            this.$toast.clear()
+        }  else {
+            this.infoData = JSON.parse(sessionStorage.getItem('orderData'))
+            this.getDefaultAddress() //获取默认地址还是重新选择
+            this.infoData.forEach((ele,i) => {
+                this.getDetail(ele)
+            })
+        }
     },
     mounted() {
     },
@@ -387,8 +392,12 @@ export default {
     },
     beforeRouteLeave(to, from, next) {
         const status = to.path == '/address';
-        if(to.path !== '/address') {
+        if(!status) {
             sessionStorage.removeItem('orderData')
+        }
+        if(!status && to.path !== '/detailsIndex') {
+            sessionStorage.removeItem('orderData')
+            this.$store.commit('resetAlive');
         }
         this.$store.commit('updateAliveList', { name: 'placeOrder', status: status });
         setTimeout(() => {

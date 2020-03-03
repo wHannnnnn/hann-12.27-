@@ -31,8 +31,7 @@ export default {
     },
     methods: {
         goProduct(items){
-            sessionStorage.setItem('productObj',JSON.stringify({id: items.id,name:items.name}))
-            this.$router.push({path: '/productList'})
+            this.$router.push({path: '/productList',query: {id: items.id,name:items.name}})
         }
     },
     mounted() {
