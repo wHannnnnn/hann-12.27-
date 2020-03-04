@@ -5,12 +5,12 @@
       </van-nav-bar>
       <div class="mine_top bgc-radius-shadow">
           <div class="avatar">
-            <img v-lazy='userDetail.avatarUrl?userDetail.avatarUrl:avatar' alt=""> 
+            <img v-lazy='userDetail?userDetail.avatarUrl:avatar' alt=""> 
           </div>
           <div class="right">
             <div class="login" @click='login' v-if="!userDetail">登录/注册></div>
             <div class="userDetail" v-else>
-              <div class="userName">{{userDetail.nick?userDetail.nick:phoneReplace(userDetail.mobile)}}</div>
+              <div class="userName">{{userDetail?userDetail.nick:phoneReplace(userDetail.mobile)}}</div>
               <div class="level">普通用户</div>
             </div>
           </div>
@@ -42,7 +42,7 @@
           <van-grid-item v-for="item in orderList" @click="goOrderList(item.status)" :icon="item.icon" :text="item.title" :key="item.id" :info="item.info==0? '' : item.info"/>
         </van-grid>
       </div>
-      <div class="logOut margin-bottom">
+      <div class="logOut margin-bottom" v-if="userDetail">
           <van-button type="default" @click='logOut'>退出登录</van-button>
       </div>
   </div>
@@ -91,7 +91,7 @@ export default {
   computed: {
     ...mapState(['loginUser']),
     userDetail(){
-      return JSON.parse(this.loginUser)
+      return this.loginUser?JSON.parse(this.loginUser):null
     }
   },
   methods: {
@@ -103,14 +103,15 @@ export default {
         return this.$tools.phoneReplace(tel)
     },
     logOut(){
-            this.$dialog.confirm({
-                message: '确认退出？',
-                cancelButtonText: '取消'
-            }).then(() => {
-                this.loginOut()
-                this.$router.push({path: '/login'})
-            }).catch(() => {
-            });
+      this.$dialog.confirm({
+          message: '确认退出？',
+          cancelButtonText: '取消'
+      }).then(() => {
+          this.loginOut()
+          this.$store.commit('resetChildrenAlive')
+          this.$router.push({path: '/login'})
+      }).catch(() => {
+      });
     },
     goSet(){
       this.$router.push({path: '/setting'})
@@ -128,17 +129,21 @@ export default {
     // 订单统计
     orderStatistics(){
       this.$http.orderStatistics().then((res)=>{
-        this.orderList[0].info = res.data.data.count_id_no_pay
-        this.orderList[1].info = res.data.data.count_id_no_transfer
-        this.orderList[2].info = res.data.data.count_id_no_confirm
-        this.orderList[3].info = res.data.data.count_id_no_reputation
+        if(res.data.code == 0) {
+          this.orderList[0].info = res.data.data.count_id_no_pay
+          this.orderList[1].info = res.data.data.count_id_no_transfer
+          this.orderList[2].info = res.data.data.count_id_no_confirm
+          this.orderList[3].info = res.data.data.count_id_no_reputation
+        }
       })
     },
     // 我的优惠券
     myDiscounts(){
       this.$http.myDiscounts().then((res)=>{
-        this.discountsLength = res.data.data.length
-        this.discountsList = res.data.data
+        if(res.data.code == 0){
+          this.discountsLength = res.data.data.length
+          this.discountsList = res.data.data
+        }
       })
     },
     goDiscountDetails(){

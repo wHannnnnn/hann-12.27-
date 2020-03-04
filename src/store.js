@@ -8,7 +8,8 @@ export default new Vuex.Store({
     token: localStorage.getItem('token'),
     uid: localStorage.getItem('uid'),
     loginUser: localStorage.getItem('loginUser'),
-    keepAliveList: ['index']
+    keepAliveList: ['index'],
+    childrenAlive: []
   },
   mutations: {
     updateAliveList(state, { name, status }) {
@@ -19,8 +20,19 @@ export default new Vuex.Store({
         index >= 0 && state.keepAliveList.splice(index, 1);
       }
     },
-    resetAlive(state){
+    resetAlive(state) {
       state.keepAliveList = ['index']
+    },
+    updateClildrenAliveList(state, { name, status }) {
+      const index = state.childrenAlive.indexOf(name);
+      if (status) {
+        index < 0 && state.childrenAlive.push(name);
+      } else {
+        index >= 0 && state.childrenAlive.splice(index, 1);
+      }
+    },
+    resetChildrenAlive(state) {
+      state.childrenAlive = []
     },
     //token uid存储
     handleToken: (state, data) => {
@@ -42,5 +54,4 @@ export default new Vuex.Store({
       state.loginUser = null;
     },
   },
-  actions: {}
 });

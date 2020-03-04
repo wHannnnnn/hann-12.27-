@@ -11,9 +11,9 @@ Vue.use(Vant)
 import { Lazyload } from 'vant';
 Vue.use(Lazyload);
 // mui
-import './lib/mui/css/mui.css'
-import mui from './lib/mui/js/mui.js'
-Vue.prototype.mui = mui
+// import './lib/mui/css/mui.css'
+// import mui from './lib/mui/js/mui.js'
+// Vue.prototype.mui = mui
 
 import '@/assets/css/index.css'
 import url from '@/assets/js/request'

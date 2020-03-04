@@ -29,6 +29,7 @@
 import navTop from './navTop'
 import Vue from 'vue'
 export default {
+    name: 'navIndex',
     components:{
         navTop
     },
@@ -83,6 +84,12 @@ export default {
         this.categoryList()
     },
     mounted() {
+    },
+    beforeRouteLeave(to, from, next) {
+        this.$store.commit('updateClildrenAliveList', { name: 'navIndex', status: true });
+        setTimeout(() => {
+            next();
+        }, 0)
     },
 }
 </script>

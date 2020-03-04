@@ -121,15 +121,21 @@ export default {
     }
   },
   created() {
+      if (this.first == true) {
+        this.$toast.loading({ duration: 0,forbidClick: true });
+        this.categoryList()
+        this.first = false
+      }
     },
   mounted() {
     },
   activated() {
-    if (this.first == true) {
-      this.$toast.loading({ duration: 0,forbidClick: true });
-      this.categoryList()
-      this.first = false
-    }
+  },
+  beforeRouteLeave(to, from, next) {
+      this.$store.commit('updateClildrenAliveList', { name: 'homeIndex', status: true });
+      setTimeout(() => {
+          next();
+      }, 0)
   },
 };
 </script>

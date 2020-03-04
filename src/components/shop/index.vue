@@ -8,7 +8,7 @@
     <van-skeleton
       title
       :row="3"
-      :loading="loading"
+      :loading="loginUser?loading:false"
     >
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <div class="content"
@@ -119,7 +119,7 @@
         <van-checkbox v-model="checkedAll">全选</van-checkbox>
       </van-submit-bar>
       <div class="no-data"
-        v-if="!goods.length">
+        v-if="!buyGoods.length || !loginUser">
         <!-- <img src="../../assets/no-cart.png"
           alt=""> -->
         <div class="no-data-title">购物车空荡荡</div>
@@ -134,6 +134,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import {mapState} from 'vuex'
 export default {
   name: 'shopIndex',
   data() {
@@ -150,6 +151,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['loginUser']),
     submitBarText() {
       const count = this.checkedGoods.length
       return '结算' + (count ? `(${count})` : '')
@@ -187,18 +189,6 @@ export default {
       this.checkedGoods.length > 0 && this.checkedGoods.length === this.buyGoods.length?this.checkedAll = true:this.checkedAll = false
     }
   },
-  activated() {
-    if (this.first == true) {
-      this.getCartInfo()
-      sessionStorage.removeItem('cartRefresh')
-      this.first = false
-    } else {
-      if(sessionStorage.getItem('cartRefresh')) {
-          this.getCartInfo()
-          sessionStorage.removeItem('cartRefresh')
-      }
-    }
-  },
   methods: {
     onRefresh(){
       this.getCartInfo()
@@ -213,13 +203,13 @@ export default {
           this.goods = res.data.data.items
           this.goods.forEach((v,i) => {
               this.getPrice(v).then((res)=>{
-                Vue.set(this.goods[i],'stores',res.data.data.stores)
+                Vue.set(this.goods[i],'stores',res.data.data?res.data.data.stores:0)
               })
           });
           this.isLoading = false
           this.loading = false
           this.$toast.clear()
-        } else if(res.data.code == 700) {
+        } else {
           this.isLoading = false
           this.loading = false
           this.$toast.clear()
@@ -353,8 +343,24 @@ export default {
      }
   },
   created() {
+    if (this.first == true) {
+      this.getCartInfo()
+      this.first = false
+    }
+  },
+  activated() {
+    if(sessionStorage.getItem('cartRefresh')){
+        this.getCartInfo()
+        sessionStorage.removeItem('cartRefresh')
+    }
   },
   mounted() {
+  },
+  beforeRouteLeave(to, from, next) {
+      this.$store.commit('updateClildrenAliveList', { name: 'shopIndex', status: true });
+      setTimeout(() => {
+          next();
+      }, 0)
   },
 }
 </script>

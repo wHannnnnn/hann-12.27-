@@ -16,6 +16,9 @@
             }
         }
     }
+    .van-tabs__content {
+        flex: 1
+    }
     .van-tab__text, .van-tabs {
         display: flex;
     }

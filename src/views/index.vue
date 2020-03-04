@@ -1,9 +1,8 @@
 <template>
     <div>
-        <keep-alive>
-            <router-view v-if="$route.meta.keepAlive"></router-view>
+        <keep-alive :include="childrenAlive">
+            <router-view></router-view>
         </keep-alive>
-        <router-view v-if="!$route.meta.keepAlive"></router-view>
         <div class="app_bottom">
             <bottom/>
         </div>
@@ -11,10 +10,14 @@
 </template>
 <script>
 import bottom from '@/components/layout/bottom.vue'
+import { mapState } from 'vuex'
 export default {
     name: 'index',
     components: {
         bottom
+    },
+    computed: {
+      ...mapState(['childrenAlive'])
     },
     methods: {
         handleScroll(e){ 
