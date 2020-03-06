@@ -10,9 +10,18 @@
             </div>
             <van-cell-group>
                 <van-field
-                    v-model="phone"
+                    :value="phone"
+                    readonly
+                    clickable
                     placeholder="请输入手机号"
                     error-message=""
+                    @touchstart.native.stop="show = true"
+                />
+                <van-number-keyboard
+                v-model="phone"
+                :show="show"
+                :maxlength="11"
+                @blur="show = false"
                 />
                 <van-field
                     v-model="password"
@@ -36,8 +45,9 @@ export default {
     data() {
         return {
             hot1: require('../assets/images/logo.png'), 
-            phone: null,
+            phone: '',
             password: null,
+            show: false
         }
     },
     methods: {
@@ -57,6 +67,19 @@ export default {
             this.$router.push({path: '/regis'})
         },
         login(){
+            var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+            if (!this.phone) {
+                this.$toast("请输入手机号")
+                return
+            }
+            if (!this.password) {
+                this.$toast("请输入密码")
+                return
+            }
+            if (!reg.test(this.phone)) {
+                this.$toast("手机号格式不正确")
+                return
+            }
             var params = {
                 deviceId: '001',
                 deviceName: 'onPlus',

@@ -7,11 +7,20 @@
             <van-cell-group>
                     <van-field
                         v-if="step == 1"
-                        v-model="phone"
+                        :value="phone"
+                        readonly
+                        clickable
                         type="tel"
                         placeholder="请输入手机号"
                         :error='error'
                         error-message=""
+                        @touchstart.native.stop="show = true"
+                    />
+                    <van-number-keyboard
+                        v-model="phone"
+                        :show="show"
+                        :maxlength="11"
+                        @blur="show = false"
                     />
                     <van-field
                         v-if="step == 1"
@@ -59,7 +68,7 @@
 export default {
     data() {
         return {
-            phone: null,
+            phone: '',
             password: null,
             pic: null,
             key: '',
@@ -68,7 +77,8 @@ export default {
             sms: null,
             time: null,
             smsDisabled: true,
-            error: false
+            error: false,
+            show: false
         }
     },
     computed: {

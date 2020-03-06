@@ -13,6 +13,9 @@
                 padding-left: set(20px);
                 display: flex;
                 background: #fff;
+                .van-hairline--top-bottom:after {
+                    border: none
+                }
                 .van-dropdown-menu {
                     height: 100%;
                     &__title {
@@ -60,7 +63,7 @@
                 .shop_list {
                     width: set(368px);
                     background: #fff;
-                    border-radius: set(30px);
+                    border-radius: set(20px);
                     margin-bottom: set(20px);
                     padding: 0;
                     padding-bottom: set(20px);

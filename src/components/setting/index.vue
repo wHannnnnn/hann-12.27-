@@ -34,7 +34,6 @@ import {mapState, mapMutations} from 'vuex'
 export default {
     data() {
         return {
-            hot1: require('../../assets/images/hot1.png'),             
         }
     },
     computed: {

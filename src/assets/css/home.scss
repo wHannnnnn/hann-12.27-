@@ -91,6 +91,7 @@
     margin: 0
 }
 .app_banner {
+    height: set(380px);
     // margin-top: set(100px);
     img {
         width: 100%;
@@ -181,7 +182,7 @@
     // 拼团
     .group {
         background: #fff;
-        padding: set(20px);
+        padding: set(20px) 0;
         margin: set(20px) 0;
         .group_top {
             font-size: set(36px);
@@ -225,7 +226,7 @@
     // 热销
     .hotNav {
         background: #fff;
-        padding: set(20px);
+        padding: set(20px) 0;
         padding-right: set(10px);
         .hotTop{
             text-align: left;
@@ -376,17 +377,18 @@
    .shopBottom {
        display: flex;
        flex-wrap: wrap;
-       padding: set(10px) set(0px) set(20px) set(20px);
        box-sizing: border-box;
+       .shop_lr:nth-child(1) {
+           margin-right: set(10px);
+       }
        .shop_lr {
-           width: set(332px);
-           margin-right: set(20px);
+           width: set(360px);
            .shop_list {
                background: #fff;
-               border-radius: set(6px);
+               border-radius: set(20px);
                width: 100%;
                margin-bottom: set(20px);
-               padding: set(10px);
+               overflow: hidden;
                padding-bottom: set(20px);
                box-sizing: border-box;
                .shop_img {

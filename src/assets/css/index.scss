@@ -44,6 +44,27 @@ body{
 .van-nav-bar .van-icon {
     color: #e7352c
 }
+.van-dialog {
+    width: set(640px);
+    font-size: set(32px);
+    border-radius: set(32px);
+    .van-dialog__message{
+        padding: set(48px);
+        font-size: set(28px);
+        line-height: set(40px);
+    }
+    .van-button {
+        font-size: set(28px);
+        height: set(100px);
+        line-height: set(96px);
+    }
+}
+.van-key {
+    height: set(108px);
+    font-size: set(48px);
+    font-style: normal;
+    line-height: set(108px);
+}
 @import "home.scss";
 @import "navIndex.scss";
 @import "shopcar.scss";

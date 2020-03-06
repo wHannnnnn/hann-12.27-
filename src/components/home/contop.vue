@@ -80,14 +80,6 @@ export default {
         return {
             hot1: require('../../assets/images/hot1.png'),
             hot2: require('../../assets/images/hot2.png'),
-            hot3: require('../../assets/images/hot3.png'),
-            hot4: require('../../assets/images/hot4.png'),
-            hot5: require('../../assets/images/hot5.png'),
-            hot6: require('../../assets/images/hot6.png'),
-            hot7: require('../../assets/images/hot7.png'),
-            hot8: require('../../assets/images/hot8.png'),
-            hot9: require('../../assets/images/hot9.png'),
-            hot10: require('../../assets/images/hot10.png'),
             groupImg1: require('../../assets/images/group1.png'),
             groupImg2: require('../../assets/images/group2.png'),
         }

@@ -2,6 +2,9 @@ import http from './http.js'
 import api from './api.js'
 // 请求方法
 const methods = {
+	banner: (params) => {
+		return http.get(api.banner, params)
+	},
 	// 商品分类
 	category: (params) => {
 		return http.get(api.category, params)

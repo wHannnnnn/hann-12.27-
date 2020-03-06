@@ -73,10 +73,9 @@
     // }
     .nav_right {
         background-color: #fff;
-        width: calc(100% - 2.18rem);
-        top: set(90px);
-        left: set(164px);
+        width: 100%;
         padding: set(30px) set(15px) set(30px) set(30px);
+        box-sizing: border-box;
         .right_top {
             height: set(200px);
             padding-right: set(60px);

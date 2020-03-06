@@ -24,7 +24,7 @@
               @load="onLoad"
             >
               <div class="app_banner">
-                <banner/>
+                <banner :bannerList='bannerList'/>
               </div>
               <div class="app_nav">
                 <navList :navList='navList' />
@@ -58,6 +58,7 @@ export default {
       error: false,
       pageSize: 2,
       dataList: [],
+      bannerList: [],
       navList: [], //导航
       newShopList: [], //新品
       finished: false,
@@ -78,6 +79,7 @@ export default {
       this.finished = false;
       this.isLoading = false;
       this.$toast.loading({ duration: 0,forbidClick: true });
+      this.getBanner()
       this.categoryList()
       this.shopList = []
       this.homePageNum = 1
@@ -108,6 +110,13 @@ export default {
           this.error = true;
       })
     },
+    getBanner(){
+      this.$http.banner().then((res)=>{
+        if(res.data.code == 0) {
+          this.bannerList = res.data.data
+        }
+      })
+    },
     // 获取分类
     categoryList(){
       this.$http.category().then((res)=>{
@@ -123,6 +132,7 @@ export default {
   created() {
       if (this.first == true) {
         this.$toast.loading({ duration: 0,forbidClick: true });
+        this.getBanner()
         this.categoryList()
         this.first = false
       }

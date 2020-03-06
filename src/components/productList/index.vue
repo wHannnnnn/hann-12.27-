@@ -32,7 +32,7 @@
                         <van-dropdown-item v-model="recommendStatus" @change="changeStatus" :options="option" />
                     </van-dropdown-menu>
                     <div class="orderBy" @click="ordersUp">
-                        <span class="leftTitle" :class="orderBy=='ordersUp'?'isActive':''">销量</span>
+                        <span class="leftTitle" :class="orderBy=='ordersDown'?'isActive':''">销量</span>
                     </div>
                     <div class="orderBy" @click="priceUp">
                         <span class="leftTitle" :class="orderBy=='priceUp'||orderBy=='priceDown'?'isActive':''">价格</span>
@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="goodReputation">
                                         <span v-if="item.numberGoodReputation > 0">{{item.numberGoodReputation}}
-                                            <span v-if="item.numberGoodReputation > 10">条评价 </span>
+                                            <span>条评价 </span>
                                         </span>
                                         <span v-if="item.numberGoodReputation > 0">{{zhuan(item.numberGoodReputation,item.numberOrders).toFixed(0)}}%好评</span>
                                         <span v-if="item.numberGoodReputation == 0">暂无评价</span>
@@ -120,6 +120,14 @@ export default {
                 if (value) {
                     el.focus()
                 }
+            }
+        }
+    },
+    watch: {
+        '$route': function (to,from) {
+            if(to.path == from.path){
+                this.getId()
+                this.reset()
             }
         }
     },
@@ -197,7 +205,7 @@ export default {
             this.reset()
         },
         changeStatus(value){
-            this.orderBy = null
+            // this.orderBy = null
             this.recommendStatus = value
             this.reset()
         },
@@ -239,18 +247,21 @@ export default {
                 this.finished = true
             })
         },
+        getId(){
+            if(this.$route.query.id && this.$route.query.name) {
+                this.categoryId = this.$route.query.id
+                this.categoryName = this.$route.query.name
+            } else if(!this.$route.query.id && this.$route.query.name){
+                this.searchCon = false
+                this.productName = this.$route.query.name
+            } else {
+                this.searchCon = true
+            }
+        }
     },
     created() {
         this.getHistory()
-        if(this.$route.query.id && this.$route.query.name) {
-            this.categoryId = this.$route.query.id
-            this.categoryName = this.$route.query.name
-        } else if(!this.$route.query.id && this.$route.query.name){
-            this.searchCon = false
-            this.productName = this.$route.query.name
-        } else {
-            this.searchCon = true
-        }
+        this.getId()
     },
     beforeRouteLeave(to, from, next) {
         const status = to.path == '/detailsIndex'

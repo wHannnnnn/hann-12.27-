@@ -120,7 +120,7 @@
                     <!-- 底部提交 -->
                     <van-goods-action>
                     <van-goods-action-icon icon="chat-o" text="收藏" @click="collect" />
-                    <van-goods-action-icon icon="cart-o" text="购物车" @click="goShopCar" info="12"/>
+                    <van-goods-action-icon icon="cart-o" text="购物车" @click="goShopCar" />
                     <van-goods-action-button type="warning" text="加入购物车" @click="addButton" />
                     <van-goods-action-button type="danger" text="立即购买" @click="buyButton" />
                     </van-goods-action>
@@ -266,6 +266,11 @@ export default {
         }
     },
     watch: {
+        '$route': function (to,from) {
+            if(to.path == from.path){
+                this.getDetails() 
+            }
+        }
     },
     methods: {
         reload () {
@@ -279,6 +284,7 @@ export default {
             return this.$tools.phoneReplace(tel)
         },
         getDetails(){
+            this.$toast.loading({ duration: 0,forbidClick: true });
             this.$http.shopDetail({id: this.$route.query.id}).then((res)=>{
                 if(res.status == 200) {
                     this.detailsList = res.data.data //详情
@@ -488,7 +494,6 @@ export default {
     }, 
     created() {
         this.loading = true
-        this.$toast.loading({ duration: 0,forbidClick: true });
         this.getDetails()  
     },
     mounted() {

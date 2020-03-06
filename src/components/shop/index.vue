@@ -119,7 +119,7 @@
         <van-checkbox v-model="checkedAll">全选</van-checkbox>
       </van-submit-bar>
       <div class="no-data"
-        v-if="!buyGoods.length || !loginUser">
+        v-if="!goods.length || !loginUser">
         <!-- <img src="../../assets/no-cart.png"
           alt=""> -->
         <div class="no-data-title">购物车空荡荡</div>
@@ -139,7 +139,7 @@ export default {
   name: 'shopIndex',
   data() {
     return {
-      loading: true,
+      loading: false,
       isLoading: false,
       show: true,
       active: 0,
@@ -197,7 +197,7 @@ export default {
       this.$toast.loading({ duration: 0,forbidClick: true });
       this.$http.getCartInfo().then((res)=>{
         if(res.data.code == 0) {
-          this.goods = []
+          // this.goods = []
           this.checkedGoods = []
           this.checkedAll = false
           this.goods = res.data.data.items

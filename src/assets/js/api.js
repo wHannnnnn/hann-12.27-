@@ -1,5 +1,6 @@
 // 接口
 const url = {
+	banner: 'banner/list',
 	// 分类列表
 	category: 'shop/goods/category/all',
 	// 商品列表
