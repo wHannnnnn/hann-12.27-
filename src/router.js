@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store";
 const index = resolve => require(['@/views/index'], resolve)
 const login = resolve => require(['@/views/login'], resolve)
 const regis = resolve => require(['@/views/regis'], resolve)
@@ -31,6 +32,7 @@ export default new Router({
       name: "index",
       component: index,
       redirect:'homeIndex',
+      meta: { keepAlive: true },
       children:[
         {
           path: "homeIndex",
@@ -91,6 +93,7 @@ export default new Router({
       path: "/placeOrder",
       name: "填写订单",
       component: placeOrder,
+      meta: { name: 'placeOrder' },
     },
     {
       path: "/orderList",
@@ -136,6 +139,7 @@ export default new Router({
       path: "/productList",
       name: "列表",
       component: productList,
+      meta: { name: 'productList' },
     },
     {
       path: "/categoryList",
@@ -144,11 +148,20 @@ export default new Router({
     },
   ],
   scrollBehavior(to, from, savedPosition) {
-    if (to.meta.keepAlive == true){
-      return { x: 0, y: to.meta.scrollTop ? to.meta.scrollTop : 0}
+    if (to.meta.keepAlive == true || store.state.keepAliveList.indexOf(to.meta.name) !== -1) {
+      return { x: 0, y: to.meta.scrollTop ? to.meta.scrollTop : 0 }
     } else {
       return { x: 0, y: 0 }
     }
+    // console.log(savedPosition)
+    // if (savedPosition){
+    //   return savedPosition
+    // } else {
+    //   if (from.meta.keepAlive){
+    //     from.meta.savedPosition = document.documentElement.scrollTop || document.body.scrollTop
+    //   }
+    //   return { x: 0, y: to.meta.savedPosition || 0 }
+    // }
   }
 
 });

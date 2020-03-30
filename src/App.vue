@@ -13,9 +13,12 @@ export default {
       ...mapState(['keepAliveList'])
     },
     methods: {
-
+      handleScroll(e){ 
+          this.$route.meta.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      },
     }, 
     mounted(){
+      window.addEventListener('scroll',this.handleScroll,true)
       var htmlWidth = document.documentElement.clientWidth || document.body.clientWidth;
 
       //获取页面的HTML Dom

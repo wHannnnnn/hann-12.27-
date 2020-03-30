@@ -56,7 +56,7 @@ export default {
       isLoading: false,
       loading: false,
       error: false,
-      pageSize: 2,
+      pageSize: 10,
       dataList: [],
       bannerList: [],
       navList: [], //导航
@@ -103,9 +103,9 @@ export default {
               if(res.data.data.length < this.pageSize){
                 this.finished = true
               }
-          }else{
-            this.finished = true
-          }
+            }else{
+              this.finished = true
+            }
         }).catch(() => {
           this.error = true;
       })

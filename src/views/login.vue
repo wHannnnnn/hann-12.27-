@@ -89,7 +89,8 @@ export default {
             this.$http.login(params).then((res)=>{
                 if(res.data.code == 0){
                     this.$notify({ type: 'success', message: '登录成功' });
-                    this.$store.commit('resetChildrenAlive');
+                    sessionStorage.setItem('cartRefresh',true)
+                    // this.$store.commit('updateClildrenAliveList', { name: 'shopIndex', status: false });
                     this.handleToken(res.data.data) //存储token
                     // 获取用户详情
                     this.getUserDetail(res.data.data.token) 

@@ -20,14 +20,14 @@ export default {
       ...mapState(['childrenAlive'])
     },
     methods: {
-        handleScroll(e){ 
-            this.$route.meta.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-        },
+        // handleScroll(e){ 
+        //     this.$route.meta.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        // },
     },
     mounted() {
-        if(this.$route.meta.keepAlive == true){
-            window.addEventListener('scroll',this.handleScroll,true)
-        } 
+        // if(this.$route.meta.keepAlive == true){
+        //     window.addEventListener('scroll',this.handleScroll,true)
+        // } 
     },
 }
 </script>

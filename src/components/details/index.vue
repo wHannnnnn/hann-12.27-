@@ -456,7 +456,7 @@ export default {
         },
         // 去评论页面
         goReputation(){
-            this.$router.push({path: 'reputation',query:{id: this.$route.query.id}})
+            this.$router.push({path: '/reputation',query:{id: this.$route.query.id}})
         },
         // 收藏
         collect(){
@@ -464,7 +464,7 @@ export default {
         },
         //加入购物车
         goShopCar(){
-            this.$router.push({path: 'shopIndex'})
+            this.$router.push({path: '/shopIndex'})
         },
         // 底部加入购物车按钮
         addButton(){

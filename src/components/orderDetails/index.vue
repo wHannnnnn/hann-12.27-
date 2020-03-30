@@ -73,10 +73,10 @@
                     <span class="order_info_title">运费</span>
                     <span class="order_info_right">+ ￥{{orderDetail.orderInfo.amountLogistics.toFixed(2)}}</span>
                 </div>
-                <div class="order_info_con">
+                <!-- <div class="order_info_con">
                     <span class="order_info_title">商品优惠</span>
                     <span class="order_info_right">- ￥{{orderDetail.orderInfo.amountLogistics.toFixed(2)}}</span>
-                </div>
+                </div> -->
                 <div class="real">
                     <span class="realName">实付款:</span>
                     <span class="realPrice">
@@ -117,7 +117,6 @@ export default {
         },
         getOrderDetails(){
             this.$http.orderDetail({id: this.$route.query.id}).then((res)=>{
-                console.log(res)
                 if(res.data.code == 0){
                     this.orderDetail = res.data.data
                 }

@@ -343,6 +343,7 @@ export default {
      }
   },
   created() {
+    console.log(this.first)
     if (this.first == true) {
       this.getCartInfo()
       this.first = false
@@ -357,7 +358,9 @@ export default {
   mounted() {
   },
   beforeRouteLeave(to, from, next) {
-      this.$store.commit('updateClildrenAliveList', { name: 'shopIndex', status: true });
+      const status = to.path !== '/login'
+      console.log(status)
+      this.$store.commit('updateClildrenAliveList', { name: 'shopIndex', status: status });
       setTimeout(() => {
           next();
       }, 0)

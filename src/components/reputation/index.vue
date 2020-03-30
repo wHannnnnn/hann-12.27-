@@ -22,7 +22,7 @@
                                     <van-rate v-model="item.goods.goodReputation" readonly :count="3"/>
                                 </div>
                             </div>
-                            <div class="repu_value van-multi-ellipsis--l2">{{item.goods.goodReputationRemark}}</div>
+                            <div class="repu_value">{{item.goods.goodReputationRemark}}</div>
                             <div class="picsList">
                                 <div class="pics" v-for="(img,imgIndex) in item.reputationPics" :key="img.id">
                                     <img v-lazy="img.pic" alt="" @click="getImg(item.reputationPics,imgIndex)">

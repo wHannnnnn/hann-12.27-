@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
                                 <div class="con_bottom">
-                                    <span class="allNumber">共{{items.number}}件</span>
+                                    <span class="allNumber">共{{allNumber}}件</span>
                                     小计:<span class="allPrice">￥{{(priceCal(items.origin) + findPrice(items.logistics.details,items.logisticsType,false)).toFixed(2)}}</span>
                                 </div>
                             </div>
@@ -208,6 +208,13 @@ export default {
                 this.newData = afterData
                 return afterData
             },
+        },
+        allNumber() {
+            var number = 0
+            this.allOrderData.forEach(val => {
+                number += val.number
+            })
+            return number
         }
     },
     methods: {

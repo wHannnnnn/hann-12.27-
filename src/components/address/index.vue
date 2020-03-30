@@ -85,11 +85,11 @@ export default {
         });
     },
     beforeRouteLeave (to, from, next) {
-        const status = to.path == '/placeOrder';
+        const status = to.path == '/placeOrder' || to.path == '/editAddress';
         if(!status) {
             this.$store.commit('resetAlive');
         }
-        sessionStorage.removeItem('fromOrder')
+        to.path !== '/editAddress' && sessionStorage.removeItem('fromOrder')
         setTimeout(() => {
             next();
         }, 0)

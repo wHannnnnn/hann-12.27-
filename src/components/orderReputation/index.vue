@@ -62,7 +62,9 @@ export default {
                 number += e.pics.length
             })
             if(val == number) {
-                this.submitNext(this.arr)
+                setTimeout(() => {
+                    this.submitNext(this.arr)
+                }, 300);
             }
         }
     },
@@ -73,12 +75,11 @@ export default {
         // 订单信息
         getOrderDetails(){
             this.$http.orderDetail({id: this.$route.query.id}).then((res)=>{
-                console.log(res)
                 if(res.data.code == 0){
                     res.data.data.goods.forEach(ele => {
                         ele.pics = []
                         ele.remark = ''
-                        ele.reputation = 1
+                        ele.reputation = 3
                     })
                     this.orderDetail = res.data.data
                 }
@@ -87,6 +88,29 @@ export default {
         submit(){
             this.$toast.loading({ duration: 0,forbidClick: true });
             this.arr = []
+            var imgLength = 0
+            var next = true
+            this.orderDetail.goods.forEach(e=>{
+                if (e.remark == ''){
+                    this.$toast('请输入评论内容')
+                    next = false
+                }
+                imgLength += e.pics.length
+            })
+            if(!next) return
+            if (imgLength == 0){
+                this.orderDetail.goods.forEach((e, i) => {
+                    var obj = {
+                    id: e.id,
+                    reputation: e.reputation - 1,
+                    remark: e.remark,
+                    pics: e.picArr
+                    }
+                    this.arr.push(obj)
+                })
+                this.submitNext(this.arr)
+                return
+            }
             this.counter = 0
             this.orderDetail.goods.forEach((e,i) => {
                 e.picArr = []

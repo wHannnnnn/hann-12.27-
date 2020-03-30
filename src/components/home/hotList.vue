@@ -14,10 +14,6 @@
                         <div class="shop_title van-multi-ellipsis--l2">
                             {{item.name}}
                         </div>
-                        <div class="pintuan" v-if="item.pintuan || item.kanjia">
-                            <van-tag class="rightTitle" plain v-if="item.pintuan">拼团</van-tag>
-                            <van-tag class="rightTitle" plain v-if="item.kanjia">砍价</van-tag>
-                        </div>
                         <div class="price">
                             <span class="newprice">￥{{item.minPrice}}</span>
                         </div>
@@ -36,10 +32,6 @@
                         </div>
                         <div class="shop_title van-multi-ellipsis--l2">
                             {{item.name}}
-                        </div>
-                        <div class="pintuan" v-if="item.pintuan || item.kanjia">
-                            <van-tag class="rightTitle" plain v-if="item.pintuan">拼团</van-tag>
-                            <van-tag class="rightTitle" plain v-if="item.kanjia">砍价</van-tag>
                         </div>
                         <div class="price">
                             <span class="newprice">￥{{item.minPrice}}</span>

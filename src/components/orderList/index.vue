@@ -39,6 +39,7 @@
 <script>
 import alldata from './alldata.vue'
 export default {
+    name: 'orderList',
     data() {
         return {
             active: '4',
@@ -47,6 +48,11 @@ export default {
             goodsMap:{},
             logisticsMap: {},
             allData: {
+                orderList: [],
+                goodsMap: {},
+                logisticsMap: {}
+            },
+            obj: {
                 orderList: [],
                 goodsMap: {},
                 logisticsMap: {}
@@ -73,9 +79,11 @@ export default {
             this.loading = true
             this.finished = false
             this.error = false
+            this.active = name
             this.getOrderList(name)
         },
         getOrderList(status){
+            this.$toast.loading({ duration: 0,forbidClick: true });
             var params = {
                 status: status=='4'?'':status,
                 page: this.page,
@@ -89,7 +97,7 @@ export default {
                     this.allData.logisticsMap = Object.assign(this.allData.logisticsMap,res.data.data.logisticsMap)
                     this.page ++
                     this.loading = false
-                    if(res.data.data.length < this.pageSize){
+                    if(res.data.data.orderList.length < this.pageSize){
                         this.finished = true
                     }
                     this.$toast.clear()
@@ -103,28 +111,47 @@ export default {
                 this.error = true
             })
         },
-        // 确认收货
-        orderDelivery(id,index){
-            this.$dialog.confirm({
-                message: `确定商品已收到吗?`,
-                cancelButtonText: '我再想想'
-            }).then(() => {
-                this.$http.orderDelivery({orderId: id}).then((res)=>{
-                    if(res.data.code == 0) {
-                        this.allData[index].status = 3
-                        this.$toast.success('收货成功')
+        refreshList(){
+            this.$toast.loading({ duration: 0,forbidClick: true });
+            var num = 0
+            this.fun(num)
+        },
+        fun(num){
+            if(num +1 >= this.page) return
+            var params = {
+                status: this.avtive,
+                page: num + 1,
+                pageSize: this.pageSize
+            }
+            this.$http.orderList(params).then((res)=>{
+                if(res.data.code == 0) {
+                    num += 1
+                    this.obj.orderList = this.obj.orderList.concat(res.data.data.orderList)
+                    this.obj.goodsMap = Object.assign(this.obj.goodsMap,res.data.data.goodsMap)
+                    this.obj.logisticsMap = Object.assign(this.obj.logisticsMap,res.data.data.logisticsMap)
+                    if(num+1 == this.page) {
+                        this.allData = JSON.parse(JSON.stringify(this.obj))
+                        this.$toast.clear()
+                        this.obj = {orderList: [],goodsMap:{},logisticsMap:{}}
                     }
-                })
+                    this.fun(num)
+                }
             })
         },
-        // 去评价
-        goReputation(id){
-            this.$router.push({path: '/orderReputation',query:{id: id}})
-        }
     },
     created() {
         this.$route.query.status? this.active = this.$route.query.status : this.active = '4'
         // this.getOrderList(this.$route.query.status)
+    },
+    activated() {
+        this.refreshList()
+    },
+    beforeRouteLeave(to, from, next) {
+        const status = to.path == '/orderDetails' || to.path == '/orderReputation'
+        this.$store.commit('updateAliveList', { name: 'orderList', status: status });
+        setTimeout(() => {
+            next();
+        }, 0)
     },
 }
 </script>
