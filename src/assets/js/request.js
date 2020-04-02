@@ -160,5 +160,8 @@ const methods = {
 	checkPic: (params) => {
 		return http.post(api.checkPic, params)
 	},
+	partner: (params) => {
+		return http.post(api.partner, params)
+	},
 }
 export default methods

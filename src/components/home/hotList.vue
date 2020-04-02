@@ -1,8 +1,5 @@
 <template>
     <div class="shop_con">
-        <div class="shopTop">
-            <span class="topTitle">热门商品</span>
-        </div>
         <div class="shopBottom">
             <!-- 左侧 -->
             <div class="shop_lr">            

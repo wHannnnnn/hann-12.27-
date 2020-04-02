@@ -81,6 +81,7 @@ const url = {
 	updateAddress: 'user/shipping-address/update',
 	// 默认地址
 	defaultAddress: 'user/shipping-address/default/v2',
+	partner: 'friendly-partner/list'
 
 }
 

@@ -116,7 +116,109 @@
         }
     }
 }
+.app_discount {
+    margin-bottom: set(20px);
+    padding: 0 set(20px);
+    .home_discount {
+        display: flex;
+        overflow: auto;
+        .home_dis_con {
+            width: set(200px);
+            flex-shrink: 0;
+            background: url('../images/log.png') no-repeat;
+            background-size: 100% 100%;
+            text-align: center;
+            color: #fff;
+            margin-right: set(4px);
+            .home_dis_top {
+                border-bottom: set(4px) dashed #fff;
+                padding: set(12px);
+                .money {
+                    font-size: set(40px);
+                    font-weight: 600;
+                }
+            }
+            .home_dis_bottom {
+                .van-button {
+                    background: #d62e009e;
+                    color: #fff;
+                    font-size: set(24px);
+                    height: set(44px);
+                    border: set(1px) solid #ee0a24
+                }
+            }
+        }
+    }
+}
 
+.app_hotshop{
+    .hot_shop {
+        margin-top: set(10px);
+        padding: 0 set(10px);
+        background: #fff;
+        .hotTitle {
+            padding: set(14px);
+            font-size: set(30px)
+        }
+        .shop_list {
+            width: set(192px);
+            padding: set(16px);
+            overflow: hidden;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            .shop_img {
+                width: 100%;
+                height: set(160px);
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+              }
+            }
+            .shop_title {
+                width: 100%;
+                font-size: set(24px);
+                height: set(70px);
+                line-height: set(35px);
+                margin-top: set(6px);
+                overflow: hidden;
+            }
+            .price {
+                height: set(40px);
+                padding: 0 set(10px);
+                line-height: set(60px);
+                font-size: set(38px);
+                color: #e7352c;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .newPrice {
+                    color: #e7352c;
+                    font-size: set(28px);
+                    margin-right: set(10px);
+                    height: set(30px);
+                    line-height: set(30px);
+                }
+                .oldPrice {
+                    color: #9c9c9c;
+                    font-size: set(20px);
+                    text-decoration: line-through;
+                    height: set(30px);
+                    line-height: set(30px);
+                }
+            }
+            .numberSells {
+                padding: 0 set(20px);
+                font-size: set(24px);
+            }
+        }
+        .more {
+            padding: set(16px);
+            background: #fff;
+            border-left: set(1px) solid #eee;
+            width: set(40px)
+        }
+}
 .app_bottom {
     width: 100%;
     height: set(100px);
@@ -183,7 +285,6 @@
     .group {
         background: #fff;
         padding: set(20px) 0;
-        margin: set(20px) 0;
         .group_top {
             font-size: set(36px);
             padding: set(20px) set(10px)
@@ -226,8 +327,6 @@
     // 热销
     .hotNav {
         background: #fff;
-        padding: set(20px) 0;
-        padding-right: set(10px);
         .hotTop{
             text-align: left;
             padding: set(20px);
@@ -239,14 +338,14 @@
             padding: set(10px);
             .hot_con_top{
                 display: flex;
+                justify-content: space-between;
                 .hot_con_top_con{
-                    width: set(388px);
+                    width: set(340px);
                     height: set(200px);
                     border-radius: set(6px);
                     display: flex;
                     align-items: center;
                     padding: set(10px);
-                    margin: 0 set(10px) 0 0;
                     .hottext {
                         width: 50%;
                         font-size: set(36px);

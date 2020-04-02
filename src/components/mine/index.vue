@@ -43,7 +43,7 @@
         </van-grid>
       </div>
       <div class="logOut margin-bottom" v-if="userDetail">
-          <van-button type="default" @click='logOut'>退出登录</van-button>
+          <van-button @click='logOut'>退出登录</van-button>
       </div>
   </div>
 </template>

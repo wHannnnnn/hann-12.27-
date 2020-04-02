@@ -29,8 +29,14 @@
               <div class="app_nav">
                 <navList :navList='navList' />
               </div>
+              <div class="app_discount">
+                <discount :discount='discountsList' />
+              </div>
+              <div class="app_hotshop">
+                <hotShop :hotShop='hotShopList' />
+              </div>
               <div class="app_con">
-                  <contop :newShopList="newShopList" />
+                  <contop :partnerList="partnerList" />
               </div>
               <div class="app_shopList">
                   <hotlist :shopList='shopList'/>
@@ -43,12 +49,14 @@
 <script>
 import banner from '@/components/home/banner.vue'
 import navList from '@/components/home/nav.vue'
+import discount from '@/components/home/discount.vue'
 import contop from '@/components/home/contop.vue'
 import hotlist from '@/components/home/hotList.vue'
+import hotShop from '@/components/home/hotShop.vue'
 export default {
   name: 'homeIndex',
   components: {
-    banner,navList,contop,hotlist
+    banner,navList,contop,hotlist,discount,hotShop
   },
   data() {
     return {
@@ -60,10 +68,12 @@ export default {
       dataList: [],
       bannerList: [],
       navList: [], //导航
-      newShopList: [], //新品
+      partnerList: [], //新品
       finished: false,
       homePageNum: 1,
       shopList: [],
+      discountsList: [],
+      hotShopList: [],
       first: true
     }
   },
@@ -81,9 +91,11 @@ export default {
       this.$toast.loading({ duration: 0,forbidClick: true });
       this.getBanner()
       this.categoryList()
+      this.getDiscountsList()
+      this.getHotList()
       this.shopList = []
       this.homePageNum = 1
-      this.loadmore()
+      // this.loadmore()
     },
     // 上啦加载
     onLoad(){
@@ -92,8 +104,7 @@ export default {
     async loadmore(){
         var params = {
           page: this.homePageNum,
-          pageSize: this.pageSize,
-          recommendStatus: 1
+          pageSize: this.pageSize
         }
         this.$http.shopList(params).then((res)=>{
             if(res.data.code == 0){
@@ -125,6 +136,35 @@ export default {
         this.$toast.clear()
       })
     },
+    // 获取优惠券
+    getDiscountsList() {
+      this.$http.discountsList().then((res) => {
+        if(res.data.code == 0){
+          this.discountsList = res.data.data
+        }
+      })
+    },
+    // 获取首页图片
+    getPartner() {
+      this.$http.partner().then((res) => {
+        if(res.data.code == 0){
+          this.partnerList = res.data.data
+        }
+      })
+    },
+    // 获取热门商品
+    getHotList(){
+      var params = {
+        page: 1,
+        pageSize: 10,
+        orderBy: 'ordersDown'
+      }
+      this.$http.shopList(params).then((res) => {
+        if (res.data.code == 0) {
+            this.hotShopList = res.data.data
+        }
+      })
+    },
     goProduct(){
         this.$router.push({path: '/productList'})
     }
@@ -133,7 +173,10 @@ export default {
       if (this.first == true) {
         this.$toast.loading({ duration: 0,forbidClick: true });
         this.getBanner()
+        this.getPartner()
         this.categoryList()
+        this.getDiscountsList()
+        this.getHotList()
         this.first = false
       }
     },

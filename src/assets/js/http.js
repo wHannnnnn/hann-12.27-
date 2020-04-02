@@ -112,6 +112,7 @@ export default {
             resolve(res)
           }
         }).catch((res)=>{
+          Toast.clear()
           reject(res)
         })
       })
@@ -143,6 +144,7 @@ export default {
               resolve(res)
             }
         }).catch((res) => {
+          Toast.clear();
           reject(res)
         })
       })

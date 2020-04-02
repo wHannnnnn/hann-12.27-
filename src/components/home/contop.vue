@@ -12,7 +12,7 @@
                        <span class="groupText">一元起包邮</span>
                     </div>
                    <div class="groupImg">
-                       <img v-lazy="groupImg1" alt="">
+                       <img v-lazy="partnerList[0].picUrl" alt="">
                    </div>
                 </div>
                 <div class="group_con_con">
@@ -21,7 +21,7 @@
                          <span class="groupText">跟榜购好物</span>
                     </div>
                     <div class="groupImg">
-                       <img v-lazy="groupImg2" alt="">
+                       <img v-lazy="partnerList[1].picUrl" alt="">
                    </div>
                 </div>
             </div>
@@ -36,42 +36,19 @@
                             每日秒杀
                         </div>
                         <div class="hotImg">
-                            <img v-lazy="hot1" alt="">
+                            <img v-lazy="partnerList[2].picUrl" alt="">
                         </div>
                     </div>
                     <div class="hot_con_top_con">
                         <div class="hottext">每日特价</div>
                         <div class="hotImg">
-                            <img v-lazy="hot2" alt="">
+                            <img v-lazy="partnerList[3].picUrl" alt="">
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-        <!-- 新品首发 -->
-        <!-- <div class="newProducts">
-            <div class="newTop">
-                <span class="topTitle">新品首发</span>
-                <span class="more">更多></span> 
-            </div>
-            <div class="newPro_con">
-                <div class="newPro_list" v-for="item in newShopList" :key="item.id">
-                     <router-link :to="{path:'/detailsIndex',query:{id:item.id}}">
-                        <div class="newPro_img">
-                            <img v-lazy="item.pic" alt="">
-                        </div>
-                        <div class="newPro_title">
-                            <span class="title_val">{{item.name}}</span>
-                        </div>
-                        <div class="newPro_price">
-                            <span class="newPrice">￥{{item.minPrice}}</span>
-                            <span class="priceTitle">特价</span>
-                        </div>
-                     </router-link>
-                </div>
-            </div>
-        </div> -->
     </div>
 </template>
 <script>
@@ -84,12 +61,7 @@ export default {
             groupImg2: require('../../assets/images/group2.png'),
         }
     },
-    props:['newShopList'],
-    computed: {
-        newList(){
-            return this.newShopList
-        }
-    },
+    props:['partnerList'],
     methods: {
         goCategory(){
             this.$router.push({path: '/categoryList'})
