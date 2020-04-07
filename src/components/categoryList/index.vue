@@ -1,11 +1,11 @@
 <template>
     <div class="productList">
-        <van-nav-bar title="新品首发" fixed>
+        <van-nav-bar :title="title" fixed>
             <van-icon name="arrow-left" slot="left" @click="goBack"/>
         </van-nav-bar>
         <div class="content">
-            <van-tabs v-model="active" :animated='true'  @click="tabClick">
-                <van-tab v-for="(item,index) in navList" :title="item.name" :name="item.id">
+            <van-tabs v-model="active" :animated='true'  @click="tabClick" sticky>
+                <van-tab v-for="(item,index) in navList" :key="item.id" :title="item.name" :name="item.id">
                   <van-list
                     v-model="loading"
                     :finished="finished"
@@ -34,7 +34,7 @@
                                         </div>
                                         <div class="goodReputation">
                                             <span v-if="item.numberGoodReputation > 0">{{item.numberGoodReputation}}
-                                                <span v-if="item.numberGoodReputation > 10">条评价 </span>
+                                                <span>条评价 </span>
                                             </span>
                                             <span v-if="item.numberGoodReputation > 0">{{zhuan(item.numberGoodReputation,item.numberOrders).toFixed(0)}}%好评</span>
                                             <span v-if="item.numberGoodReputation == 0">暂无评价</span>
@@ -57,11 +57,12 @@ export default {
     data() {
         return {
             active: null,
+            title: null,
             navList: [],
             page: 1,
             pageSize: 10,
             categoryId: null,
-            orderBy: 'addedDown',
+            orderBy: '',
             navIndex: null,
             loading: false,
             finished: false,
@@ -138,6 +139,8 @@ export default {
         }
     },
     created() {
+        this.orderBy = this.$route.query.orderBy
+        this.title = this.$route.query.name
         this.categoryList()
     },
     beforeRouteLeave(to, from, next) {

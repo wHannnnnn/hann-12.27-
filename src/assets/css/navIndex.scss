@@ -17,7 +17,9 @@
         }
     }
     .van-tabs__content {
-        flex: 1
+        flex: 1;
+        height: calc(100vh - #{set(200px)});
+        overflow: auto
     }
     .van-tab__text, .van-tabs {
         display: flex;

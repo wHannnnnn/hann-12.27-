@@ -55,16 +55,12 @@
 export default {
     data() {
         return {
-            hot1: require('../../assets/images/hot1.png'),
-            hot2: require('../../assets/images/hot2.png'),
-            groupImg1: require('../../assets/images/group1.png'),
-            groupImg2: require('../../assets/images/group2.png'),
         }
     },
     props:['partnerList'],
     methods: {
         goCategory(){
-            this.$router.push({path: '/categoryList'})
+            this.$router.push({path: '/categoryList',query:{name: '新品首发',orderBy: 'addedDown'}})
         }
     },
     created() {

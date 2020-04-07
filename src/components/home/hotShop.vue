@@ -22,7 +22,7 @@
             </div>
         </router-link>
     </div>
-    <div class="more" v-show="hotShop.length !== 0">
+    <div class="more" v-show="hotShop.length !== 0" @click="goCategory">
         <span>  
         查看更多
         </span>
@@ -34,7 +34,12 @@
 
 <script>
 export default {
-    props: ['hotShop']
+    props: ['hotShop'],
+    methods: {
+        goCategory(){
+            this.$router.push({path: '/categoryList',query:{name: '热门商品',orderBy: 'ordersDown'}})
+        }
+    },
 }
 </script>
 
