@@ -1,28 +1,6 @@
 // import Vue from "vue";
 // import Router from "vue-router";
 import store from "./store";
-const index = resolve => require(['@/views/index'], resolve)
-const login = resolve => require(['@/views/login'], resolve)
-const regis = resolve => require(['@/views/regis'], resolve)
-const homeIndex = resolve => require(['@/components/home/index'],resolve)
-const navIndex = resolve => require(['@/components/navList/index'], resolve)
-const shopIndex = resolve => require(['@/components/shop/index'], resolve)
-const mineIndex = resolve => require(['@/components/mine/index'], resolve)
-const setting = resolve => require(['@/components/setting/index'], resolve)
-const detailsIndex = resolve => require(['@/components/details/index'], resolve)
-const address = resolve => require(['@/components/address/index'], resolve)
-const editAddress = resolve => require(['@/components/editAddress/index'], resolve)
-const placeOrder = resolve => require(['@/components/placeOrder/index'], resolve)
-const orderList = resolve => require(['@/components/orderList/index'], resolve)
-const orderDetails = resolve => require(['@/components/orderDetails/index'], resolve)
-const orderReputation = resolve => require(['@/components/orderReputation/index'], resolve)
-const reputation = resolve => require(['@/components/reputation/index'], resolve)
-const userModify = resolve => require(['@/components/userModify/index'], resolve)
-const resetPwd = resolve => require(['@/components/resetPwd/index'], resolve)
-const refundApply = resolve => require(['@/components/refundApply/index'], resolve)
-const discountDetails = resolve => require(['@/components/discountDetails/index'], resolve)
-const productList = resolve => require(['@/components/productList/index'], resolve)
-const categoryList = resolve => require(['@/components/categoryList/index'], resolve)
 // Vue.use(Router);
 
 export default new VueRouter({
@@ -30,121 +8,121 @@ export default new VueRouter({
     {
       path: "/",
       name: "index",
-      component: index,
+      component: () => import('@/views/index'),
       redirect:'homeIndex',
       meta: { keepAlive: true },
       children:[
         {
           path: "homeIndex",
           name: "首页",
-          component: homeIndex,
+          component: () => import('@/components/home/index'),
           meta: { keepAlive: true },
         },
         {
           path: "navIndex",
           name: "分类",
-          component: navIndex,
+          component: () => import('@/components/navList/index'),
           meta: { keepAlive: true },
         },
         {
           path: "shopIndex",
           name: "购物车",
-          component: shopIndex,
+          component: () => import('@/components/shop/index'),
           meta: { keepAlive: true }
         }, 
         {
           path: "mineIndex",
           name: "个人",
-          component: mineIndex,
+          component: () => import('@/components/mine/index'),
         }, 
       ]
     },
     {      
       path: "/detailsIndex",
       name: "详情",
-      component: detailsIndex,
+      component: () => import('@/components/details/index'),
     },
     {
       path: "/login",
       name: "登录",
-      component: login,
+      component: () => import('@/views/login'),
     },
     {
       path: "/regis",
       name: "注册",
-      component: regis,
+      component: () => import('@/views/regis'),
     },
     {
       path: "/setting",
       name: "账户设置",
-      component: setting,
+      component: () => import('@/components/setting/index'),
     },
     {
       path: "/address",
       name: "我的地址",
-      component: address,
+      component: () => import('@/components/address/index'),
     },
     {
       path: "/editAddress",
       name: "修改地址",
-      component: editAddress,
+      component: () => import('@/components/editAddress/index'),
     },
     {
       path: "/placeOrder",
       name: "填写订单",
-      component: placeOrder,
+      component: () => import('@/components/placeOrder/index'),
       meta: { name: 'placeOrder' },
     },
     {
       path: "/orderList",
       name: "我的订单",
-      component: orderList,
+      component: () => import('@/components/orderList/index'),
     },
     {
       path: "/orderDetails",
       name: "订单详情",
-      component: orderDetails,
+      component: () => import('@/components/orderDetails/index'),
     },
     {
       path: "/refundApply",
       name: "申请退换",
-      component: refundApply,
+      component: () => import('@/components/refundApply/index'),
     },
     {
       path: "/orderReputation",
       name: "发表评价",
-      component: orderReputation,
+      component: () => import('@/components/orderReputation/index'),
     },
     {
       path: "/reputation",
       name: "评价列表",
-      component: reputation,
+      component: () => import('@/components/reputation/index'),
     },
     {
       path: "/userModify",
       name: "编辑资料",
-      component: userModify,
+      component: () => import('@/components/userModify/index'),
     },
     {
       path: "/resetPwd",
       name: "修改密码",
-      component: resetPwd,
+      component: () => import('@/components/resetPwd/index'),
     },
     {
       path: "/discountDetails",
       name: "优惠券",
-      component: discountDetails,
+      component: () => import('@/components/discountDetails/index'),
     },
     {
       path: "/productList",
       name: "列表",
-      component: productList,
+      component: () => import('@/components/productList/index'),
       meta: { name: 'productList' },
     },
     {
       path: "/categoryList",
       name: "分类列表",
-      component: categoryList,
+      component: () => import('@/components/categoryList/index'),
     },
   ],
   scrollBehavior(to, from, savedPosition) {
