@@ -10,7 +10,13 @@ module.exports = {
         jQuery: 'jquery',
         'window.jQuery': 'jquery'
        })
-    ]
+    ],
+    externals: {
+      'vue': 'Vue',
+      'vue-router': 'VueRouter',
+      'vuex': 'Vuex',
+      'axios': 'axios',
+    },
   },
 
   lintOnSave: false,

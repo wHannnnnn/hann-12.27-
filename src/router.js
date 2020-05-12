@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Router from "vue-router";
+// import Vue from "vue";
+// import Router from "vue-router";
 import store from "./store";
 const index = resolve => require(['@/views/index'], resolve)
 const login = resolve => require(['@/views/login'], resolve)
@@ -23,9 +23,9 @@ const refundApply = resolve => require(['@/components/refundApply/index'], resol
 const discountDetails = resolve => require(['@/components/discountDetails/index'], resolve)
 const productList = resolve => require(['@/components/productList/index'], resolve)
 const categoryList = resolve => require(['@/components/categoryList/index'], resolve)
-Vue.use(Router);
+// Vue.use(Router);
 
-export default new Router({
+export default new VueRouter({
   routes: [
     {
       path: "/",
