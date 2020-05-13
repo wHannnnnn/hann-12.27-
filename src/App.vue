@@ -18,7 +18,7 @@ export default {
       },
     }, 
     mounted(){
-      window.addEventListener('scroll',this.handleScroll,true)
+      // window.addEventListener('scroll',this.handleScroll,true)
       var htmlWidth = document.documentElement.clientWidth || document.body.clientWidth;
 
       //获取页面的HTML Dom

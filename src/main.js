@@ -14,7 +14,10 @@ Vue.use(Lazyload);
 // import './lib/mui/css/mui.css'
 // import mui from './lib/mui/js/mui.js'
 // Vue.prototype.mui = mui
-
+router.beforeEach((to, from, next) => {
+  from.meta.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  next()
+})
 import '@/assets/css/index.css'
 import url from '@/assets/js/request'
 Vue.prototype.$http = url
