@@ -131,15 +131,6 @@ export default new VueRouter({
     } else {
       return { x: 0, y: 0 }
     }
-    // console.log(savedPosition)
-    // if (savedPosition){
-    //   return savedPosition
-    // } else {
-    //   if (from.meta.keepAlive){
-    //     from.meta.savedPosition = document.documentElement.scrollTop || document.body.scrollTop
-    //   }
-    //   return { x: 0, y: to.meta.savedPosition || 0 }
-    // }
   }
 
 });
