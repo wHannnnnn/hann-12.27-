@@ -20,7 +20,7 @@ module.exports = {
   },
 
   lintOnSave: false,
-  publicPath: '/dist',
+  // publicPath: '/dist',
   devServer: {
     host: "0.0.0.0",
     port: '8080'

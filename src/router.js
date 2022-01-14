@@ -4,6 +4,7 @@ import store from "./store";
 // Vue.use(Router);
 
 export default new VueRouter({
+  mode: 'history',
   routes: [
     {
       path: "/",

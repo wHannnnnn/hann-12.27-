@@ -2,7 +2,7 @@
 import qs from 'qs'
 import router from "@/router";
 import { Dialog, Notify, Toast} from 'vant'
-axios.defaults.baseURL = 'https://api.it120.cc/wanghan/'
+axios.defaults.baseURL = 'https://api.it120.cc/guoguo/'
 let CancelToken = axios.CancelToken;
 let cancel;
 //请求拦截器
