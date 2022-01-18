@@ -3,7 +3,7 @@
         <van-swipe-item v-for="item in bannerList">
             <img v-lazy="item.picUrl" alt="">
         </van-swipe-item>
-        
+        修改1
    </van-swipe>
 </template>
 <script>

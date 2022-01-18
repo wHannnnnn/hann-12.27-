@@ -1,7 +1,7 @@
 <template>
     <div class="contop_all">
         <div class="today">
-            <div></div>
+            <div>修改2</div>
         </div>
         <!-- 拼团砍价 -->
         <div class="group">
